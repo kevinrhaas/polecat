@@ -86,7 +86,11 @@ function mostCapable(results) {
     ((PROV_RANK[a.provider] || 0) + modelPriceScore(a) * 2)
   )[0];
 }
-function resolveArbiter(strategy, results) {
+function resolveArbiter(strategy, results, overrideId) {
+  if (overrideId && overrideId !== 'auto') {            // explicit user pick from settings
+    const f = results.find(r => r.selection.id === overrideId);
+    if (f) return f.selection;                          // (only if it actually produced a result)
+  }
   const a = strategy.arbiter;
   if (a === 'first-done')   return results[0].selection;
   if (a === 'last-done')    return results[results.length - 1].selection;
@@ -110,18 +114,24 @@ export async function runArbitration(strategy, ctx) {
 }
 
 async function runChain(strategy, ctx) {
-  const { prompt, results } = ctx;
-  let draft = results[0].text;
-  for (let i = 1; i < results.length; i++) {
-    const r = results[i];
+  const { prompt } = ctx;
+  // Order results so a chosen arbiter (if any) produces the final, streamed answer.
+  let seq = ctx.results;
+  if (ctx.arbiterId && ctx.arbiterId !== 'auto') {
+    const fin = ctx.results.find(r => r.selection.id === ctx.arbiterId);
+    if (fin) seq = [...ctx.results.filter(r => r.selection.id !== ctx.arbiterId), fin];
+  }
+  let draft = seq[0].text;
+  for (let i = 1; i < seq.length; i++) {
+    const r = seq[i];
     const msgs = [
       { role: 'user', content: prompt },
       { role: 'assistant', content: r.text },
       { role: 'user', content: fill(strategy.prompts.refine, { draft, prompt }) },
     ];
     ctx.step(`${ctx.labelOf(r.selection)} refining`);
-    if (i < results.length - 1) {
-      ctx.status(`Refining (${i}/${results.length - 1})…`);
+    if (i < seq.length - 1) {
+      ctx.status(`Refining (${i}/${seq.length - 1})…`);
       try { draft = await ctx.silent(r.selection, msgs); } catch { /* keep draft */ }
     } else {
       ctx.status('Finalizing consensus…');
@@ -132,7 +142,7 @@ async function runChain(strategy, ctx) {
 
 async function runJudge(strategy, ctx) {
   const { prompt, results } = ctx;
-  const arbiter = resolveArbiter(strategy, results);
+  const arbiter = resolveArbiter(strategy, results, ctx.arbiterId);
   const answers = formatAnswers(results, ctx.labelOf);
   const judgePrompt = fill(strategy.prompts.judge, { prompt, answers, n: results.length });
   ctx.status('Synthesizing…');
@@ -143,7 +153,7 @@ async function runJudge(strategy, ctx) {
 
 async function runDebate(strategy, ctx) {
   const { prompt, results } = ctx;
-  const arbiter = resolveArbiter(strategy, results);
+  const arbiter = resolveArbiter(strategy, results, ctx.arbiterId);
   const answers = formatAnswers(results, ctx.labelOf);
   const critiquePrompt = fill(strategy.prompts.critique, { prompt, answers, n: results.length });
   ctx.status('Reviewing perspectives…');
@@ -171,8 +181,9 @@ export function exportSettings(cfg, { includeKeys = false } = {}) {
     _polecat: 1,
     exportedAt: new Date().toISOString(),
     includesKeys: includeKeys,
+    consensus: cfg.consensus !== false,
     selections: cfg.selections || [],
-    arbitration: cfg.arbitration || { activeId: 'sequential', custom: [] },
+    arbitration: cfg.arbitration || { activeId: 'sequential', arbiter: 'auto', custom: [] },
     providers,
   }, null, 2);
 }
@@ -183,7 +194,8 @@ export function importSettings(cfg, json) {
   if (Array.isArray(data.selections))
     next.selections = data.selections.map(s => ({ id: s.id || newId(), provider: s.provider, model: s.model }));
   if (data.arbitration)
-    next.arbitration = { activeId: data.arbitration.activeId || 'sequential', custom: Array.isArray(data.arbitration.custom) ? data.arbitration.custom : [] };
+    next.arbitration = { activeId: data.arbitration.activeId || 'sequential', arbiter: data.arbitration.arbiter || 'auto', custom: Array.isArray(data.arbitration.custom) ? data.arbitration.custom : [] };
+  if (typeof data.consensus === 'boolean') next.consensus = data.consensus;
   if (data.providers)
     for (const [k, v] of Object.entries(data.providers)) if (v && v.key) next.providers[k] = { key: v.key };
   return next;

@@ -7,26 +7,36 @@ import {
   mkSelection, MAX_SELECTIONS,
 } from './config.js';
 import {
-  PROVIDERS, PROVIDER_IDS, makeGen, modelLabel, defaultModel, selectionLabel,
+  PROVIDERS, PROVIDER_IDS, makeGen, probeModel, defaultModel, selectionLabel,
 } from './providers.js';
 import {
-  allStrategies, activeStrategy, getStrategy, DEFAULT_STRATEGIES,
-  runArbitration, exportSettings, importSettings,
+  allStrategies, activeStrategy, runArbitration, exportSettings, importSettings,
 } from './arbitration.js';
 import { $, el, escapeHtml, nl2br, renderMarkdown, highlightBubble, toast, applyTheme, currentTheme } from './ui.js';
 
 const DONATE_URL = 'https://ko-fi.com/polecatlive';
 const WELCOME_KEY = 'polecat_welcomed';
+const COPY_SVG = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
 
 let cfg = loadCfg();
 const convos = {};                  // selectionId -> [{role, content}]
 let lastPrompt = '', results = {}, order = [];
 let activeTab = null;
 
-const persist     = () => saveCfg(cfg);
-const sels        = () => activeSelections(cfg);
-const selById     = (id) => (cfg.selections || []).find(s => s.id === id);
-const getConvo    = (id) => (convos[id] ||= []);
+const persist  = () => saveCfg(cfg);
+const sels     = () => activeSelections(cfg);
+const selById  = (id) => (cfg.selections || []).find(s => s.id === id);
+const getConvo = (id) => (convos[id] ||= []);
+const statusKey = (provider, model) => provider + '|' + model;
+const statusOf  = (provider, model) => cfg.modelStatus[statusKey(provider, model)];
+
+// ── Clipboard ───────────────────────────────────────────────────────────────
+function copyText(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    toast('Copied');
+    if (btn) { btn.classList.add('copied'); setTimeout(() => btn.classList.remove('copied'), 1000); }
+  }).catch(() => toast('Copy failed'));
+}
 
 // ── Model chips (prompt footer) ─────────────────────────────────────────────
 function buildChips() {
@@ -45,9 +55,11 @@ function buildChips() {
 
   list.forEach(sel => {
     const p = PROVIDERS[sel.provider];
-    const chip = el('span', 'm-chip');
+    const st = statusOf(sel.provider, sel.model);
+    const chip = el('span', 'm-chip' + (st && st.ok === false ? ' failing' : ''));
     chip.id = 'chip_' + sel.id;
     chip.style.setProperty('--c', p.color);
+    chip.title = st && st.ok === false ? 'Last test failed: ' + (st.error || 'unavailable') : selectionLabel(sel);
     chip.innerHTML =
       `<span class="m-chip-dot"></span>` +
       `<span class="m-chip-label">${escapeHtml(selectionLabel(sel))}</span>` +
@@ -68,6 +80,7 @@ function setChipsDisabled(disabled) {
 }
 function removeSelection(id) {
   cfg.selections = (cfg.selections || []).filter(s => s.id !== id);
+  if (cfg.arbitration.arbiter === id) cfg.arbitration.arbiter = 'auto';
   persist();
   $('tab_' + id)?.remove();
   $('panel_' + id)?.remove();
@@ -89,6 +102,13 @@ function pruneTabs() {
 }
 function ensureTabs() {
   const tabBar = $('tabBar'), panels = $('tabPanels');
+
+  // consensus tab respects the toggle
+  if (!cfg.consensus) {
+    $('tab_consensus')?.remove(); $('panel_consensus')?.remove();
+    if (activeTab === 'consensus') activeTab = null;
+  }
+
   sels().forEach(sel => {
     if ($('tab_' + sel.id)) return;
     const p = PROVIDERS[sel.provider];
@@ -96,9 +116,7 @@ function ensureTabs() {
     btn.id = 'tab_' + sel.id; btn.dataset.svc = sel.id;
     btn.onclick = () => switchTab(sel.id);
     btn.innerHTML = `<span class="tab-dot" id="tdot_${sel.id}" style="background:${p.color};--dot-c:${p.color}"></span><span class="tab-label">${escapeHtml(selectionLabel(sel))}</span>`;
-    // consensus tab (if present) should stay last
-    const consTab = $('tab_consensus');
-    tabBar.insertBefore(btn, consTab || null);
+    tabBar.insertBefore(btn, $('tab_consensus') || null);
 
     const panel = el('div', 'tab-panel');
     panel.id = 'panel_' + sel.id;
@@ -108,7 +126,7 @@ function ensureTabs() {
     panels.appendChild(panel);
   });
 
-  if (!$('tab_consensus')) {
+  if (cfg.consensus && !$('tab_consensus')) {
     const btn = el('button', 'tab');
     btn.id = 'tab_consensus'; btn.dataset.svc = 'consensus';
     btn.onclick = () => switchTab('consensus');
@@ -124,7 +142,7 @@ function ensureTabs() {
       `<div class="empty-icon consensus-glyph">✦</div><div id="consensus-status">Consensus appears here after all models respond</div></div></div>`;
     panels.appendChild(panel);
   }
-  if (!activeTab && sels().length) switchTab(sels()[0].id);
+  if ((!activeTab || !$('tab_' + activeTab)) && sels().length) switchTab(sels()[0].id);
 }
 function switchTab(id) {
   activeTab = id;
@@ -139,32 +157,45 @@ function switchTab(id) {
 }
 
 // ── Stream a response into a tab ────────────────────────────────────────────
-async function streamTo(sel, userContent) {
-  const co = getConvo(sel.id);
-  co.push({ role: 'user', content: userContent });
-
-  const conv = $('conv_' + sel.id);
-  $('empty_' + sel.id)?.remove();
-
+function assistantPair(label, userContent) {
   const pair = el('div', 'qa-pair');
   pair.innerHTML =
     `<div class="msg user"><span class="msg-label">You</span><div class="msg-bubble">${nl2br(userContent)}</div></div>` +
-    `<div class="msg assistant"><span class="msg-label">${escapeHtml(selectionLabel(sel))}</span>` +
-    `<div class="msg-bubble" id="bub_${sel.id}"><div class="loading-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div></div>`;
+    `<div class="msg assistant"><div class="msg-head"><span class="msg-label">${escapeHtml(label)}</span>` +
+    `<button class="copy-btn" title="Copy" hidden>${COPY_SVG}</button></div>` +
+    `<div class="msg-bubble"><div class="loading-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div></div>`;
+  return pair;
+}
+function finishBubble(pair, full) {
+  const bubble = pair.querySelector('.msg.assistant .msg-bubble');
+  const copyBtn = pair.querySelector('.copy-btn');
+  if (!full) { bubble.textContent = '(no response)'; return; }
+  highlightBubble(bubble);
+  copyBtn.hidden = false; copyBtn.onclick = () => copyText(full, copyBtn);
+}
+
+async function streamTo(sel, userContent) {
+  const co = getConvo(sel.id);
+  co.push({ role: 'user', content: userContent });
+  const conv = $('conv_' + sel.id);
+  $('empty_' + sel.id)?.remove();
+
+  const pair = assistantPair(selectionLabel(sel), userContent);
   conv.prepend(pair); conv.scrollTop = 0;
+  const bubble = pair.querySelector('.msg.assistant .msg-bubble');
 
   const dot = $('tdot_' + sel.id); dot?.classList.add('loading');
-  const bubble = $('bub_' + sel.id);
   let full = '';
   try {
     const gen = makeGen(sel, co, cfg);
     bubble.innerHTML = '';
     for await (const chunk of gen) { full += chunk; bubble.innerHTML = renderMarkdown(full); }
-    if (!full) bubble.textContent = '(no response)'; else highlightBubble(bubble);
+    finishBubble(pair, full);
     co.push({ role: 'assistant', content: full });
     return full;
   } catch (err) {
-    bubble.innerHTML = `<span class="msg-error">Error: ${escapeHtml(err.message)}</span>`;
+    const msg = err?.name === 'AbortError' ? 'Request timed out' : err.message;
+    bubble.innerHTML = `<span class="msg-error">Error: ${escapeHtml(msg)}</span>`;
     co.pop();
     return null;
   } finally {
@@ -190,9 +221,11 @@ async function sendAll() {
     order.push(sel.id); results[sel.id] = r;
   }));
 
-  setConsensusDot(true);
-  await runConsensus();
-  setConsensusDot(false); setConsensusStep('');
+  if (cfg.consensus) {
+    setConsensusDot(true);
+    await runConsensus();
+    setConsensusDot(false); setConsensusStep('');
+  }
   setChipsDisabled(false); $('sendBtn').disabled = false;
 }
 
@@ -213,7 +246,7 @@ function resetApp() {
   $('promptInput').focus();
 }
 
-// ── Consensus tab helpers ───────────────────────────────────────────────────
+// ── Consensus tab ───────────────────────────────────────────────────────────
 const setConsensusStatus = (m) => { const e = $('consensus-status'); if (e) e.textContent = m; };
 const setConsensusStep   = (l) => { const e = $('consensus-tab-step'); if (e) e.textContent = l || ''; };
 function setConsensusDot(loading) {
@@ -229,15 +262,13 @@ async function getSilentText(sel, messages) {
 async function streamToConsensus(sel, messages) {
   const conv = $('conv_consensus');
   $('empty_consensus')?.remove();
-  const pair = el('div', 'qa-pair');
-  pair.innerHTML =
-    `<div class="msg user"><span class="msg-label">You</span><div class="msg-bubble">${nl2br(lastPrompt)}</div></div>` +
-    `<div class="msg assistant"><span class="msg-label">Consensus</span><div class="msg-bubble" id="consensus-bubble"></div></div>`;
+  const pair = assistantPair('Consensus', lastPrompt);
   conv.prepend(pair); conv.scrollTop = 0;
-  const bubble = $('consensus-bubble');
+  const bubble = pair.querySelector('.msg.assistant .msg-bubble');
   let full = '';
+  bubble.innerHTML = '';
   for await (const chunk of makeGen(sel, messages, cfg)) { full += chunk; bubble.innerHTML = renderMarkdown(full); conv.scrollTop = 0; }
-  if (!full) bubble.textContent = '(no response)'; else highlightBubble(bubble);
+  finishBubble(pair, full);
   return full;
 }
 function showConsensusStatic(text, isError = false) {
@@ -246,17 +277,18 @@ function showConsensusStatic(text, isError = false) {
   const pair = el('div', 'qa-pair');
   pair.innerHTML =
     `<div class="msg user"><span class="msg-label">You</span><div class="msg-bubble">${nl2br(lastPrompt)}</div></div>` +
-    `<div class="msg assistant"><span class="msg-label">Consensus</span>` +
+    `<div class="msg assistant"><div class="msg-head"><span class="msg-label">Consensus</span>` +
+    (isError ? '' : `<button class="copy-btn" title="Copy">${COPY_SVG}</button>`) + `</div>` +
     `<div class="msg-bubble">${isError ? `<span class="msg-error">${escapeHtml(text)}</span>` : renderMarkdown(text)}</div></div>`;
   conv.prepend(pair); conv.scrollTop = 0;
-  if (!isError) highlightBubble(pair);
+  if (!isError) { highlightBubble(pair); const b = pair.querySelector('.copy-btn'); if (b) b.onclick = () => copyText(text, b); }
 }
 async function runConsensus() {
   const ordered = order.filter(id => results[id]).map(id => ({ selection: selById(id) || { id, provider: 'openai', model: '' }, text: results[id] }));
-  const strat = activeStrategy(cfg);
-  await runArbitration(strat, {
+  await runArbitration(activeStrategy(cfg), {
     prompt: lastPrompt,
     results: ordered,
+    arbiterId: cfg.arbitration.arbiter,
     labelOf: (sel) => selectionLabel(sel),
     silent: (sel, msgs) => getSilentText(sel, msgs),
     stream: (sel, msgs) => streamToConsensus(sel, msgs),
@@ -268,30 +300,87 @@ async function runConsensus() {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-//  SETTINGS MODAL  (live-persisting; sections: Models, Keys, Arbitration, Support)
+//  MODEL TESTING (Hybrid: auto on add/select + "Test all" button; cached)
 // ════════════════════════════════════════════════════════════════════════════
-function openConfig(section) {
+function refreshModelBadges() {
+  if ($('configModal').classList.contains('open')) renderModels();
+  buildChips();
+}
+async function testOne(provider, model) {
+  if (!providerKey(cfg, provider)) return;            // can't probe without a key
+  const k = statusKey(provider, model);
+  cfg.modelStatus[k] = { ...(cfg.modelStatus[k] || {}), testing: true };
+  refreshModelBadges();
+  const res = await probeModel({ provider, model }, cfg);
+  cfg.modelStatus[k] = { ok: res.ok, error: res.error || '', ts: Date.now() };
+  persist(); refreshModelBadges();
+}
+async function testAllModels() {
+  const keyed = configuredProviders(cfg);
+  if (!keyed.length) { toast('Add an API key first'); return; }
+  const seen = new Set(), targets = [];
+  const add = (provider, model) => { const k = statusKey(provider, model); if (!seen.has(k)) { seen.add(k); targets.push({ provider, model }); } };
+  (cfg.selections || []).forEach(s => { if (keyed.includes(s.provider)) add(s.provider, s.model); });
+  keyed.forEach(pid => PROVIDERS[pid].models.forEach(m => add(pid, m.value)));
+  if (!targets.length) return;
+  toast(`Testing ${targets.length} models…`);
+  targets.forEach(t => { cfg.modelStatus[statusKey(t.provider, t.model)] = { testing: true }; });
+  refreshModelBadges();
+  let i = 0;
+  const worker = async () => {
+    while (i < targets.length) {
+      const t = targets[i++];
+      const res = await probeModel({ provider: t.provider, model: t.model }, cfg);
+      cfg.modelStatus[statusKey(t.provider, t.model)] = { ok: res.ok, error: res.error || '', ts: Date.now() };
+      persist(); refreshModelBadges();
+    }
+  };
+  await Promise.all(Array.from({ length: Math.min(3, targets.length) }, worker));
+  toast('Model test complete');
+}
+function statusGlyph(provider, model) {
+  const st = statusOf(provider, model);
+  if (!st) return '';
+  if (st.testing) return '⋯ ';
+  return st.ok ? '✓ ' : '✗ ';
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  SETTINGS MODAL  (tabs: Models · Keys · Arbitration · Support)
+// ════════════════════════════════════════════════════════════════════════════
+function setConfigTab(name) {
+  cfg.ui.lastTab = name; persist();
+  document.querySelectorAll('.cfg-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.cfg-section').forEach(s => s.classList.toggle('active', s.dataset.tab === name));
+  $('modal')?.scrollTo?.(0, 0);
+}
+function openConfig(tab) {
   renderModels(); renderKeys(); renderArbitration(); renderDonate();
+  setConfigTab(tab || cfg.ui.lastTab || 'models');
   $('configModal').classList.add('open');
-  if (section) {
-    const map = { models: 'sec-models', keys: 'sec-keys', arbitration: 'sec-arb', support: 'sec-support' };
-    $(map[section])?.scrollIntoView({ block: 'start' });
-  }
 }
 function closeConfig() { $('configModal').classList.remove('open'); }
 
-// ── Models section ──────────────────────────────────────────────────────────
+// ── Models tab ──────────────────────────────────────────────────────────────
 function modelOptionsHtml(providerId, selected) {
   const p = PROVIDERS[providerId];
   const known = p.models.some(m => m.value === selected);
   let html = '';
   if (selected && !known)
-    html += `<option value="${escapeHtml(selected)}" selected>${escapeHtml(selected)} (custom)</option>`;
+    html += `<option value="${escapeHtml(selected)}" selected>${statusGlyph(providerId, selected)}${escapeHtml(selected)} (custom)</option>`;
   html += p.models.map(m =>
-    `<option value="${escapeHtml(m.value)}"${m.value === selected ? ' selected' : ''}>${escapeHtml(m.label)}${m.price ? ' — ' + m.price : ''}</option>`
+    `<option value="${escapeHtml(m.value)}"${m.value === selected ? ' selected' : ''}>${statusGlyph(providerId, m.value)}${escapeHtml(m.label)}${m.price ? ' — ' + m.price : ''}</option>`
   ).join('');
   if (p.allowCustomModel) html += `<option value="__custom__">Custom model id…</option>`;
   return html;
+}
+function statusBadge(provider, model) {
+  const st = statusOf(provider, model);
+  if (!providerKey(cfg, provider)) return '';
+  if (!st) return `<span class="sel-status" title="Not tested">•</span>`;
+  if (st.testing) return `<span class="sel-status testing" title="Testing…">⋯</span>`;
+  return st.ok ? `<span class="sel-status ok" title="Available">✓</span>`
+               : `<span class="sel-status bad" title="${escapeHtml(st.error || 'Unavailable')}">✗</span>`;
 }
 function renderModels() {
   const list = $('selList');
@@ -304,11 +393,13 @@ function renderModels() {
       `<span class="sel-dot" style="background:${p.color}"></span>` +
       `<span class="sel-name">${escapeHtml(p.short)}</span>` +
       `<select class="field-input sel-model"></select>` +
-      (hasKey ? '' : `<span class="sel-warn" title="Add an API key for ${escapeHtml(p.name)} below">no key</span>`) +
+      (hasKey ? statusBadge(sel.provider, sel.model) : `<span class="sel-warn" title="Add a ${escapeHtml(p.name)} key in the Keys tab">no key</span>`) +
       `<button class="sel-x" title="Remove">×</button>`;
     const select = row.querySelector('.sel-model');
     select.innerHTML = modelOptionsHtml(sel.provider, sel.model);
     select.onchange = () => onSelModelChange(sel.id, sel.provider, select);
+    const badge = row.querySelector('.sel-status');
+    if (badge) badge.onclick = () => testOne(sel.provider, sel.model);
     row.querySelector('.sel-x').onclick = () => removeSelection(sel.id);
     list.appendChild(row);
   });
@@ -327,38 +418,42 @@ function onSelModelChange(id, provider, select) {
   buildChips(); renderModels();
   const lbl = $('tab_' + id)?.querySelector('.tab-label');
   if (lbl) lbl.textContent = selectionLabel(sel);
+  if (providerKey(cfg, provider)) testOne(provider, val);   // auto-test on change
 }
 function renderAddRow() {
   const area = $('addModelArea');
   const atMax = (cfg.selections || []).length >= MAX_SELECTIONS;
-  if (atMax) { area.innerHTML = `<div class="muted-hint">Maximum of ${MAX_SELECTIONS} models reached.</div>`; return; }
   area.innerHTML =
-    `<div class="add-row">` +
-    `<select class="field-input" id="addProvider">${PROVIDER_IDS.map(id => `<option value="${id}">${escapeHtml(PROVIDERS[id].name)}</option>`).join('')}</select>` +
-    `<select class="field-input" id="addModel"></select>` +
-    `<button class="btn btn-solid" id="addModelBtn">Add</button>` +
-    `</div><input class="field-input add-custom" id="addCustom" placeholder="custom model id" style="display:none">`;
+    (atMax ? `<div class="muted-hint">Maximum of ${MAX_SELECTIONS} models reached.</div>` :
+      `<div class="add-row">` +
+      `<select class="field-input" id="addProvider">${PROVIDER_IDS.map(id => `<option value="${id}">${escapeHtml(PROVIDERS[id].name)}</option>`).join('')}</select>` +
+      `<select class="field-input" id="addModel"></select>` +
+      `<button class="btn btn-solid" id="addModelBtn">Add</button>` +
+      `</div><input class="field-input add-custom" id="addCustom" placeholder="custom model id" style="display:none">`) +
+    `<button class="btn btn-ghost test-all" id="testAllBtn">⚡ Test models</button>`;
+
+  $('testAllBtn').onclick = testAllModels;
+  if (atMax) return;
+
   const provSel = $('addProvider'), modSel = $('addModel'), custom = $('addCustom');
-  const refreshModels = () => {
-    const pid = provSel.value;
-    modSel.innerHTML = modelOptionsHtml(pid, defaultModel(pid));
-    custom.style.display = 'none'; custom.value = '';
-  };
-  provSel.onchange = refreshModels;
+  const refresh = () => { modSel.innerHTML = modelOptionsHtml(provSel.value, defaultModel(provSel.value)); custom.style.display = 'none'; custom.value = ''; };
+  provSel.onchange = refresh;
   modSel.onchange = () => { custom.style.display = modSel.value === '__custom__' ? '' : 'none'; };
   $('addModelBtn').onclick = () => {
     const pid = provSel.value;
     let model = modSel.value;
     if (model === '__custom__') { model = custom.value.trim(); if (!model) { toast('Enter a model id'); return; } }
     cfg.selections = cfg.selections || [];
-    cfg.selections.push(mkSelection(pid, model));
+    const sel = mkSelection(pid, model);
+    cfg.selections.push(sel);
     persist(); buildChips(); renderModels();
-    if (!providerKey(cfg, pid)) toast(`Added — add a ${PROVIDERS[pid].name} key to use it`);
+    if (providerKey(cfg, pid)) testOne(pid, model);                 // auto-test on add
+    else toast(`Added — add a ${PROVIDERS[pid].name} key to use it`);
   };
-  refreshModels();
+  refresh();
 }
 
-// ── Keys section ────────────────────────────────────────────────────────────
+// ── Keys tab ────────────────────────────────────────────────────────────────
 function renderKeys() {
   const wrap = $('keyFields');
   wrap.innerHTML = '';
@@ -374,45 +469,54 @@ function renderKeys() {
       `<span class="field-hint">Key at <a href="${p.keyUrl}" target="_blank" rel="noopener">${escapeHtml(p.keyLabel)}</a>${p.rateNote ? ' · ' + escapeHtml(p.rateNote) : ''}</span>`;
     const input = field.querySelector('input');
     input.oninput  = () => { setProviderKey(cfg, id, input.value.trim()); persist(); };
-    input.onchange = () => { buildChips(); renderModels(); refreshKeyStatus(id, !!input.value.trim()); };
+    input.onchange = () => { buildChips(); const f = field.querySelector('.key-status'); const on = !!input.value.trim(); f.textContent = on ? '● connected' : '○ no key'; f.classList.toggle('on', on); };
     wrap.appendChild(field);
   });
 }
-function refreshKeyStatus(id, on) {
-  const f = $('key_' + id)?.closest('.key-field')?.querySelector('.key-status');
-  if (f) { f.textContent = on ? '● connected' : '○ no key'; f.classList.toggle('on', on); }
-}
 
-// ── Arbitration section ─────────────────────────────────────────────────────
+// ── Arbitration tab ───────────────────────────────────────────────────────
 function renderArbitration() {
   const wrap = $('arbControls');
   const strat = activeStrategy(cfg);
-  const opts = allStrategies(cfg).map(s =>
-    `<option value="${escapeHtml(s.id)}"${s.id === strat.id ? ' selected' : ''}>${escapeHtml(s.name)}${s.builtin ? '' : ' (custom)'}</option>`
-  ).join('');
+  const on = cfg.consensus !== false;
   const editable = !strat.builtin;
+
+  const stratOpts = allStrategies(cfg).map(s =>
+    `<option value="${escapeHtml(s.id)}"${s.id === strat.id ? ' selected' : ''}>${escapeHtml(s.name)}${s.builtin ? '' : ' (custom)'}</option>`).join('');
+  const arbiterOpts = [`<option value="auto"${cfg.arbitration.arbiter === 'auto' ? ' selected' : ''}>Auto (strategy default)</option>`]
+    .concat((cfg.selections || []).map(s => `<option value="${s.id}"${cfg.arbitration.arbiter === s.id ? ' selected' : ''}>${escapeHtml(selectionLabel(s))}</option>`)).join('');
   const promptFields = Object.entries(strat.prompts || {}).map(([k, v]) =>
-    `<label class="arb-plabel">${escapeHtml(k)}</label>` +
-    `<textarea class="field-input arb-ptext" data-key="${escapeHtml(k)}" rows="4"${editable ? '' : ' readonly'}>${escapeHtml(v)}</textarea>`
-  ).join('');
+    `<label class="arb-plabel">${escapeHtml(k)}</label><textarea class="field-input arb-ptext" data-key="${escapeHtml(k)}" rows="4"${editable ? '' : ' readonly'}>${escapeHtml(v)}</textarea>`).join('');
 
   wrap.innerHTML =
-    `<select class="field-input" id="arbSelect">${opts}</select>` +
-    `<div class="arb-desc">${escapeHtml(strat.description || '')}</div>` +
-    `<div class="arb-meta">structure: <b>${escapeHtml(strat.structure)}</b> · arbiter: <b>${escapeHtml(strat.arbiter)}</b></div>` +
-    `<details class="arb-prompts"${editable ? ' open' : ''}><summary>Prompt template${Object.keys(strat.prompts||{}).length > 1 ? 's' : ''}</summary>${promptFields}` +
-      (editable ? `<input class="field-input" id="arbName" value="${escapeHtml(strat.name)}" placeholder="Strategy name">` : '') +
-    `</details>` +
-    `<div class="arb-actions">` +
-      (editable
-        ? `<button class="btn btn-ghost" id="arbSave">Save edits</button><button class="btn btn-danger" id="arbDelete">Delete</button>`
-        : `<button class="btn btn-ghost" id="arbDup">Duplicate &amp; edit</button>`) +
-      `<span class="arb-spacer"></span>` +
-      `<button class="btn btn-ghost" id="arbExport">Export…</button>` +
-      `<button class="btn btn-ghost" id="arbImport">Import…</button>` +
+    `<label class="switch-row"><span><b>Consensus answer</b><br><span class="switch-sub">Off = just the individual model tabs</span></span>` +
+      `<span class="switch ${on ? 'on' : ''}" id="consensusSwitch" role="switch" aria-checked="${on}" tabindex="0"><span class="knob"></span></span></label>` +
+    `<div class="arb-body"${on ? '' : ' aria-disabled="true"'}>` +
+      `<label class="mini-label">Strategy</label><select class="field-input" id="arbSelect">${stratOpts}</select>` +
+      `<div class="arb-desc">${escapeHtml(strat.description || '')}</div>` +
+      `<label class="mini-label">Final arbiter <span class="mini-note">model that produces the consensus</span></label><select class="field-input" id="arbiterSelect">${arbiterOpts}</select>` +
+      `<div class="arb-meta">structure: <b>${escapeHtml(strat.structure)}</b> · default arbiter: <b>${escapeHtml(strat.arbiter)}</b></div>` +
+      `<details class="arb-prompts"${editable ? ' open' : ''}><summary>Prompt template${Object.keys(strat.prompts || {}).length > 1 ? 's' : ''}</summary>${promptFields}` +
+        (editable ? `<label class="arb-plabel">name</label><input class="field-input" id="arbName" value="${escapeHtml(strat.name)}">` : '') +
+      `</details>` +
+      `<div class="arb-actions">` +
+        (editable ? `<button class="btn btn-ghost" id="arbSave">Save edits</button><button class="btn btn-danger" id="arbDelete">Delete</button>`
+                  : `<button class="btn btn-ghost" id="arbDup">Duplicate &amp; edit</button>`) +
+        `<span class="arb-spacer"></span>` +
+        `<button class="btn btn-ghost" id="arbExport">Export…</button><button class="btn btn-ghost" id="arbImport">Import…</button>` +
+      `</div>` +
     `</div>`;
 
+  const toggle = () => {
+    cfg.consensus = !cfg.consensus; persist();
+    if (!cfg.consensus) { $('tab_consensus')?.remove(); $('panel_consensus')?.remove(); if (activeTab === 'consensus') { const f = sels()[0]; if (f) switchTab(f.id); } }
+    else if ($('responses').style.display !== 'none' && order.length) ensureTabs();
+    renderArbitration();
+  };
+  $('consensusSwitch').onclick = toggle;
+  $('consensusSwitch').onkeydown = (e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); } };
   $('arbSelect').onchange = (e) => { cfg.arbitration.activeId = e.target.value; persist(); renderArbitration(); };
+  $('arbiterSelect').onchange = (e) => { cfg.arbitration.arbiter = e.target.value; persist(); };
   $('arbDup') && ($('arbDup').onclick = () => duplicateStrategy(strat));
   $('arbSave') && ($('arbSave').onclick = () => saveStrategyEdits(strat.id));
   $('arbDelete') && ($('arbDelete').onclick = () => deleteStrategy(strat.id));
@@ -422,12 +526,10 @@ function renderArbitration() {
 function duplicateStrategy(strat) {
   const copy = JSON.parse(JSON.stringify(strat));
   copy.id = 'custom-' + Math.random().toString(36).slice(2, 8);
-  copy.name = strat.name + ' (copy)';
-  copy.builtin = false;
+  copy.name = strat.name + ' (copy)'; copy.builtin = false;
   cfg.arbitration.custom.push(copy);
   cfg.arbitration.activeId = copy.id;
-  persist(); renderArbitration();
-  toast('Custom strategy created — edit and save');
+  persist(); renderArbitration(); toast('Custom strategy created — edit & save');
 }
 function saveStrategyEdits(id) {
   const s = cfg.arbitration.custom.find(x => x.id === id); if (!s) return;
@@ -442,13 +544,11 @@ function deleteStrategy(id) {
   persist(); renderArbitration();
 }
 
-// ── Export / Import settings ────────────────────────────────────────────────
+// ── Export / Import ───────────────────────────────────────────────────────
 function openExport() {
   const includeKeys = confirm('Include API keys in the export?\n\nOK = include keys (keep this file private)\nCancel = exclude keys (safe to share)');
-  const json = exportSettings(cfg, { includeKeys });
-  const blob = new Blob([json], { type: 'application/json' });
-  const a = el('a'); a.href = URL.createObjectURL(blob);
-  a.download = 'polecat-settings.json'; a.click();
+  const blob = new Blob([exportSettings(cfg, { includeKeys })], { type: 'application/json' });
+  const a = el('a'); a.href = URL.createObjectURL(blob); a.download = 'polecat-settings.json'; a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   toast(includeKeys ? 'Exported (with keys)' : 'Exported (no keys)');
 }
@@ -459,8 +559,7 @@ function openImport() {
     const reader = new FileReader();
     reader.onload = () => {
       try {
-        cfg = importSettings(cfg, reader.result);
-        persist();
+        cfg = importSettings(cfg, reader.result); persist();
         buildChips(); renderModels(); renderKeys(); renderArbitration();
         toast('Settings imported');
       } catch (e) { toast('Import failed: ' + e.message); }
@@ -470,16 +569,13 @@ function openImport() {
   inp.click();
 }
 
-// ── Support / donate ────────────────────────────────────────────────────────
+// ── Support ─────────────────────────────────────────────────────────────────
 function renderDonate() {
-  const wrap = $('donateArea');
-  if (!wrap) return;
-  const tiers = [['☕ $1', 1], ['$2', 2], ['$5', 5], ['More', '']];
+  const wrap = $('donateArea'); if (!wrap) return;
+  const tiers = ['☕ $1', '$2', '$5', 'More'];
   wrap.innerHTML =
     `<div class="donate-copy">Polecat is free and runs on your own API keys — tips just help offset hosting &amp; dev costs. Thank you! 🦡</div>` +
-    `<div class="donate-row">` +
-    tiers.map(([label]) => `<a class="donate-btn" href="${DONATE_URL}" target="_blank" rel="noopener">${escapeHtml(label)}</a>`).join('') +
-    `</div>`;
+    `<div class="donate-row">` + tiers.map(t => `<a class="donate-btn" href="${DONATE_URL}" target="_blank" rel="noopener">${escapeHtml(t)}</a>`).join('') + `</div>`;
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -506,14 +602,15 @@ function gotoWelcome(n, dir) {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
-//  INIT + EVENT WIRING
+//  INIT
 // ════════════════════════════════════════════════════════════════════════════
 function init() {
   if (typeof marked !== 'undefined') marked.setOptions({ breaks: true, gfm: true });
   applyTheme(localStorage.getItem('polecat_theme') || 'dark');
   buildChips();
 
-  $('configBtn').onclick  = () => openConfig();
+  document.querySelectorAll('.cfg-tab').forEach(b => b.onclick = () => setConfigTab(b.dataset.tab));
+  $('configBtn').onclick   = () => openConfig();
   $('closeConfig').onclick = closeConfig;
   $('doneConfig').onclick  = closeConfig;
   $('configModal').onclick = (e) => { if (e.target === $('configModal')) closeConfig(); };
@@ -521,36 +618,27 @@ function init() {
 
   $('clearKeys').onclick = () => {
     if (!confirm('Remove all saved API keys? (Your model picks and strategies stay.)')) return;
-    cfg.providers = {}; persist();
-    renderKeys(); buildChips(); renderModels();
-    toast('Keys cleared');
+    cfg.providers = {}; persist(); renderKeys(); buildChips(); renderModels(); toast('Keys cleared');
   };
 
   $('resetBtn').onclick = () => {
-    if (order.length || Object.keys(results).length) {
-      if (!confirm('Start a new chat? This clears all current responses.')) return;
-    }
+    if (order.length || Object.keys(results).length) { if (!confirm('Start a new chat? This clears all current responses.')) return; }
     resetApp();
   };
 
   $('sendBtn').onclick = sendAll;
-  $('promptInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); sendAll(); }
-  });
-  $('promptInput').addEventListener('input', function () {
-    this.style.height = 'auto'; this.style.height = Math.min(this.scrollHeight, 260) + 'px';
-  });
-
+  $('promptInput').addEventListener('keydown', e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); sendAll(); } });
+  $('promptInput').addEventListener('input', function () { this.style.height = 'auto'; this.style.height = Math.min(this.scrollHeight, 260) + 'px'; });
   $('themeBtn').onclick = () => applyTheme(currentTheme() === 'dark' ? 'light' : 'dark');
 
-  // welcome controls
   $('wNext').onclick = welcomeNext; $('wBack').onclick = welcomeBack;
   $('wSkip').onclick = () => dismissWelcome(); $('wClose').onclick = () => dismissWelcome();
-  $('wDonate') && ($('wDonate').onclick = () => window.open(DONATE_URL, '_blank', 'noopener'));
+  $('wDonate') && ($('wDonate').onclick = (e) => { e.preventDefault(); window.open(DONATE_URL, '_blank', 'noopener'); });
 
   const hasKeys = configuredProviders(cfg).length > 0;
   const seen = !!localStorage.getItem(WELCOME_KEY);
-  if (!hasKeys && !seen) setTimeout(showWelcome, 350);
+  if (location.hash === '#settings') setTimeout(() => openConfig(), 200);   // deep-link to settings
+  else if (!hasKeys && !seen) setTimeout(showWelcome, 350);
   else if (!hasKeys) setTimeout(() => openConfig('keys'), 400);
 }
 

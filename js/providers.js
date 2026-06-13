@@ -157,21 +157,40 @@ async function* sseReader(response, extract) {
   }
 }
 
+// ── Request timeout (targets "model never responds": aborts if no first byte) ──
+const DEFAULT_TIMEOUT_MS = 90000;
+function reqSignal(opts = {}) {
+  if (opts.signal) return { signal: opts.signal, done() {} };
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), opts.timeoutMs || DEFAULT_TIMEOUT_MS);
+  return { signal: ctrl.signal, done() { clearTimeout(timer); } };
+}
+async function* streamWithTimeout(resp, extract, onFirst) {
+  let first = true;
+  for await (const c of sseReader(resp, extract)) {
+    if (first) { first = false; if (onFirst) onFirst(); }   // got data → cancel the abort timer
+    yield c;
+  }
+}
+
 // ── Anthropic ───────────────────────────────────────────────────────────────
-async function* apiClaude(messages, key, model) {
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'x-api-key': key, 'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true', 'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: model || 'claude-opus-4-8', max_tokens: 8096, stream: true,
-      messages: messages.map(m => ({ role: m.role, content: m.content })),
-    }),
-  });
-  if (!resp.ok) { const e = await resp.json().catch(() => ({})); throw new Error(e.error?.message || `HTTP ${resp.status}`); }
-  yield* sseReader(resp, (_, d) => d?.type === 'content_block_delta' && d?.delta?.type === 'text_delta' ? d.delta.text : null);
+async function* apiClaude(messages, key, model, opts = {}) {
+  const { signal, done } = reqSignal(opts);
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST', signal,
+      headers: {
+        'x-api-key': key, 'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true', 'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: model || 'claude-opus-4-8', max_tokens: opts.maxTokens || 8096, stream: true,
+        messages: messages.map(m => ({ role: m.role, content: m.content })),
+      }),
+    });
+    if (!resp.ok) { const e = await resp.json().catch(() => ({})); throw new Error(e.error?.message || `HTTP ${resp.status}`); }
+    yield* streamWithTimeout(resp, (_, d) => d?.type === 'content_block_delta' && d?.delta?.type === 'text_delta' ? d.delta.text : null, done);
+  } finally { done(); }
 }
 
 // ── Gemini ──────────────────────────────────────────────────────────────────
@@ -185,40 +204,59 @@ function geminiContents(messages) {
   }
   return merged;
 }
-async function* apiGemini(messages, key, model) {
+async function* apiGemini(messages, key, model, opts = {}) {
   const m = model || 'gemini-3.5-flash';
-  const resp = await fetch(
-    `${PROVIDERS.gemini.baseUrl}/models/${m}:streamGenerateContent?key=${key}&alt=sse`,
-    { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ contents: geminiContents(messages) }) }
-  );
-  if (!resp.ok) { const e = await resp.json().catch(() => ({})); throw new Error(e.error?.message || `HTTP ${resp.status}`); }
-  yield* sseReader(resp, (_, d) => d?.candidates?.[0]?.content?.parts?.[0]?.text ?? null);
+  const { signal, done } = reqSignal(opts);
+  try {
+    const body = { contents: geminiContents(messages) };
+    if (opts.maxTokens) body.generationConfig = { maxOutputTokens: opts.maxTokens };
+    const resp = await fetch(
+      `${PROVIDERS.gemini.baseUrl}/models/${m}:streamGenerateContent?key=${key}&alt=sse`,
+      { method: 'POST', signal, headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) }
+    );
+    if (!resp.ok) { const e = await resp.json().catch(() => ({})); throw new Error(e.error?.message || `HTTP ${resp.status}`); }
+    yield* streamWithTimeout(resp, (_, d) => d?.candidates?.[0]?.content?.parts?.[0]?.text ?? null, done);
+  } finally { done(); }
 }
 
 // ── OpenAI-compatible (OpenAI / OpenRouter / Groq / HF) ──────────────────────
-async function* apiOpenAICompatible(messages, key, model, provider) {
-  const resp = await fetch(`${provider.baseUrl}/chat/completions`, {
-    method: 'POST',
-    headers: {
-      'authorization': `Bearer ${key}`, 'content-type': 'application/json',
-      ...(provider.extraHeaders || {}),
-    },
-    body: JSON.stringify({
-      model, stream: true,
-      messages: messages.map(m => ({ role: m.role, content: m.content })),
-    }),
-  });
-  if (!resp.ok) { const e = await resp.json().catch(() => ({})); throw new Error(e.error?.message || e.message || `HTTP ${resp.status}`); }
-  yield* sseReader(resp, (_, d) => d?.choices?.[0]?.delta?.content ?? null);
+async function* apiOpenAICompatible(messages, key, model, provider, opts = {}) {
+  const { signal, done } = reqSignal(opts);
+  try {
+    const body = { model, stream: true, messages: messages.map(m => ({ role: m.role, content: m.content })) };
+    if (opts.maxTokens) body.max_tokens = opts.maxTokens;
+    const resp = await fetch(`${provider.baseUrl}/chat/completions`, {
+      method: 'POST', signal,
+      headers: { 'authorization': `Bearer ${key}`, 'content-type': 'application/json', ...(provider.extraHeaders || {}) },
+      body: JSON.stringify(body),
+    });
+    if (!resp.ok) { const e = await resp.json().catch(() => ({})); throw new Error(e.error?.message || e.message || `HTTP ${resp.status}`); }
+    yield* streamWithTimeout(resp, (_, d) => d?.choices?.[0]?.delta?.content ?? null, done);
+  } finally { done(); }
 }
 
 // ── Dispatch ─────────────────────────────────────────────────────────────────
-// selection = { id, provider, model }
-export function makeGen(selection, messages, cfg) {
+// selection = { id, provider, model };  opts = { maxTokens, signal, timeoutMs }
+export function makeGen(selection, messages, cfg, opts = {}) {
   const p   = PROVIDERS[selection.provider];
   const key = providerKey(cfg, selection.provider);
   if (!p) throw new Error(`Unknown provider: ${selection.provider}`);
-  if (p.kind === 'anthropic') return apiClaude(messages, key, selection.model);
-  if (p.kind === 'gemini')    return apiGemini(messages, key, selection.model);
-  return apiOpenAICompatible(messages, key, selection.model, p);
+  if (p.kind === 'anthropic') return apiClaude(messages, key, selection.model, opts);
+  if (p.kind === 'gemini')    return apiGemini(messages, key, selection.model, opts);
+  return apiOpenAICompatible(messages, key, selection.model, p, opts);
+}
+
+// Lightweight availability probe: tiny request + short timeout. Returns { ok, error? }.
+export async function probeModel(selection, cfg, timeoutMs = 12000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+  try {
+    const gen = makeGen(selection, [{ role: 'user', content: 'ping' }], cfg, { maxTokens: 5, signal: ctrl.signal });
+    for await (const _ of gen) break;   // first token (or clean completion) ⇒ alive
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e?.name === 'AbortError' ? 'timed out' : (e?.message || 'error') };
+  } finally {
+    clearTimeout(timer); ctrl.abort();
+  }
 }

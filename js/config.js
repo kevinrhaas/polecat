@@ -24,7 +24,11 @@ function normalize(cfg) {
   cfg.selections  = Array.isArray(cfg.selections) ? cfg.selections : [];
   cfg.arbitration = (cfg.arbitration && typeof cfg.arbitration === 'object') ? cfg.arbitration : {};
   if (!cfg.arbitration.activeId) cfg.arbitration.activeId = 'sequential';
+  if (!cfg.arbitration.arbiter)  cfg.arbitration.arbiter = 'auto';   // 'auto' | selection id
   if (!Array.isArray(cfg.arbitration.custom)) cfg.arbitration.custom = [];
+  cfg.consensus = cfg.consensus !== false;                            // default ON
+  cfg.modelStatus = (cfg.modelStatus && typeof cfg.modelStatus === 'object') ? cfg.modelStatus : {};
+  cfg.ui = (cfg.ui && typeof cfg.ui === 'object') ? cfg.ui : {};
   // ensure every selection has an id
   cfg.selections.forEach(s => { if (!s.id) s.id = newId(); });
   return cfg;

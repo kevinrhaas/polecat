@@ -68,32 +68,38 @@
 
 <!-- Settings modal -->
 <div class="backdrop" id="configModal">
-  <div class="modal" role="dialog" aria-modal="true" aria-label="Settings">
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Settings">
     <div class="modal-head">
       <span class="modal-title">Settings</span>
       <button class="icon-btn icon-only" id="closeConfig" aria-label="Close">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
+    <div class="cfg-tabs" id="cfgTabs">
+      <button class="cfg-tab" data-tab="models">Models</button>
+      <button class="cfg-tab" data-tab="keys">Keys</button>
+      <button class="cfg-tab" data-tab="arbitration">Arbitration</button>
+      <button class="cfg-tab" data-tab="support">Support</button>
+    </div>
     <div class="modal-body">
-      <section class="cfg-section" id="sec-models">
+      <section class="cfg-section" data-tab="models" id="sec-models">
         <h3 class="cfg-h">Models <span class="cfg-sub">run any mix — even two from one provider</span></h3>
         <div id="selList" class="sel-list"></div>
         <div id="addModelArea"></div>
       </section>
 
-      <section class="cfg-section" id="sec-keys">
+      <section class="cfg-section" data-tab="keys" id="sec-keys">
         <h3 class="cfg-h">API keys <span class="cfg-sub">stored only in this browser</span></h3>
         <div id="keyFields"></div>
         <div class="security-note">🔒 Keys live in your browser's <strong>localStorage</strong> and are sent only to each provider (or a proxy you configure) — never to us.</div>
       </section>
 
-      <section class="cfg-section" id="sec-arb">
+      <section class="cfg-section" data-tab="arbitration" id="sec-arb">
         <h3 class="cfg-h">Arbitration <span class="cfg-sub">how the consensus answer is formed</span></h3>
         <div id="arbControls"></div>
       </section>
 
-      <section class="cfg-section" id="sec-support">
+      <section class="cfg-section" data-tab="support" id="sec-support">
         <h3 class="cfg-h">Support Polecat</h3>
         <div id="donateArea"></div>
       </section>
