@@ -22,6 +22,10 @@ let cfg = loadCfg();
 const convos = {};                  // selectionId -> [{role, content}]
 let lastPrompt = '', results = {}, order = [];
 let activeTab = null;
+// live consensus progress
+let runStatus = {};                 // selectionId -> 'pending'|'streaming'|'done'|'error'
+let consensusPhase = '';            // '' | 'waiting' | 'arbitrating' | 'done'
+let consensusStatusText = '', consensusStepText = '';
 
 const persist  = () => saveCfg(cfg);
 const sels     = () => activeSelections(cfg);
@@ -185,6 +189,7 @@ async function streamTo(sel, userContent) {
   const bubble = pair.querySelector('.msg.assistant .msg-bubble');
 
   const dot = $('tdot_' + sel.id); dot?.classList.add('loading');
+  markRun(sel.id, 'streaming');
   let full = '';
   try {
     const gen = makeGen(sel, co, cfg);
@@ -192,11 +197,13 @@ async function streamTo(sel, userContent) {
     for await (const chunk of gen) { full += chunk; bubble.innerHTML = renderMarkdown(full); }
     finishBubble(pair, full);
     co.push({ role: 'assistant', content: full });
+    markRun(sel.id, 'done');
     return full;
   } catch (err) {
     const msg = err?.name === 'AbortError' ? 'Request timed out' : err.message;
     bubble.innerHTML = `<span class="msg-error">Error: ${escapeHtml(msg)}</span>`;
     co.pop();
+    markRun(sel.id, 'error');
     return null;
   } finally {
     if (dot) { dot.classList.remove('loading'); dot.classList.add('done'); setTimeout(() => dot.classList.remove('done'), 350); }
@@ -211,10 +218,13 @@ async function sendAll() {
   if (!list.length) { openConfig('models'); return; }
 
   lastPrompt = text; results = {}; order = [];
+  runStatus = {}; list.forEach(s => runStatus[s.id] = 'pending');
+  consensusPhase = 'waiting'; consensusStatusText = ''; consensusStepText = '';
   $('promptInput').value = ''; $('promptInput').style.height = 'auto';
   $('sendBtn').disabled = true; $('responses').style.display = '';
   setChipsDisabled(true);
   pruneTabs(); ensureTabs();
+  if (cfg.consensus) refreshConsensusProgress();
 
   await Promise.allSettled(list.map(async sel => {
     const r = await streamTo(sel, text);
@@ -232,6 +242,7 @@ async function sendAll() {
 function resetApp() {
   Object.keys(convos).forEach(k => delete convos[k]);
   lastPrompt = ''; results = {}; order = [];
+  runStatus = {}; consensusPhase = ''; consensusStatusText = ''; consensusStepText = '';
   document.querySelectorAll('.conversation').forEach(conv => {
     const id = conv.id.replace('conv_', '');
     const isCons = id === 'consensus';
@@ -247,12 +258,50 @@ function resetApp() {
 }
 
 // ── Consensus tab ───────────────────────────────────────────────────────────
-const setConsensusStatus = (m) => { const e = $('consensus-status'); if (e) e.textContent = m; };
-const setConsensusStep   = (l) => { const e = $('consensus-tab-step'); if (e) e.textContent = l || ''; };
+const setConsensusStatus = (m) => { consensusStatusText = m; consensusPhase = 'arbitrating'; refreshConsensusProgress(); };
+const setConsensusStep   = (l) => { consensusStepText = l || ''; const e = $('consensus-tab-step'); if (e) e.textContent = l || ''; refreshConsensusProgress(); };
 function setConsensusDot(loading) {
   const dot = $('tdot_consensus'); if (!dot) return;
   if (loading) dot.classList.add('loading');
   else { dot.classList.remove('loading'); dot.classList.add('done'); setTimeout(() => dot.classList.remove('done'), 350); }
+}
+// Live progress shown in the Consensus tab while models stream + arbitration runs.
+function markRun(id, state) {
+  if (runStatus[id] === undefined) return;
+  runStatus[id] = state;
+  if (cfg.consensus) refreshConsensusProgress();
+}
+const STAT_ICON = { done: '✓', error: '✗', streaming: '▶', pending: '⏳' };
+function refreshConsensusProgress() {
+  const conv = $('conv_consensus');
+  if (!conv || (consensusPhase !== 'waiting' && consensusPhase !== 'arbitrating')) return;
+  $('empty_consensus')?.remove();
+  let box = $('consensus-progress');
+  if (!box) { box = el('div', 'consensus-progress'); box.id = 'consensus-progress'; conv.prepend(box); }
+
+  const strat = activeStrategy(cfg);
+  const ids = (cfg.selections || []).filter(s => runStatus[s.id] !== undefined);
+  const total = ids.length, done = ids.filter(s => runStatus[s.id] === 'done').length;
+  const failed = ids.filter(s => runStatus[s.id] === 'error').length;
+  const aId = cfg.arbitration.arbiter;
+  const arbiterLabel = (aId && aId !== 'auto' && selById(aId)) ? selectionLabel(selById(aId)) : 'auto (strategy default)';
+  const phaseLine = consensusPhase === 'arbitrating'
+    ? (consensusStatusText || 'Synthesizing…')
+    : `Waiting for models — ${done}/${total} responded${failed ? `, ${failed} failed` : ''}…`;
+
+  const modelsHtml = ids.map(s => {
+    const st = runStatus[s.id];
+    return `<li class="cp-model cp-${st}"><span class="cp-dot" style="--c:${PROVIDERS[s.provider].color}"></span>` +
+      `<span class="cp-name">${escapeHtml(selectionLabel(s))}</span><span class="cp-stat">${STAT_ICON[st] || ''}</span></li>`;
+  }).join('');
+
+  box.innerHTML =
+    `<div class="cp-glyph">✦</div>` +
+    `<div class="cp-title">Building consensus</div>` +
+    `<div class="cp-strategy">${escapeHtml(strat.name)} · arbiter: ${escapeHtml(arbiterLabel)}</div>` +
+    `<div class="cp-phase">${escapeHtml(phaseLine)}</div>` +
+    `<ul class="cp-models">${modelsHtml}</ul>` +
+    (consensusStepText ? `<div class="cp-step">${escapeHtml(consensusStepText)}…</div>` : '');
 }
 async function getSilentText(sel, messages) {
   let text = '';
@@ -261,7 +310,7 @@ async function getSilentText(sel, messages) {
 }
 async function streamToConsensus(sel, messages) {
   const conv = $('conv_consensus');
-  $('empty_consensus')?.remove();
+  consensusPhase = 'done'; $('consensus-progress')?.remove(); $('empty_consensus')?.remove();
   const pair = assistantPair('Consensus', lastPrompt);
   conv.prepend(pair); conv.scrollTop = 0;
   const bubble = pair.querySelector('.msg.assistant .msg-bubble');
@@ -273,7 +322,7 @@ async function streamToConsensus(sel, messages) {
 }
 function showConsensusStatic(text, isError = false) {
   const conv = $('conv_consensus');
-  $('empty_consensus')?.remove();
+  consensusPhase = 'done'; $('consensus-progress')?.remove(); $('empty_consensus')?.remove();
   const pair = el('div', 'qa-pair');
   pair.innerHTML =
     `<div class="msg user"><span class="msg-label">You</span><div class="msg-bubble">${nl2br(lastPrompt)}</div></div>` +
@@ -285,6 +334,7 @@ function showConsensusStatic(text, isError = false) {
 }
 async function runConsensus() {
   const ordered = order.filter(id => results[id]).map(id => ({ selection: selById(id) || { id, provider: 'openai', model: '' }, text: results[id] }));
+  consensusPhase = 'arbitrating'; consensusStatusText = 'Reviewing responses…'; refreshConsensusProgress();
   await runArbitration(activeStrategy(cfg), {
     prompt: lastPrompt,
     results: ordered,
