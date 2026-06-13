@@ -4,7 +4,7 @@
 // ─────────────────────────────────────────────────────────────────────────
 import {
   loadCfg, saveCfg, activeSelections, configuredProviders, providerKey, setProviderKey,
-  mkSelection, MAX_SELECTIONS,
+  mkSelection, MAX_SELECTIONS, takeMigrationNote,
 } from './config.js';
 import {
   PROVIDERS, PROVIDER_IDS, makeGen, probeModel, defaultModel, selectionLabel,
@@ -608,6 +608,9 @@ function init() {
   if (typeof marked !== 'undefined') marked.setOptions({ breaks: true, gfm: true });
   applyTheme(localStorage.getItem('polecat_theme') || 'dark');
   buildChips();
+
+  const note = takeMigrationNote();                  // e.g. "Your saved setup carried over"
+  if (note) setTimeout(() => toast(note, 4000), 700);
 
   document.querySelectorAll('.cfg-tab').forEach(b => b.onclick = () => setConfigTab(b.dataset.tab));
   $('configBtn').onclick   = () => openConfig();
