@@ -581,7 +581,7 @@ function renderDonate() {
 // ════════════════════════════════════════════════════════════════════════════
 //  WELCOME TOUR
 // ════════════════════════════════════════════════════════════════════════════
-let _wslide = 1; const W_TOTAL = 3;
+let _wslide = 1; const W_TOTAL = 4;
 function showWelcome() { _wslide = 1; gotoWelcome(1); $('welcomeOverlay').classList.add('open'); }
 function dismissWelcome(openCfg = false) {
   localStorage.setItem(WELCOME_KEY, '1');

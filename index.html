@@ -139,29 +139,48 @@
         </svg>
         <div class="welcome-hero-logo">Pole<span class="logo-grad">cat</span></div>
         <div class="welcome-tagline">Ask once.<br>Hear from everyone.</div>
-        <div class="welcome-desc">Send one prompt to as many models as you like — Claude, Gemini, ChatGPT, plus free open models via OpenRouter, Groq &amp; Hugging Face — then get one synthesized consensus answer.</div>
+        <div class="welcome-desc">Send one prompt to several AI models at the same time — then get a single answer that keeps what they agree on and flags where they don't.</div>
+        <div class="welcome-flow">
+          <span class="wm-pill" style="--c:#d4773b">Claude</span>
+          <span class="wm-pill" style="--c:#4285f4">Gemini</span>
+          <span class="wm-pill" style="--c:#10a37f">ChatGPT</span>
+          <span class="wm-pill" style="--c:#8b5cf6">+ free</span>
+          <span class="wm-arrow">→</span>
+          <span class="wm-pill wm-consensus">✦ Consensus</span>
+        </div>
       </div>
 
       <div class="welcome-slide" id="wslide-2">
-        <div class="welcome-slide-icon">⚡</div>
-        <div class="welcome-tagline">How it works</div>
+        <div class="welcome-slide-icon">🧭</div>
+        <div class="welcome-tagline">One model can be wrong.<br>Several rarely miss the same way.</div>
         <div class="welcome-steps">
-          <div class="wstep"><span class="wstep-n">1</span><span>Pick your models — mix providers, or run Opus <em>and</em> Sonnet side by side</span></div>
-          <div class="wstep"><span class="wstep-n">2</span><span>One prompt fans out to all of them in parallel</span></div>
-          <div class="wstep"><span class="wstep-n">3</span><span>A consensus strategy you choose synthesizes the best answer</span></div>
+          <div class="wstep"><span class="wstep-n">✓</span><span><b>Cross-check.</b> Where the models agree, you can trust it. Where they split, Polecat shows you — instead of betting on one model's blind spot.</span></div>
+          <div class="wstep"><span class="wstep-n">✦</span><span><b>Best of each.</b> Every model has different strengths and training. See them side by side in a single shot.</span></div>
+          <div class="wstep"><span class="wstep-n">→</span><span><b>One answer.</b> A synthesis pass reconciles them, so you read a result — not five tabs.</span></div>
         </div>
       </div>
 
       <div class="welcome-slide" id="wslide-3">
+        <div class="welcome-slide-icon">🎛️</div>
+        <div class="welcome-tagline">Your models, your rules</div>
+        <div class="welcome-desc"><b>Combine paid and free providers</b> in one run — Claude or ChatGPT alongside free open models from OpenRouter, Groq &amp; Hugging Face. You can even run <em>Opus and Sonnet</em> together.</div>
+        <div class="welcome-steps">
+          <div class="wstep"><span class="wstep-n">⚖</span><span><b>Controllable arbitration.</b> Choose how consensus forms — <b>Best</b>, <b>Comprehensive</b>, <b>Validated</b>, or <b>Debate</b> — and name which model gets the final say.</span></div>
+          <div class="wstep"><span class="wstep-n">≡</span><span>Prefer raw comparison? Switch consensus off and read every model side by side.</span></div>
+        </div>
+        <div class="welcome-note-box">On a thorny question, a lone model might confidently invent an answer — the others outweigh it and your chosen arbiter keeps the validated result.</div>
+      </div>
+
+      <div class="welcome-slide" id="wslide-4">
         <div class="welcome-slide-icon">🔑</div>
         <div class="welcome-tagline">Bring your own keys</div>
-        <div class="welcome-desc">Add at least one API key to begin. Paid providers (Claude/Gemini/ChatGPT) or free ones (OpenRouter, Groq, Hugging Face) — your keys stay in your browser.</div>
-        <div class="welcome-note-box">Polecat is free &amp; open. If it's useful, you can <a href="#" id="wDonate">leave a tip ☕</a> to help offset costs — totally optional.</div>
+        <div class="welcome-desc">Add at least one API key to start — paid (Claude, Gemini, ChatGPT) or free (OpenRouter, Groq, Hugging Face). Keys stay in your browser and go straight to each provider: no server, nothing stored by us.</div>
+        <div class="welcome-note-box">Polecat is free &amp; open. If it earns a place in your toolkit, you can <a href="#" id="wDonate">leave a tip ☕</a> — entirely optional.</div>
       </div>
     </div>
 
     <div class="welcome-footer">
-      <div class="welcome-dots"><div class="wd active"></div><div class="wd"></div><div class="wd"></div></div>
+      <div class="welcome-dots"><div class="wd active"></div><div class="wd"></div><div class="wd"></div><div class="wd"></div></div>
       <div class="welcome-btns">
         <button class="btn btn-ghost" id="wBack" style="visibility:hidden">← Back</button>
         <button class="btn btn-ghost" id="wSkip">Skip</button>
