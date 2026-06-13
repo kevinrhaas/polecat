@@ -3,71 +3,168 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Polecat — coming soon</title>
-  <meta name="description" content="Polecat — ask once, hear from every model. One prompt, many AIs, one synthesized answer. Coming soon to polecat.live.">
+  <title>Polecat — one prompt, every model</title>
+  <meta name="description" content="Ask once, hear from everyone. Send one prompt to many AI models at once and get a synthesized consensus answer — 100% in your browser, your own keys, no server.">
   <meta name="theme-color" content="#0a0a0f">
   <link rel="icon" href="assets/polecat.svg" type="image/svg+xml">
-  <meta property="og:title" content="Polecat — coming soon">
-  <meta property="og:description" content="Ask once. Hear from everyone. One prompt → many models → one synthesized answer, right in your browser.">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
+  <meta property="og:title" content="Polecat — one prompt, every model">
+  <meta property="og:description" content="Ask once, hear from everyone. One prompt to many AI models, one synthesized answer — in your browser, your own keys, no server.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://polecat.live">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      text-align: center; padding: 28px;
-      background: radial-gradient(1200px 640px at 50% -12%, #1b1436 0%, #0a0a0f 62%);
-      color: #e8e8f2; -webkit-font-smoothing: antialiased;
-    }
-    .wrap { max-width: 470px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
-    .icon {
-      width: 134px; height: 134px;
-      filter: drop-shadow(0 10px 30px rgba(156,107,63,.38));
-      animation: float 4.2s ease-in-out infinite;
-    }
-    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
-    h1 { font-size: 42px; font-weight: 800; letter-spacing: -1.2px; line-height: 1; }
-    .live { color: #8888aa; font-weight: 600; font-size: .4em; vertical-align: super; letter-spacing: 0; }
-    .tag { font-size: 18px; font-weight: 600; color: #cccce4; }
-    .soon {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 8px 16px; border-radius: 100px; font-size: 13px; font-weight: 700;
-      background: rgba(147,51,234,.14); border: 1px solid rgba(147,51,234,.42); color: #cba6f6;
-    }
-    .dot { width: 7px; height: 7px; border-radius: 50%; background: #cba6f6; animation: pulse 1.6s ease-in-out infinite; }
-    @keyframes pulse { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
-    .desc { font-size: 14.5px; color: #8e8eb0; line-height: 1.65; max-width: 400px; }
-    .v1 { font-size: 13px; color: #6a6a8a; margin-top: 4px; }
-    .v1 a { color: #9aa0d6; text-decoration: none; border-bottom: 1px solid rgba(154,160,214,.4); }
-    .v1 a:hover { color: #c3c7f0; }
-  </style>
+  <meta property="og:image" content="https://polecat.live/assets/favicon-512.png">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-theme">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <main class="wrap">
-    <svg class="icon" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Polecat">
+
+<header>
+  <div class="logo">
+    <svg class="logo-mark" viewBox="0 0 220 220" width="22" height="22" aria-hidden="true">
       <ellipse cx="60" cy="58" rx="25" ry="29" fill="#9C6B3F" transform="rotate(-16 60 58)"/>
       <ellipse cx="160" cy="58" rx="25" ry="29" fill="#9C6B3F" transform="rotate(16 160 58)"/>
-      <ellipse cx="62" cy="62" rx="12" ry="15" fill="#F4A6A6" transform="rotate(-16 62 62)"/>
-      <ellipse cx="158" cy="62" rx="12" ry="15" fill="#F4A6A6" transform="rotate(16 158 62)"/>
       <ellipse cx="110" cy="122" rx="84" ry="78" fill="#F5E9D6"/>
       <path d="M28 102 Q110 80 192 102 Q196 128 160 137 Q110 146 60 137 Q24 128 28 102 Z" fill="#2E2A33"/>
-      <circle cx="78" cy="113" r="19" fill="#ffffff"/>
-      <circle cx="142" cy="113" r="19" fill="#ffffff"/>
-      <circle cx="81" cy="116" r="10.5" fill="#2E2A33"/>
-      <circle cx="139" cy="116" r="10.5" fill="#2E2A33"/>
-      <circle cx="85" cy="112" r="3.6" fill="#ffffff"/>
-      <circle cx="143" cy="112" r="3.6" fill="#ffffff"/>
-      <circle cx="54" cy="156" r="12" fill="#F4A6A6" opacity="0.55"/>
-      <circle cx="166" cy="156" r="12" fill="#F4A6A6" opacity="0.55"/>
+      <circle cx="78" cy="113" r="19" fill="#fff"/><circle cx="142" cy="113" r="19" fill="#fff"/>
+      <circle cx="81" cy="116" r="10.5" fill="#2E2A33"/><circle cx="139" cy="116" r="10.5" fill="#2E2A33"/>
       <path d="M110 150 q10 0 8 8.5 q-2 6.5 -8 7.5 q-6 -1 -8 -7.5 q-2 -8.5 8 -8.5 Z" fill="#3A2F3A"/>
-      <path d="M110 166 q-9 9 -17 2.5 M110 166 q9 9 17 2.5" stroke="#3A2F3A" stroke-width="3" fill="none" stroke-linecap="round"/>
     </svg>
-    <h1>Polecat<span class="live">.live</span></h1>
-    <div class="tag">Ask once. Hear from everyone.</div>
-    <div class="soon"><span class="dot"></span> Coming soon</div>
-    <p class="desc">One prompt → many models, side by side, with a synthesized consensus answer. 100% in your browser, your own API keys, no server.</p>
-    <p class="v1">Looking for the current version? → <a href="https://kevinrhaas.github.io/polychat/">PolyChat v1</a></p>
-  </main>
+    <span class="logo-word">Pole<span class="logo-grad">cat</span></span>
+    <span class="logo-ver">v2 · 2026-06-12</span>
+  </div>
+  <div class="header-actions">
+    <button class="icon-btn" id="resetBtn" title="New chat">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.39"/></svg>
+      New chat
+    </button>
+    <button class="icon-btn icon-only" id="themeBtn" title="Toggle theme"></button>
+    <button class="icon-btn icon-only" id="configBtn" title="Settings">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="app">
+  <div class="prompt-card">
+    <textarea class="prompt-input" id="promptInput" placeholder="Type your prompt — sent to all selected models at once&#10;&#10;⌘↵ or Ctrl↵ to send"></textarea>
+    <div class="prompt-footer">
+      <div class="model-chips" id="modelChips"></div>
+      <button class="send-btn" id="sendBtn" disabled title="Send to all (⌘↵)">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        <span class="send-text">Send to all <kbd>⌘↵</kbd></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="responses" id="responses" style="display:none">
+    <div class="tab-bar" id="tabBar"></div>
+    <div id="tabPanels"></div>
+  </div>
+</div>
+
+<!-- Settings modal -->
+<div class="backdrop" id="configModal">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="Settings">
+    <div class="modal-head">
+      <span class="modal-title">Settings</span>
+      <button class="icon-btn icon-only" id="closeConfig" aria-label="Close">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <section class="cfg-section" id="sec-models">
+        <h3 class="cfg-h">Models <span class="cfg-sub">run any mix — even two from one provider</span></h3>
+        <div id="selList" class="sel-list"></div>
+        <div id="addModelArea"></div>
+      </section>
+
+      <section class="cfg-section" id="sec-keys">
+        <h3 class="cfg-h">API keys <span class="cfg-sub">stored only in this browser</span></h3>
+        <div id="keyFields"></div>
+        <div class="security-note">🔒 Keys live in your browser's <strong>localStorage</strong> and are sent only to each provider (or a proxy you configure) — never to us.</div>
+      </section>
+
+      <section class="cfg-section" id="sec-arb">
+        <h3 class="cfg-h">Arbitration <span class="cfg-sub">how the consensus answer is formed</span></h3>
+        <div id="arbControls"></div>
+      </section>
+
+      <section class="cfg-section" id="sec-support">
+        <h3 class="cfg-h">Support Polecat</h3>
+        <div id="donateArea"></div>
+      </section>
+    </div>
+    <div class="modal-foot">
+      <div class="foot-left">
+        <button class="btn btn-danger" id="clearKeys">Clear all keys</button>
+        <button class="btn btn-ghost" id="tourBtn">Tour</button>
+      </div>
+      <button class="btn btn-solid" id="doneConfig">Done</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Welcome overlay -->
+<div class="welcome-overlay" id="welcomeOverlay">
+  <div class="welcome-modal">
+    <div style="position:relative">
+      <button id="wClose" title="Dismiss" class="welcome-close" aria-label="Close">×</button>
+
+      <div class="welcome-slide active" id="wslide-1">
+        <svg viewBox="0 0 220 220" width="72" height="72" aria-hidden="true">
+          <ellipse cx="60" cy="58" rx="25" ry="29" fill="#9C6B3F" transform="rotate(-16 60 58)"/>
+          <ellipse cx="160" cy="58" rx="25" ry="29" fill="#9C6B3F" transform="rotate(16 160 58)"/>
+          <ellipse cx="62" cy="62" rx="12" ry="15" fill="#F4A6A6" transform="rotate(-16 62 62)"/>
+          <ellipse cx="158" cy="62" rx="12" ry="15" fill="#F4A6A6" transform="rotate(16 158 62)"/>
+          <ellipse cx="110" cy="122" rx="84" ry="78" fill="#F5E9D6"/>
+          <path d="M28 102 Q110 80 192 102 Q196 128 160 137 Q110 146 60 137 Q24 128 28 102 Z" fill="#2E2A33"/>
+          <circle cx="78" cy="113" r="19" fill="#fff"/><circle cx="142" cy="113" r="19" fill="#fff"/>
+          <circle cx="81" cy="116" r="10.5" fill="#2E2A33"/><circle cx="139" cy="116" r="10.5" fill="#2E2A33"/>
+          <circle cx="85" cy="112" r="3.6" fill="#fff"/><circle cx="143" cy="112" r="3.6" fill="#fff"/>
+          <circle cx="54" cy="156" r="12" fill="#F4A6A6" opacity="0.55"/><circle cx="166" cy="156" r="12" fill="#F4A6A6" opacity="0.55"/>
+          <path d="M110 150 q10 0 8 8.5 q-2 6.5 -8 7.5 q-6 -1 -8 -7.5 q-2 -8.5 8 -8.5 Z" fill="#3A2F3A"/>
+          <path d="M110 166 q-9 9 -17 2.5 M110 166 q9 9 17 2.5" stroke="#3A2F3A" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </svg>
+        <div class="welcome-hero-logo">Pole<span class="logo-grad">cat</span></div>
+        <div class="welcome-tagline">Ask once.<br>Hear from everyone.</div>
+        <div class="welcome-desc">Send one prompt to as many models as you like — Claude, Gemini, ChatGPT, plus free open models via OpenRouter, Groq &amp; Hugging Face — then get one synthesized consensus answer.</div>
+      </div>
+
+      <div class="welcome-slide" id="wslide-2">
+        <div class="welcome-slide-icon">⚡</div>
+        <div class="welcome-tagline">How it works</div>
+        <div class="welcome-steps">
+          <div class="wstep"><span class="wstep-n">1</span><span>Pick your models — mix providers, or run Opus <em>and</em> Sonnet side by side</span></div>
+          <div class="wstep"><span class="wstep-n">2</span><span>One prompt fans out to all of them in parallel</span></div>
+          <div class="wstep"><span class="wstep-n">3</span><span>A consensus strategy you choose synthesizes the best answer</span></div>
+        </div>
+      </div>
+
+      <div class="welcome-slide" id="wslide-3">
+        <div class="welcome-slide-icon">🔑</div>
+        <div class="welcome-tagline">Bring your own keys</div>
+        <div class="welcome-desc">Add at least one API key to begin. Paid providers (Claude/Gemini/ChatGPT) or free ones (OpenRouter, Groq, Hugging Face) — your keys stay in your browser.</div>
+        <div class="welcome-note-box">Polecat is free &amp; open. If it's useful, you can <a href="#" id="wDonate">leave a tip ☕</a> to help offset costs — totally optional.</div>
+      </div>
+    </div>
+
+    <div class="welcome-footer">
+      <div class="welcome-dots"><div class="wd active"></div><div class="wd"></div><div class="wd"></div></div>
+      <div class="welcome-btns">
+        <button class="btn btn-ghost" id="wBack" style="visibility:hidden">← Back</button>
+        <button class="btn btn-ghost" id="wSkip">Skip</button>
+        <button class="btn btn-solid" id="wNext">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="js/app.js"></script>
 </body>
 </html>
