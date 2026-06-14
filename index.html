@@ -116,47 +116,47 @@
       <p class="lead">Same prompt, several models, one reconciled answer. <span class="muted">Illustrative examples.</span></p>
     </div>
 
-    <!-- Case 1: decision -->
+    <!-- Case 1: everyday advice (cooking) -->
     <article class="case reveal">
-      <div class="case-tag">Decision &amp; advice</div>
-      <div class="case-q">“We're a 5-person startup building an analytics-heavy SaaS. PostgreSQL or MongoDB?”</div>
+      <div class="case-tag">Everyday advice</div>
+      <div class="case-q">“What's the secret to extra-crispy roast potatoes?”</div>
       <div class="answers">
-        <div class="ans" style="--c:#d4773b"><div class="ans-h"><span class="ans-dot"></span>Claude · Opus <span class="ans-badge paid">paid</span></div><p>Postgres. Analytical queries, JOINs and window functions are its strength; JSONB covers schema flexibility.</p></div>
-        <div class="ans" style="--c:#4285f4"><div class="ans-h"><span class="ans-dot"></span>Gemini · Pro <span class="ans-badge paid">paid</span></div><p>MongoDB is flexible for evolving schemas, but analytics favors relational — lean Postgres, revisit columnar later.</p></div>
-        <div class="ans" style="--c:#8b5cf6"><div class="ans-h"><span class="ans-dot"></span>Llama 3.3 70B <span class="ans-badge free">free</span></div><p>Postgres for analytics. Consider Mongo only for document-shaped data at very high write volume.</p></div>
-      </div>
-      <div class="consensus-card">
-        <div class="cc-h">✦ Consensus <span class="cc-strategy">Validated Synthesis</span></div>
-        <p><b>Start with PostgreSQL.</b> For analytics-heavy workloads its JOINs, window functions and mature tooling win, and JSONB gives you document-style flexibility — so you rarely need MongoDB early. Revisit a document store only if you hit genuinely document-shaped data at high write volume. All three models converged here; the consensus keeps the decisive recommendation and the one caveat worth remembering.</p>
-      </div>
-    </article>
-
-    <!-- Case 2: factual, caught a wrong answer -->
-    <article class="case reveal">
-      <div class="case-tag warn">Factual — caught a wrong answer</div>
-      <div class="case-q">“What's the time complexity of building a binary heap from an array?”</div>
-      <div class="answers">
-        <div class="ans dissent" style="--c:#10a37f"><div class="ans-h"><span class="ans-dot"></span>Model A <span class="ans-badge wrong">✗ off</span></div><p>O(n log n) — you do n insertions, each costing up to log n.</p></div>
-        <div class="ans" style="--c:#d4773b"><div class="ans-h"><span class="ans-dot"></span>Model B <span class="ans-badge ok">✓</span></div><p>O(n). Bottom-up heapify is linear — the work sums to a convergent series.</p></div>
-        <div class="ans" style="--c:#8b5cf6"><div class="ans-h"><span class="ans-dot"></span>Model C <span class="ans-badge ok">✓</span></div><p>O(n) with the standard build-heap; O(n log n) is the common misconception.</p></div>
-      </div>
-      <div class="consensus-card">
-        <div class="cc-h">✦ Consensus <span class="cc-strategy">Validated Synthesis</span></div>
-        <p><b>O(n).</b> A common misconception is O(n&nbsp;log&nbsp;n) (n inserts × log n) — but bottom-up <code>build-heap</code> is linear: the cost ∑&nbsp;(n/2<sup>h</sup>)·h converges to O(n). Polecat flagged the lone O(n log n) answer as the outlier and kept the validated result, instead of you trusting whichever model you happened to ask.</p>
-      </div>
-    </article>
-
-    <!-- Case 3: free vs paid -->
-    <article class="case reveal">
-      <div class="case-tag">Free vs paid, head-to-head</div>
-      <div class="case-q">“Explain the CAP theorem simply, with a real example.”</div>
-      <div class="answers">
-        <div class="ans" style="--c:#8b5cf6"><div class="ans-h"><span class="ans-dot"></span>Llama 3.3 70B <span class="ans-badge free">free</span></div><p>During a network partition a distributed store must choose: stay consistent (reject some reads) or stay available (risk stale reads). Clear, correct, with an example.</p></div>
-        <div class="ans" style="--c:#d4773b"><div class="ans-h"><span class="ans-dot"></span>Claude · Opus <span class="ans-badge paid">paid</span></div><p>Same core, plus nuance: CAP only bites <em>during</em> partitions; PACELC extends it to latency-vs-consistency when there's no partition.</p></div>
+        <div class="ans" style="--c:#d4773b"><div class="ans-h"><span class="ans-dot"></span>Claude · Opus <span class="ans-badge paid">paid</span></div><p>Parboil until just tender, then shake to rough up the edges — the craggy surface crisps. Roast in hot fat at ~220°C / 425°F.</p></div>
+        <div class="ans" style="--c:#4285f4"><div class="ans-h"><span class="ans-dot"></span>Gemini · Pro <span class="ans-badge paid">paid</span></div><p>A pinch of baking soda in the boiling water roughens the surface. Drain, shake, then roast in plenty of hot oil.</p></div>
+        <div class="ans" style="--c:#8b5cf6"><div class="ans-h"><span class="ans-dot"></span>Llama 3.3 70B <span class="ans-badge free">free</span></div><p>Boil 8–10 min, dry well and fluff the edges, roast in very hot fat, and don't crowd the tray.</p></div>
       </div>
       <div class="consensus-card">
         <div class="cc-h">✦ Consensus <span class="cc-strategy">Comprehensive</span></div>
-        <p>A partition forces a choice between <b>consistency</b> and <b>availability</b>; outside partitions you still trade <b>latency vs consistency</b> (PACELC). Example: a replicated database during a network split either refuses writes to stay consistent, or accepts them and reconciles later. <b>The free Llama answer held its own against the paid flagship</b> — consolidation lets you lean on free models and validate the nuance with a paid one.</p>
+        <p><b>Parboil until just-tender</b> (a pinch of baking soda in the water helps), drain and <b>shake hard to rough up the edges</b>, then roast <b>uncrowded in plenty of hot fat at ~220°C/425°F</b>, turning once. The fluffy, craggy surface plus hot fat is what gives that shatter-crisp crust — the consensus blends every tip into one method.</p>
+      </div>
+    </article>
+
+    <!-- Case 2: caught a wrong answer (baking) -->
+    <article class="case reveal">
+      <div class="case-tag warn">Caught a wrong answer</div>
+      <div class="case-q">“Can I swap baking soda for baking powder, 1-to-1?”</div>
+      <div class="answers">
+        <div class="ans dissent" style="--c:#10a37f"><div class="ans-h"><span class="ans-dot"></span>Model A <span class="ans-badge wrong">✗ off</span></div><p>Sure — they're both leaveners, so swap them 1:1.</p></div>
+        <div class="ans" style="--c:#d4773b"><div class="ans-h"><span class="ans-dot"></span>Model B <span class="ans-badge ok">✓</span></div><p>No — baking soda is ~3–4× stronger and needs an acid; a 1:1 swap tastes soapy and collapses.</p></div>
+        <div class="ans" style="--c:#8b5cf6"><div class="ans-h"><span class="ans-dot"></span>Model C <span class="ans-badge ok">✓</span></div><p>Not 1:1. Use about ¼ as much soda plus an acid — or just use the baking powder.</p></div>
+      </div>
+      <div class="consensus-card">
+        <div class="cc-h">✦ Consensus <span class="cc-strategy">Validated Synthesis</span></div>
+        <p><b>No — not a 1:1 swap.</b> Baking soda is much stronger and needs an acidic ingredient to work; use roughly <b>¼ the amount plus an acid</b> (like cream of tartar), or simply use baking powder as written. Polecat flagged the lone “just swap it” answer as wrong and kept the validated guidance — exactly the kind of confident mistake that ruins a bake.</p>
+      </div>
+    </article>
+
+    <!-- Case 3: free vs paid (everyday money) -->
+    <article class="case reveal">
+      <div class="case-tag">Free vs paid, head-to-head</div>
+      <div class="case-q">“Explain compound interest simply, with an example.”</div>
+      <div class="answers">
+        <div class="ans" style="--c:#8b5cf6"><div class="ans-h"><span class="ans-dot"></span>Llama 3.3 70B <span class="ans-badge free">free</span></div><p>Interest earns interest. $1,000 at 5%/yr → $1,050 after year 1; year 2 you earn 5% on $1,050 = $1,102.50. It snowballs.</p></div>
+        <div class="ans" style="--c:#d4773b"><div class="ans-h"><span class="ans-dot"></span>Claude · Opus <span class="ans-badge paid">paid</span></div><p>Same core, plus nuance: it grows faster the more often it compounds (monthly &gt; yearly), and starting early matters most.</p></div>
+      </div>
+      <div class="consensus-card">
+        <div class="cc-h">✦ Consensus <span class="cc-strategy">Comprehensive</span></div>
+        <p>Compound interest is <b>interest earning interest</b>. Example: $1,000 at 5%/yr is $1,050 after one year, then $1,102.50 after two (you earn 5% on the new balance). It snowballs — faster the more often it compounds, and the earlier you start. <b>The free model nailed the basics; the paid one added the nuance</b> — together you get a complete, trustworthy answer.</p>
       </div>
     </article>
   </div>
