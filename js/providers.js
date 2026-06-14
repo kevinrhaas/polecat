@@ -260,3 +260,34 @@ export async function probeModel(selection, cfg, timeoutMs = 12000) {
     clearTimeout(timer); ctrl.abort();
   }
 }
+
+// ── Live model catalog (OpenAI-compatible /models) ──────────────────────────
+const _modelCache = {};   // providerId -> { ts, list }
+export function modelListSupported(providerId) {
+  const p = PROVIDERS[providerId];
+  return !!(p && p.kind === 'openai-compatible' && p.baseUrl);   // OpenRouter/Groq/HF/OpenAI
+}
+export async function listModels(providerId, cfg, force = false) {
+  if (!modelListSupported(providerId)) throw new Error('No live model list for this provider');
+  const p = PROVIDERS[providerId];
+  const cached = _modelCache[providerId];
+  if (!force && cached && Date.now() - cached.ts < 3600000) return cached.list;   // 1h cache
+  const key = providerKey(cfg, providerId);
+  const headers = { ...(p.extraHeaders || {}) };
+  if (key) headers['authorization'] = `Bearer ${key}`;        // OpenRouter /models is public; others need a key
+  const resp = await fetch(`${p.baseUrl}/models`, { headers });
+  if (!resp.ok) {
+    const e = await resp.json().catch(() => ({}));
+    throw new Error(e.error?.message || `HTTP ${resp.status}${resp.status === 401 ? ' — add an API key first' : ''}`);
+  }
+  const data = await resp.json();
+  const list = (data.data || data.models || []).map(m => {
+    const id = m.id || m.name || '';
+    const pr = m.pricing || {};
+    const free = (pr.prompt === '0' && pr.completion === '0') || /:free$/.test(id);
+    return { id, free, ctx: m.context_length || m.context_window || 0 };
+  }).filter(m => m.id);
+  list.sort((a, b) => (b.free - a.free) || a.id.localeCompare(b.id));   // free first, then alpha
+  _modelCache[providerId] = { ts: Date.now(), list };
+  return list;
+}

@@ -8,6 +8,7 @@ import {
 } from './config.js';
 import {
   PROVIDERS, PROVIDER_IDS, makeGen, probeModel, defaultModel, selectionLabel,
+  listModels, modelListSupported,
 } from './providers.js';
 import {
   allStrategies, activeStrategy, runArbitration, exportSettings, importSettings,
@@ -26,6 +27,7 @@ let activeTab = null;
 let runStatus = {};                 // selectionId -> 'pending'|'streaming'|'done'|'error'
 let consensusPhase = '';            // '' | 'waiting' | 'arbitrating' | 'done'
 let consensusStatusText = '', consensusStepText = '';
+let _browseList = [], _browseProvider = '';   // live model-list browse state
 
 const persist  = () => saveCfg(cfg);
 const sels     = () => activeSelections(cfg);
@@ -353,7 +355,7 @@ async function runConsensus() {
 //  MODEL TESTING (Hybrid: auto on add/select + "Test all" button; cached)
 // ════════════════════════════════════════════════════════════════════════════
 function refreshModelBadges() {
-  if ($('configModal').classList.contains('open')) renderModels();
+  if ($('configModal').classList.contains('open')) renderSelList();   // don't nuke the add-row/browse panel
   buildChips();
 }
 async function testOne(provider, model) {
@@ -432,8 +434,9 @@ function statusBadge(provider, model) {
   return st.ok ? `<span class="sel-status ok" title="Available">✓</span>`
                : `<span class="sel-status bad" title="${escapeHtml(st.error || 'Unavailable')}">✗</span>`;
 }
-function renderModels() {
-  const list = $('selList');
+function renderModels() { renderSelList(); renderAddRow(); }
+function renderSelList() {
+  const list = $('selList'); if (!list) return;
   list.innerHTML = '';
   (cfg.selections || []).forEach(sel => {
     const p = PROVIDERS[sel.provider]; if (!p) return;
@@ -455,7 +458,6 @@ function renderModels() {
   });
   if (!(cfg.selections || []).length)
     list.innerHTML = `<div class="muted-hint">No models yet — add one below.</div>`;
-  renderAddRow();
 }
 function onSelModelChange(id, provider, select) {
   let val = select.value;
@@ -479,28 +481,71 @@ function renderAddRow() {
       `<select class="field-input" id="addProvider">${PROVIDER_IDS.map(id => `<option value="${id}">${escapeHtml(PROVIDERS[id].name)}</option>`).join('')}</select>` +
       `<select class="field-input" id="addModel"></select>` +
       `<button class="btn btn-solid" id="addModelBtn">Add</button>` +
-      `</div><input class="field-input add-custom" id="addCustom" placeholder="custom model id" style="display:none">`) +
+      `</div>` +
+      `<input class="field-input add-custom" id="addCustom" placeholder="custom model id" style="display:none">` +
+      `<div class="browse-bar"><button class="btn btn-ghost browse-btn" id="browseBtn" hidden>🔎 Browse all models</button></div>` +
+      `<div class="browse-panel" id="browsePanel" hidden><input class="field-input" id="browseSearch" placeholder="Search models…" autocomplete="off"><div class="browse-list" id="browseList"></div></div>`) +
     `<button class="btn btn-ghost test-all" id="testAllBtn">⚡ Test models</button>`;
 
   $('testAllBtn').onclick = testAllModels;
   if (atMax) return;
 
   const provSel = $('addProvider'), modSel = $('addModel'), custom = $('addCustom');
-  const refresh = () => { modSel.innerHTML = modelOptionsHtml(provSel.value, defaultModel(provSel.value)); custom.style.display = 'none'; custom.value = ''; };
+  const refresh = () => {
+    modSel.innerHTML = modelOptionsHtml(provSel.value, defaultModel(provSel.value));
+    custom.style.display = 'none'; custom.value = '';
+    $('browseBtn').hidden = !modelListSupported(provSel.value);
+    $('browsePanel').hidden = true; const bs = $('browseSearch'); if (bs) bs.value = '';
+  };
   provSel.onchange = refresh;
   modSel.onchange = () => { custom.style.display = modSel.value === '__custom__' ? '' : 'none'; };
   $('addModelBtn').onclick = () => {
     const pid = provSel.value;
     let model = modSel.value;
     if (model === '__custom__') { model = custom.value.trim(); if (!model) { toast('Enter a model id'); return; } }
-    cfg.selections = cfg.selections || [];
-    const sel = mkSelection(pid, model);
-    cfg.selections.push(sel);
-    persist(); buildChips(); renderModels();
-    if (providerKey(cfg, pid)) testOne(pid, model);                 // auto-test on add
-    else toast(`Added — add a ${PROVIDERS[pid].name} key to use it`);
+    addModel(pid, model, true);
   };
+  $('browseBtn').onclick = () => openBrowse(provSel.value);
+  $('browseSearch').oninput = (e) => renderBrowse(e.target.value);
   refresh();
+}
+
+function addModel(provider, model, viaAddBtn) {
+  if ((cfg.selections || []).some(s => s.provider === provider && s.model === model)) { toast('Already added'); return; }
+  if ((cfg.selections || []).length >= MAX_SELECTIONS) { toast(`Max ${MAX_SELECTIONS} models`); return; }
+  (cfg.selections = cfg.selections || []).push(mkSelection(provider, model));
+  persist(); buildChips();
+  if (viaAddBtn) renderModels(); else renderSelList();        // browse: keep the panel open
+  if (providerKey(cfg, provider)) testOne(provider, model);   // auto-test on add
+  else toast(`Added — add a ${PROVIDERS[provider].name} key to use it`);
+}
+
+// Live model-list browse/search (OpenAI-compatible providers; OpenRouter is public)
+async function openBrowse(provider) {
+  if (!modelListSupported(provider)) { toast('No live list for this provider'); return; }
+  const panel = $('browsePanel'), listEl = $('browseList');
+  panel.hidden = false; _browseProvider = provider;
+  listEl.innerHTML = `<div class="muted-hint">Loading ${escapeHtml(PROVIDERS[provider].name)} models…</div>`;
+  try {
+    _browseList = await listModels(provider, cfg);
+    renderBrowse($('browseSearch')?.value || '');
+  } catch (e) {
+    listEl.innerHTML = `<div class="muted-hint">Couldn't load: ${escapeHtml(e.message)}</div>`;
+  }
+}
+function renderBrowse(filter) {
+  const listEl = $('browseList'); if (!listEl) return;
+  const f = (filter || '').toLowerCase().trim();
+  const matches = _browseList.filter(m => !f || m.id.toLowerCase().includes(f));
+  const shown = matches.slice(0, 80);
+  const have = new Set((cfg.selections || []).filter(s => s.provider === _browseProvider).map(s => s.model));
+  listEl.innerHTML = (shown.length ? shown.map(m =>
+    `<button class="browse-item${have.has(m.id) ? ' added' : ''}" data-id="${escapeHtml(m.id)}">` +
+    `<span class="bi-id">${escapeHtml(m.id)}</span>` +
+    `<span class="bi-meta">${m.free ? '<span class="bi-free">free</span>' : ''}${m.ctx ? `<span class="bi-ctx">${Math.round(m.ctx / 1000)}k</span>` : ''}${have.has(m.id) ? '<span class="bi-added">✓</span>' : ''}</span>` +
+    `</button>`).join('') : `<div class="muted-hint">No matches.</div>`) +
+    (matches.length > shown.length ? `<div class="muted-hint">+${matches.length - shown.length} more — refine search</div>` : '');
+  listEl.querySelectorAll('.browse-item').forEach(b => b.onclick = () => { addModel(_browseProvider, b.dataset.id, false); renderBrowse($('browseSearch')?.value || ''); });
 }
 
 // ── Keys tab ────────────────────────────────────────────────────────────────

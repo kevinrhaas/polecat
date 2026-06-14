@@ -216,6 +216,22 @@ select.field-input { font-family: inherit; cursor: pointer; min-width: 0; max-wi
 .m-chip.failing { border-color: #f8717155; }
 .m-chip.failing .m-chip-dot { background: #f87171 !important; }
 
+/* live model browse/search */
+.browse-bar { display: flex; }
+.browse-btn { width: 100%; font-size: 12px; }
+.browse-panel { border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2); padding: 8px; display: flex; flex-direction: column; gap: 8px; }
+.browse-list { display: flex; flex-direction: column; gap: 4px; max-height: 240px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.browse-list::-webkit-scrollbar { width: 5px; }
+.browse-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.browse-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; text-align: left; background: var(--surface); border: 1px solid var(--border); border-radius: 7px; padding: 7px 10px; cursor: pointer; font-family: inherit; color: var(--text); transition: border-color .12s, background .12s; }
+.browse-item:hover { border-color: var(--text-3); background: var(--surface-3); }
+.browse-item.added { opacity: .6; }
+.bi-id { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bi-meta { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.bi-free { font-size: 10px; font-weight: 700; color: #34d399; background: rgba(52,211,153,.12); padding: 1px 6px; border-radius: 100px; }
+.bi-ctx { font-size: 10px; color: var(--text-3); }
+.bi-added { color: #34d399; font-weight: 700; }
+
 /* selections */
 .sel-list { display: flex; flex-direction: column; gap: 8px; }
 .sel-row { display: flex; align-items: center; gap: 8px; min-width: 0; }
