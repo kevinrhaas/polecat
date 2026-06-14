@@ -4,27 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Polecat — one prompt, every model</title>
-  <meta name="description" content="Ask once, hear from everyone. Send one prompt to many AI models at once and get a synthesized consensus answer — 100% in your browser, your own keys, no server.">
+  <meta name="description" content="Polecat sends one prompt to many AI models — free and paid — then merges them into one answer you can trust. Cross-check providers, compare models, and control the consensus. Free, your keys, no server.">
   <meta name="theme-color" content="#0a0a0f">
   <link rel="icon" href="assets/polecat.svg" type="image/svg+xml">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
   <meta property="og:title" content="Polecat — one prompt, every model">
-  <meta property="og:description" content="Ask once, hear from everyone. One prompt to many AI models, one synthesized answer — in your browser, your own keys, no server.">
+  <meta property="og:description" content="Ask once. Hear from everyone. One prompt → many AI models (free + paid) → one trustworthy answer.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://polecat.live">
   <meta property="og:image" content="https://polecat.live/assets/favicon-512.png">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hljs-theme">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
 
-<header>
-  <div class="logo">
-    <svg class="logo-mark" viewBox="0 0 220 220" width="22" height="22" aria-hidden="true">
+<header class="nav">
+  <a class="brand" href="/">
+    <svg class="brand-mark" viewBox="0 0 220 220" width="26" height="26" aria-hidden="true">
       <ellipse cx="60" cy="58" rx="25" ry="29" fill="#9C6B3F" transform="rotate(-16 60 58)"/>
       <ellipse cx="160" cy="58" rx="25" ry="29" fill="#9C6B3F" transform="rotate(16 160 58)"/>
       <ellipse cx="110" cy="122" rx="84" ry="78" fill="#F5E9D6"/>
@@ -33,163 +29,219 @@
       <circle cx="81" cy="116" r="10.5" fill="#2E2A33"/><circle cx="139" cy="116" r="10.5" fill="#2E2A33"/>
       <path d="M110 150 q10 0 8 8.5 q-2 6.5 -8 7.5 q-6 -1 -8 -7.5 q-2 -8.5 8 -8.5 Z" fill="#3A2F3A"/>
     </svg>
-    <span class="logo-word">Pole<span class="logo-grad">cat</span></span>
-    <span class="logo-ver" id="logoVer"></span>
-  </div>
-  <div class="header-actions">
-    <button class="icon-btn" id="resetBtn" title="New chat">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.39"/></svg>
-      New chat
-    </button>
-    <button class="icon-btn icon-only" id="themeBtn" title="Toggle theme"></button>
-    <button class="icon-btn icon-only" id="configBtn" title="Settings">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-    </button>
-  </div>
+    <span>Pole<span class="grad">cat</span></span>
+  </a>
+  <nav class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#cases">Examples</a>
+    <a href="#arbitration">Arbitration</a>
+    <a class="btn btn-primary" href="https://app.polecat.live">Open app →</a>
+  </nav>
 </header>
 
-<div class="app">
-  <div class="prompt-card">
-    <textarea class="prompt-input" id="promptInput" placeholder="Type your prompt — sent to all selected models at once&#10;&#10;⌘↵ or Ctrl↵ to send"></textarea>
-    <div class="prompt-footer">
-      <div class="model-chips" id="modelChips"></div>
-      <button class="send-btn" id="sendBtn" disabled title="Send to all (⌘↵)">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        <span class="send-text">Send to all <kbd>⌘↵</kbd></span>
-      </button>
-    </div>
+<!-- ── Hero ─────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <svg class="hero-mascot" viewBox="0 0 220 220" width="132" height="132" aria-label="Polecat">
+    <ellipse cx="60" cy="58" rx="25" ry="29" fill="#9C6B3F" transform="rotate(-16 60 58)"/>
+    <ellipse cx="160" cy="58" rx="25" ry="29" fill="#9C6B3F" transform="rotate(16 160 58)"/>
+    <ellipse cx="62" cy="62" rx="12" ry="15" fill="#F4A6A6" transform="rotate(-16 62 62)"/>
+    <ellipse cx="158" cy="62" rx="12" ry="15" fill="#F4A6A6" transform="rotate(16 158 62)"/>
+    <ellipse cx="110" cy="122" rx="84" ry="78" fill="#F5E9D6"/>
+    <path d="M28 102 Q110 80 192 102 Q196 128 160 137 Q110 146 60 137 Q24 128 28 102 Z" fill="#2E2A33"/>
+    <circle cx="78" cy="113" r="19" fill="#fff"/><circle cx="142" cy="113" r="19" fill="#fff"/>
+    <circle cx="81" cy="116" r="10.5" fill="#2E2A33"/><circle cx="139" cy="116" r="10.5" fill="#2E2A33"/>
+    <circle cx="85" cy="112" r="3.6" fill="#fff"/><circle cx="143" cy="112" r="3.6" fill="#fff"/>
+    <circle cx="54" cy="156" r="12" fill="#F4A6A6" opacity="0.55"/><circle cx="166" cy="156" r="12" fill="#F4A6A6" opacity="0.55"/>
+    <path d="M110 150 q10 0 8 8.5 q-2 6.5 -8 7.5 q-6 -1 -8 -7.5 q-2 -8.5 8 -8.5 Z" fill="#3A2F3A"/>
+    <path d="M110 166 q-9 9 -17 2.5 M110 166 q9 9 17 2.5" stroke="#3A2F3A" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </svg>
+  <h1>Ask once.<br><span class="grad">Hear from everyone.</span></h1>
+  <p class="hero-sub">Polecat sends one prompt to many AI models — <b>free and paid</b> — then merges them into a single answer you can trust. Cross-check providers, compare models head-to-head, and control exactly how the consensus is formed.</p>
+  <div class="hero-flow">
+    <span class="pill" style="--c:#d4773b">Claude</span>
+    <span class="pill" style="--c:#4285f4">Gemini</span>
+    <span class="pill" style="--c:#10a37f">ChatGPT</span>
+    <span class="pill" style="--c:#8b5cf6">OpenRouter</span>
+    <span class="pill" style="--c:#f55036">Groq</span>
+    <span class="pill" style="--c:#ffb000">Hugging&nbsp;Face</span>
+    <span class="flow-arrow">→</span>
+    <span class="pill pill-consensus">✦ Consensus</span>
   </div>
-
-  <div class="responses" id="responses" style="display:none">
-    <div class="tab-bar" id="tabBar"></div>
-    <div id="tabPanels"></div>
+  <div class="hero-cta">
+    <a class="btn btn-primary btn-lg" href="https://app.polecat.live">Open the app →</a>
+    <a class="btn btn-ghost btn-lg" href="#cases">See it work ↓</a>
   </div>
-</div>
+  <div class="hero-note">Free &amp; open · bring your own keys · runs in your browser, no server</div>
+</section>
 
-<!-- Settings modal -->
-<div class="backdrop" id="configModal">
-  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Settings">
-    <div class="modal-head">
-      <span class="modal-title">Settings</span>
-      <button class="icon-btn icon-only" id="closeConfig" aria-label="Close">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-    <div class="cfg-tabs" id="cfgTabs">
-      <button class="cfg-tab" data-tab="models">Models</button>
-      <button class="cfg-tab" data-tab="keys">Keys</button>
-      <button class="cfg-tab" data-tab="arbitration">Arbitration</button>
-      <button class="cfg-tab" data-tab="support">Support</button>
-    </div>
-    <div class="modal-body">
-      <section class="cfg-section" data-tab="models" id="sec-models">
-        <h3 class="cfg-h">Models <span class="cfg-sub">run any mix — even two from one provider</span></h3>
-        <div id="selList" class="sel-list"></div>
-        <div id="addModelArea"></div>
-      </section>
-
-      <section class="cfg-section" data-tab="keys" id="sec-keys">
-        <h3 class="cfg-h">API keys <span class="cfg-sub">stored only in this browser</span></h3>
-        <div id="keyFields"></div>
-        <div class="security-note">🔒 Keys live in your browser's <strong>localStorage</strong> and are sent only to each provider (or a proxy you configure) — never to us.</div>
-      </section>
-
-      <section class="cfg-section" data-tab="arbitration" id="sec-arb">
-        <h3 class="cfg-h">Arbitration <span class="cfg-sub">how the consensus answer is formed</span></h3>
-        <div id="arbControls"></div>
-      </section>
-
-      <section class="cfg-section" data-tab="support" id="sec-support">
-        <h3 class="cfg-h">Support Polecat</h3>
-        <div id="donateArea"></div>
-      </section>
-    </div>
-    <div class="modal-foot">
-      <div class="foot-left">
-        <button class="btn btn-danger" id="clearKeys">Clear all keys</button>
-        <button class="btn btn-ghost" id="tourBtn">Tour</button>
-      </div>
-      <button class="btn btn-solid" id="doneConfig">Done</button>
-    </div>
+<!-- ── Problem ──────────────────────────────────────────── -->
+<section class="band">
+  <div class="wrap narrow center">
+    <h2>One model can be wrong.<br>Several rarely miss the same way.</h2>
+    <p class="lead">Asking a single AI means betting on its blind spots. Polecat asks several at once — where they agree, you can trust it; where they split, it shows you and reconciles the difference into one validated answer.</p>
   </div>
-</div>
+</section>
 
-<div class="toast" id="toast"></div>
-
-<!-- Welcome overlay -->
-<div class="welcome-overlay" id="welcomeOverlay">
-  <div class="welcome-modal">
-    <div style="position:relative">
-      <button id="wClose" title="Dismiss" class="welcome-close" aria-label="Close">×</button>
-
-      <div class="welcome-slide active" id="wslide-1">
-        <svg viewBox="0 0 220 220" width="72" height="72" aria-hidden="true">
-          <ellipse cx="60" cy="58" rx="25" ry="29" fill="#9C6B3F" transform="rotate(-16 60 58)"/>
-          <ellipse cx="160" cy="58" rx="25" ry="29" fill="#9C6B3F" transform="rotate(16 160 58)"/>
-          <ellipse cx="62" cy="62" rx="12" ry="15" fill="#F4A6A6" transform="rotate(-16 62 62)"/>
-          <ellipse cx="158" cy="62" rx="12" ry="15" fill="#F4A6A6" transform="rotate(16 158 62)"/>
-          <ellipse cx="110" cy="122" rx="84" ry="78" fill="#F5E9D6"/>
-          <path d="M28 102 Q110 80 192 102 Q196 128 160 137 Q110 146 60 137 Q24 128 28 102 Z" fill="#2E2A33"/>
-          <circle cx="78" cy="113" r="19" fill="#fff"/><circle cx="142" cy="113" r="19" fill="#fff"/>
-          <circle cx="81" cy="116" r="10.5" fill="#2E2A33"/><circle cx="139" cy="116" r="10.5" fill="#2E2A33"/>
-          <circle cx="85" cy="112" r="3.6" fill="#fff"/><circle cx="143" cy="112" r="3.6" fill="#fff"/>
-          <circle cx="54" cy="156" r="12" fill="#F4A6A6" opacity="0.55"/><circle cx="166" cy="156" r="12" fill="#F4A6A6" opacity="0.55"/>
-          <path d="M110 150 q10 0 8 8.5 q-2 6.5 -8 7.5 q-6 -1 -8 -7.5 q-2 -8.5 8 -8.5 Z" fill="#3A2F3A"/>
-          <path d="M110 166 q-9 9 -17 2.5 M110 166 q9 9 17 2.5" stroke="#3A2F3A" stroke-width="3" fill="none" stroke-linecap="round"/>
-        </svg>
-        <div class="welcome-hero-logo">Pole<span class="logo-grad">cat</span></div>
-        <div class="welcome-tagline">Ask once.<br>Hear from everyone.</div>
-        <div class="welcome-desc">Send one prompt to several AI models at the same time — then get a single answer that keeps what they agree on and flags where they don't.</div>
-        <div class="welcome-flow">
-          <span class="wm-pill" style="--c:#d4773b">Claude</span>
-          <span class="wm-pill" style="--c:#4285f4">Gemini</span>
-          <span class="wm-pill" style="--c:#10a37f">ChatGPT</span>
-          <span class="wm-pill" style="--c:#8b5cf6">+ free</span>
-          <span class="wm-arrow">→</span>
-          <span class="wm-pill wm-consensus">✦ Consensus</span>
-        </div>
-      </div>
-
-      <div class="welcome-slide" id="wslide-2">
-        <div class="welcome-slide-icon">🧭</div>
-        <div class="welcome-tagline">One model can be wrong.<br>Several rarely miss the same way.</div>
-        <div class="welcome-steps">
-          <div class="wstep"><span class="wstep-n">✓</span><span><b>Cross-check.</b> Where the models agree, you can trust it. Where they split, Polecat shows you — instead of betting on one model's blind spot.</span></div>
-          <div class="wstep"><span class="wstep-n">✦</span><span><b>Best of each.</b> Every model has different strengths and training. See them side by side in a single shot.</span></div>
-          <div class="wstep"><span class="wstep-n">→</span><span><b>One answer.</b> A synthesis pass reconciles them, so you read a result — not five tabs.</span></div>
-        </div>
-      </div>
-
-      <div class="welcome-slide" id="wslide-3">
-        <div class="welcome-slide-icon">🎛️</div>
-        <div class="welcome-tagline">Your models, your rules</div>
-        <div class="welcome-desc"><b>Combine paid and free providers</b> in one run — Claude or ChatGPT alongside free open models from OpenRouter, Groq &amp; Hugging Face. You can even run <em>Opus and Sonnet</em> together.</div>
-        <div class="welcome-steps">
-          <div class="wstep"><span class="wstep-n">⚖</span><span><b>Controllable arbitration.</b> Choose how consensus forms — <b>Best</b>, <b>Comprehensive</b>, <b>Validated</b>, or <b>Debate</b> — and name which model gets the final say.</span></div>
-          <div class="wstep"><span class="wstep-n">≡</span><span>Prefer raw comparison? Switch consensus off and read every model side by side.</span></div>
-        </div>
-        <div class="welcome-note-box">On a thorny question, a lone model might confidently invent an answer — the others outweigh it and your chosen arbiter keeps the validated result.</div>
-      </div>
-
-      <div class="welcome-slide" id="wslide-4">
-        <div class="welcome-slide-icon">🔑</div>
-        <div class="welcome-tagline">Bring your own keys</div>
-        <div class="welcome-desc">Add at least one API key to start — paid (Claude, Gemini, ChatGPT) or free (OpenRouter, Groq, Hugging Face). Keys stay in your browser and go straight to each provider: no server, nothing stored by us.</div>
-        <div class="welcome-note-box">Polecat is free &amp; open. If it earns a place in your toolkit, you can <a href="#" id="wDonate">leave a tip ☕</a> — entirely optional.</div>
-      </div>
-    </div>
-
-    <div class="welcome-footer">
-      <div class="welcome-dots"><div class="wd active"></div><div class="wd"></div><div class="wd"></div><div class="wd"></div></div>
-      <div class="welcome-btns">
-        <button class="btn btn-ghost" id="wBack" style="visibility:hidden">← Back</button>
-        <button class="btn btn-ghost" id="wSkip">Skip</button>
-        <button class="btn btn-solid" id="wNext">Next →</button>
-      </div>
-    </div>
+<!-- ── How it works ─────────────────────────────────────── -->
+<section id="how" class="wrap">
+  <div class="section-head center">
+    <div class="kicker">How consolidation works</div>
+    <h2>Many minds in, one answer out</h2>
   </div>
-</div>
+  <div class="flow reveal">
+    <div class="flow-models">
+      <div class="fm" style="--c:#d4773b"><span class="fm-dot"></span>Claude<span class="fm-tag paid">paid</span></div>
+      <div class="fm" style="--c:#4285f4"><span class="fm-dot"></span>Gemini<span class="fm-tag paid">paid</span></div>
+      <div class="fm" style="--c:#10a37f"><span class="fm-dot"></span>ChatGPT<span class="fm-tag paid">paid</span></div>
+      <div class="fm" style="--c:#8b5cf6"><span class="fm-dot"></span>Llama 3.3 70B<span class="fm-tag free">free</span></div>
+      <div class="fm" style="--c:#f55036"><span class="fm-dot"></span>GPT-OSS 120B<span class="fm-tag free">free</span></div>
+    </div>
+    <div class="flow-mid"><div class="flow-line"></div><div class="flow-arbiter">⚖︎ Arbitration</div><div class="flow-line"></div></div>
+    <div class="flow-out"><div class="flow-consensus">✦<span>Consensus</span></div></div>
+  </div>
+  <div class="steps reveal">
+    <div class="step"><div class="step-n">1</div><div><b>Pick your models.</b> Mix providers freely — even two from one provider (Opus <em>and</em> Sonnet).</div></div>
+    <div class="step"><div class="step-n">2</div><div><b>Ask once.</b> Your prompt fans out to all of them in parallel.</div></div>
+    <div class="step"><div class="step-n">3</div><div><b>Get one answer.</b> A consensus strategy you choose synthesizes the best, validated result.</div></div>
+  </div>
+</section>
 
-<script type="module" src="js/app.js"></script>
+<!-- ── Case studies ─────────────────────────────────────── -->
+<section id="cases" class="band">
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="kicker">See the difference</div>
+      <h2>Real questions, consolidated</h2>
+      <p class="lead">Same prompt, several models, one reconciled answer. <span class="muted">Illustrative examples.</span></p>
+    </div>
+
+    <!-- Case 1: decision -->
+    <article class="case reveal">
+      <div class="case-tag">Decision &amp; advice</div>
+      <div class="case-q">“We're a 5-person startup building an analytics-heavy SaaS. PostgreSQL or MongoDB?”</div>
+      <div class="answers">
+        <div class="ans" style="--c:#d4773b"><div class="ans-h"><span class="ans-dot"></span>Claude · Opus <span class="ans-badge paid">paid</span></div><p>Postgres. Analytical queries, JOINs and window functions are its strength; JSONB covers schema flexibility.</p></div>
+        <div class="ans" style="--c:#4285f4"><div class="ans-h"><span class="ans-dot"></span>Gemini · Pro <span class="ans-badge paid">paid</span></div><p>MongoDB is flexible for evolving schemas, but analytics favors relational — lean Postgres, revisit columnar later.</p></div>
+        <div class="ans" style="--c:#8b5cf6"><div class="ans-h"><span class="ans-dot"></span>Llama 3.3 70B <span class="ans-badge free">free</span></div><p>Postgres for analytics. Consider Mongo only for document-shaped data at very high write volume.</p></div>
+      </div>
+      <div class="consensus-card">
+        <div class="cc-h">✦ Consensus <span class="cc-strategy">Validated Synthesis</span></div>
+        <p><b>Start with PostgreSQL.</b> For analytics-heavy workloads its JOINs, window functions and mature tooling win, and JSONB gives you document-style flexibility — so you rarely need MongoDB early. Revisit a document store only if you hit genuinely document-shaped data at high write volume. All three models converged here; the consensus keeps the decisive recommendation and the one caveat worth remembering.</p>
+      </div>
+    </article>
+
+    <!-- Case 2: factual, caught a wrong answer -->
+    <article class="case reveal">
+      <div class="case-tag warn">Factual — caught a wrong answer</div>
+      <div class="case-q">“What's the time complexity of building a binary heap from an array?”</div>
+      <div class="answers">
+        <div class="ans dissent" style="--c:#10a37f"><div class="ans-h"><span class="ans-dot"></span>Model A <span class="ans-badge wrong">✗ off</span></div><p>O(n log n) — you do n insertions, each costing up to log n.</p></div>
+        <div class="ans" style="--c:#d4773b"><div class="ans-h"><span class="ans-dot"></span>Model B <span class="ans-badge ok">✓</span></div><p>O(n). Bottom-up heapify is linear — the work sums to a convergent series.</p></div>
+        <div class="ans" style="--c:#8b5cf6"><div class="ans-h"><span class="ans-dot"></span>Model C <span class="ans-badge ok">✓</span></div><p>O(n) with the standard build-heap; O(n log n) is the common misconception.</p></div>
+      </div>
+      <div class="consensus-card">
+        <div class="cc-h">✦ Consensus <span class="cc-strategy">Validated Synthesis</span></div>
+        <p><b>O(n).</b> A common misconception is O(n&nbsp;log&nbsp;n) (n inserts × log n) — but bottom-up <code>build-heap</code> is linear: the cost ∑&nbsp;(n/2<sup>h</sup>)·h converges to O(n). Polecat flagged the lone O(n log n) answer as the outlier and kept the validated result, instead of you trusting whichever model you happened to ask.</p>
+      </div>
+    </article>
+
+    <!-- Case 3: free vs paid -->
+    <article class="case reveal">
+      <div class="case-tag">Free vs paid, head-to-head</div>
+      <div class="case-q">“Explain the CAP theorem simply, with a real example.”</div>
+      <div class="answers">
+        <div class="ans" style="--c:#8b5cf6"><div class="ans-h"><span class="ans-dot"></span>Llama 3.3 70B <span class="ans-badge free">free</span></div><p>During a network partition a distributed store must choose: stay consistent (reject some reads) or stay available (risk stale reads). Clear, correct, with an example.</p></div>
+        <div class="ans" style="--c:#d4773b"><div class="ans-h"><span class="ans-dot"></span>Claude · Opus <span class="ans-badge paid">paid</span></div><p>Same core, plus nuance: CAP only bites <em>during</em> partitions; PACELC extends it to latency-vs-consistency when there's no partition.</p></div>
+      </div>
+      <div class="consensus-card">
+        <div class="cc-h">✦ Consensus <span class="cc-strategy">Comprehensive</span></div>
+        <p>A partition forces a choice between <b>consistency</b> and <b>availability</b>; outside partitions you still trade <b>latency vs consistency</b> (PACELC). Example: a replicated database during a network split either refuses writes to stay consistent, or accepts them and reconciles later. <b>The free Llama answer held its own against the paid flagship</b> — consolidation lets you lean on free models and validate the nuance with a paid one.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ── Product screenshots ──────────────────────────────── -->
+<section class="wrap">
+  <div class="section-head center">
+    <div class="kicker">The real thing</div>
+    <h2>Watch it consolidate, live</h2>
+  </div>
+  <div class="shots reveal">
+    <figure class="shot"><img src="assets/shots/consensus.png" alt="Consensus answer in Polecat" loading="lazy"><figcaption>One synthesized answer from all your models</figcaption></figure>
+    <figure class="shot"><img src="assets/shots/progress.png" alt="Live consensus progress" loading="lazy"><figcaption>Live progress — who's answering, what arbitration is doing</figcaption></figure>
+    <figure class="shot"><img src="assets/shots/browse.png" alt="Browse models" loading="lazy"><figcaption>Browse &amp; search every available model</figcaption></figure>
+  </div>
+</section>
+
+<!-- ── Arbitration ──────────────────────────────────────── -->
+<section id="arbitration" class="band">
+  <div class="wrap split">
+    <div class="split-text">
+      <div class="kicker">You control the verdict</div>
+      <h2>Customizable arbitration</h2>
+      <p class="lead">Consensus isn't a black box. Choose <b>how</b> the answer is formed, name <b>which model</b> gets the final say, or turn it off to just compare side by side.</p>
+      <ul class="strat-list">
+        <li><b>Best Answer</b> — pick the single strongest, lightly corrected.</li>
+        <li><b>Comprehensive</b> — merge everything into the most complete answer.</li>
+        <li><b>Validated Synthesis</b> — merge, but cross-check claims and flag disagreements.</li>
+        <li><b>Debate &amp; Synthesize</b> — models critique each other, then synthesize.</li>
+        <li><b>Sequential Refinement</b> — each model refines a running draft.</li>
+      </ul>
+      <p class="muted small">Edit the prompts, save your own strategies, and export/import your whole setup.</p>
+    </div>
+    <figure class="split-shot"><img src="assets/shots/arbitration.png" alt="Arbitration settings in Polecat" loading="lazy"></figure>
+  </div>
+</section>
+
+<!-- ── Providers ────────────────────────────────────────── -->
+<section class="wrap">
+  <div class="section-head center">
+    <div class="kicker">Mix &amp; match</div>
+    <h2>Six providers, free and paid</h2>
+    <p class="lead">Bring your own keys — combine flagships with free open models in one run.</p>
+  </div>
+  <div class="providers reveal">
+    <div class="prov" style="--c:#d4773b"><span class="prov-dot"></span>Claude<span class="prov-badge paid">paid</span></div>
+    <div class="prov" style="--c:#4285f4"><span class="prov-dot"></span>Gemini<span class="prov-badge paid">paid</span></div>
+    <div class="prov" style="--c:#10a37f"><span class="prov-dot"></span>ChatGPT<span class="prov-badge paid">paid</span></div>
+    <div class="prov" style="--c:#8b5cf6"><span class="prov-dot"></span>OpenRouter<span class="prov-badge free">300+ models</span></div>
+    <div class="prov" style="--c:#f55036"><span class="prov-dot"></span>Groq<span class="prov-badge free">free tier</span></div>
+    <div class="prov" style="--c:#ffb000"><span class="prov-dot"></span>Hugging Face<span class="prov-badge free">open</span></div>
+  </div>
+</section>
+
+<!-- ── Privacy ──────────────────────────────────────────── -->
+<section class="band">
+  <div class="wrap narrow center">
+    <div class="lock">🔒</div>
+    <h2>Private by design</h2>
+    <p class="lead">Your API keys live only in your browser and go <b>straight to each provider</b> — never to us. No server, no accounts, nothing stored anywhere but your own device. It's a static site you could fork and run yourself.</p>
+  </div>
+</section>
+
+<!-- ── Final CTA ────────────────────────────────────────── -->
+<section class="cta-final">
+  <div class="hero-glow"></div>
+  <h2>Ask once. Hear from everyone.</h2>
+  <a class="btn btn-primary btn-lg" href="https://app.polecat.live">Open Polecat →</a>
+  <div class="hero-note">Free &amp; open. If it earns a spot in your toolkit, you can <a href="https://ko-fi.com/polecatlive" target="_blank" rel="noopener">leave a tip ☕</a> — entirely optional.</div>
+</section>
+
+<footer class="foot">
+  <div class="foot-brand">Pole<span class="grad">cat</span></div>
+  <div class="foot-links">
+    <a href="https://app.polecat.live">App</a>
+    <a href="https://github.com/kevinrhaas/polecat-app">GitHub</a>
+    <a href="https://ko-fi.com/polecatlive" target="_blank" rel="noopener">Ko-fi</a>
+  </div>
+</footer>
+
+<script>
+  // reveal on scroll
+  const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
 </body>
 </html>
