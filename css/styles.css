@@ -47,7 +47,8 @@ header {
   background: linear-gradient(120deg, var(--brand-a) 0%, var(--brand-b) 55%, var(--brand-c) 100%);
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 }
-.logo-ver { font-size: 10px; font-weight: 400; color: var(--text-3); letter-spacing: 0; margin-left: 4px; }
+.logo-ver { font-size: 9px; font-weight: 400; color: var(--text-3); letter-spacing: 0; margin-left: 5px; font-variant-numeric: tabular-nums; opacity: .8; }
+.logo-ver:empty { display: none; }
 .header-actions { display: flex; gap: 6px; align-items: center; }
 .icon-btn {
   height: 32px; min-width: 32px;

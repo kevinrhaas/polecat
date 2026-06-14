@@ -43,6 +43,13 @@ function copyText(text, btn) {
     if (btn) { btn.classList.add('copied'); setTimeout(() => btn.classList.remove('copied'), 1000); }
   }).catch(() => toast('Copy failed'));
 }
+// Build timestamp from the served file's last-modified — auto-updates each deploy.
+function buildStamp() {
+  const d = new Date(document.lastModified);
+  if (isNaN(d.getTime())) return '';
+  const p = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
 
 // ── Model chips (prompt footer) ─────────────────────────────────────────────
 function buildChips() {
@@ -703,6 +710,7 @@ function init() {
   if (typeof marked !== 'undefined') marked.setOptions({ breaks: true, gfm: true });
   applyTheme(localStorage.getItem('polecat_theme') || 'dark');
   buildChips();
+  { const lv = $('logoVer'); if (lv) lv.textContent = buildStamp(); }
 
   const note = takeMigrationNote();                  // e.g. "Your saved setup carried over"
   if (note) setTimeout(() => toast(note, 4000), 700);

@@ -16,7 +16,6 @@ export const SCHEMA_VERSION = 1;
 export const THEME_KEY      = 'polecat_theme';
 export const WELCOME_KEY    = 'polecat_welcomed';
 const MIGRATE_FROM    = ['polecat_v1'];             // earlier Polecat storage keys (same schema family)
-const LEGACY_POLYCHAT = 'polychat_v2';              // original PolyChat (same-origin only)
 
 export const MAX_SELECTIONS = 8;
 
@@ -60,19 +59,6 @@ function migrateSchema(data, fromVersion) {
   return d;
 }
 
-function legacyFromPolychat() {
-  const old = safeParse(localStorage.getItem(LEGACY_POLYCHAT));
-  if (!old) return null;
-  const providers = {}, selections = [];
-  for (const [id, key, model] of [
-    ['claude', old.claude_key, old.claudeModel || 'claude-opus-4-8'],
-    ['gemini', old.gemini_key, old.geminiModel || 'gemini-3.5-flash'],
-    ['openai', old.openai_key, old.openaiModel || 'gpt-5.5'],
-  ]) { if (key) { providers[id] = { key }; selections.push(mkSelection(id, model)); } }
-  if (!Object.keys(providers).length) return null;
-  return { providers, selections };
-}
-
 // One-time, human-readable note surfaced by the app after a carry-over/upgrade.
 let _migrationNote = '';
 export function takeMigrationNote() { const n = _migrationNote; _migrationNote = ''; return n; }
@@ -104,15 +90,7 @@ export function loadCfg() {
       return up;
     }
   }
-  // 3) original PolyChat (same origin only)
-  const legacy = legacyFromPolychat();
-  if (legacy) {
-    const up = normalize(legacy);
-    saveCfg(up);
-    _migrationNote = 'Imported your PolyChat setup';
-    return up;
-  }
-  // 4) fresh install
+  // 3) fresh install
   return normalize({});
 }
 
