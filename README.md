@@ -2,7 +2,7 @@
   <img src="assets/polecat.svg" width="96" alt="Polecat">
   <h1>Polecat</h1>
   <p><strong>Ask once. Hear from everyone.</strong></p>
-  <p><a href="https://polecat.live">polecat.live</a></p>
+  <p><a href="https://polecat.live">polecat.live</a> · app at <a href="https://app.polecat.live">app.polecat.live</a></p>
 </div>
 
 Polecat sends one prompt to several AI models at the same time, then synthesizes a single
@@ -29,8 +29,9 @@ providers, see each model's take side by side, and get one reconciled result ins
 
   Pick which model is the **final arbiter**, edit/duplicate strategies, or **turn consensus off** to just compare models side by side.
 - **Live progress** — the Consensus tab shows real-time status: which models are streaming/done/failed and what the arbitration step is doing.
+- **Conversation history** — every chat is saved **on your device** in the ☰ sidebar; click any to **restore and continue** it. Includes **Private mode** (don't record), plus delete and clear.
 - **Copy** any answer (per model and the consensus) with one click.
-- **Export / import** your settings (strategies, model picks, optionally keys) to move between browsers or machines.
+- **Export / import** — choose what to include (settings, API keys, conversation history) to move between browsers or devices.
 - **Light / dark themes**, keyboard send (⌘/Ctrl + ↵), and a responsive mobile layout.
 
 ## Providers
@@ -46,23 +47,26 @@ providers, see each model's take side by side, and get one reconciled result ins
 
 ## Privacy
 
-API keys are stored only in your browser's `localStorage` and are sent **directly to each provider**
-(or to a proxy you configure) — never to us. Your settings carry over automatically across new versions
-of the app; clearing site data or using a different browser/domain starts fresh.
+Everything stays on your device. API keys **and conversation history** live only in your browser's
+`localStorage`; prompts go **directly to each provider** (or a proxy you configure) — never to us.
+Use **Private mode** to skip recording a chat, and **Export** to move your setup + history to another
+device. Settings carry over across new versions; clearing site data or switching browsers starts fresh.
 
 ## Getting started
 
-1. Open **[polecat.live](https://polecat.live)**.
-2. Open **Settings → Keys** and paste at least one API key (a free OpenRouter key is the easiest start).
+1. Open **[polecat.live](https://polecat.live)** and hit **Open app** (the app lives at **[app.polecat.live](https://app.polecat.live)**).
+2. In **☰ → Settings → Keys**, paste at least one API key (a free OpenRouter key is the easiest start).
 3. In **Settings → Models**, add the models you want (browse/search, or pick from the dropdown).
-4. Type a prompt and **Send to all** — read each model, then the synthesized **Consensus**.
+4. Type a prompt and **Send to all** — read each model, then the synthesized **Consensus**. Past chats live in the **☰** sidebar.
 
 ## Tech
 
-A static site — `index.html` + `css/` + ES-module `js/` (`config`, `providers`, `arbitration`, `ui`, `app`).
-No build step, no framework, no bundler. It deploys to GitHub Pages as-is. The provider layer is
-data-driven with overridable base URLs, so a thin serverless proxy (e.g. a Cloudflare Worker) can be added
-later without touching the rest of the app.
+Two static sites — no build step, no framework, no bundler — deployed to GitHub Pages as-is:
+- **Landing** → `polecat.live` (this repo): `index.html` + `css/site.css`.
+- **App** → `app.polecat.live` (the `polecat-app` repo): `index.html` + `css/` + ES-module `js/` (`config`, `providers`, `arbitration`, `ui`, `app`).
+
+The provider layer is data-driven with overridable base URLs, so a thin serverless proxy (e.g. a Cloudflare
+Worker) can be added later without touching the rest of the app.
 
 ## License
 
