@@ -29,7 +29,7 @@ providers, see each model's take side by side, and get one reconciled result ins
 
   Pick which model is the **final arbiter**, edit/duplicate strategies, or **turn consensus off** to just compare models side by side.
 - **Live progress** — the Consensus tab shows real-time status: which models are streaming/done/failed and what the arbitration step is doing.
-- **Conversation history** — every chat is saved **on your device** in the ☰ sidebar; click any to **restore and continue** it. Includes **Private mode** (don't record), plus delete and clear.
+- **Conversation history** — every chat is saved **on your device** in the ☰ sidebar; click any to **restore and continue** it. **Search** past chats, **rename** them, and **pin** favorites to the top. Includes **Private mode** (don't record), plus delete and clear.
 - **Copy** any answer (per model and the consensus) with one click.
 - **Export / import** — choose what to include (settings, API keys, conversation history) to move between browsers or devices.
 - **Light / dark themes**, keyboard send (⌘/Ctrl + ↵), and a responsive mobile layout.
