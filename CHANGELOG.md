@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-26 (4)
+- Fixed the examples carousel: each card now has a proper background (`--surface`) so the layout is a clean, uniform card, not raw text. Removed hardcoded "Six real queries sent through Polecat." copy; the section now leads cleanly with just the headline and the agree/diverge line.
+
 ## 2026-06-26 (3)
 - Replaced hand-crafted case studies with a **real example carousel** — 6 curated prompts (cooking, history, music, coding, travel, sports) sourced from actual Polecat runs, auto-rotating, swipeable on mobile, pauses on hover, respects reduced-motion.
 - Removed the old "baking soda" and "compound interest" standalone examples; cooking example is now the first carousel card.
