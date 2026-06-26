@@ -107,58 +107,119 @@
   </div>
 </section>
 
-<!-- ── Case studies ─────────────────────────────────────── -->
-<section id="cases" class="band">
-  <div class="wrap">
-    <div class="section-head center">
-      <div class="kicker">See the difference</div>
-      <h2>Real questions, consolidated</h2>
-      <p class="lead">Same prompt, several models, one reconciled answer. <span class="muted">Illustrative examples.</span></p>
+<!-- ── Example carousel ──────────────────────────────────────── -->
+<section id=”cases” class=”band”>
+  <div class=”wrap”>
+    <div class=”section-head center”>
+      <div class=”kicker”>Real prompts, real models</div>
+      <h2>Ask once. Watch them <span class=”grad”>split</span> — then reconcile.</h2>
+      <p class=”lead”>Six real queries sent through Polecat. Where models diverge, consensus reconciles; where they agree, you can trust it.</p>
     </div>
 
-    <!-- Case 1: everyday advice (cooking) -->
-    <article class="case reveal">
-      <div class="case-tag">Everyday advice</div>
-      <div class="case-q">“What's the secret to extra-crispy roast potatoes?”</div>
-      <div class="answers">
-        <div class="ans" style="--c:#d4773b"><div class="ans-h"><span class="ans-dot"></span>Claude · Opus <span class="ans-badge paid">paid</span></div><p>Parboil until just tender, then shake to rough up the edges — the craggy surface crisps. Roast in hot fat at ~220°C / 425°F.</p></div>
-        <div class="ans" style="--c:#4285f4"><div class="ans-h"><span class="ans-dot"></span>Gemini · Pro <span class="ans-badge paid">paid</span></div><p>A pinch of baking soda in the boiling water roughens the surface. Drain, shake, then roast in plenty of hot oil.</p></div>
-        <div class="ans" style="--c:#8b5cf6"><div class="ans-h"><span class="ans-dot"></span>Llama 3.3 70B <span class="ans-badge free">free</span></div><p>Boil 8–10 min, dry well and fluff the edges, roast in very hot fat, and don't crowd the tray.</p></div>
-      </div>
-      <div class="consensus-card">
-        <div class="cc-h">✦ Consensus <span class="cc-strategy">Comprehensive</span></div>
-        <p><b>Parboil until just-tender</b> (a pinch of baking soda in the water helps), drain and <b>shake hard to rough up the edges</b>, then roast <b>uncrowded in plenty of hot fat at ~220°C/425°F</b>, turning once. The fluffy, craggy surface plus hot fat is what gives that shatter-crisp crust — the consensus blends every tip into one method.</p>
-      </div>
-    </article>
+    <div class=”carousel-container”>
+      <div class=”carousel-outer” id=”carouselOuter”>
+        <div class=”carousel-track” id=”carouselTrack”>
 
-    <!-- Case 2: caught a wrong answer (baking) -->
-    <article class="case reveal">
-      <div class="case-tag warn">Caught a wrong answer</div>
-      <div class="case-q">“Can I swap baking soda for baking powder, 1-to-1?”</div>
-      <div class="answers">
-        <div class="ans dissent" style="--c:#10a37f"><div class="ans-h"><span class="ans-dot"></span>Model A <span class="ans-badge wrong">✗ off</span></div><p>Sure — they're both leaveners, so swap them 1:1.</p></div>
-        <div class="ans" style="--c:#d4773b"><div class="ans-h"><span class="ans-dot"></span>Model B <span class="ans-badge ok">✓</span></div><p>No — baking soda is ~3–4× stronger and needs an acid; a 1:1 swap tastes soapy and collapses.</p></div>
-        <div class="ans" style="--c:#8b5cf6"><div class="ans-h"><span class="ans-dot"></span>Model C <span class="ans-badge ok">✓</span></div><p>Not 1:1. Use about ¼ as much soda plus an acid — or just use the baking powder.</p></div>
-      </div>
-      <div class="consensus-card">
-        <div class="cc-h">✦ Consensus <span class="cc-strategy">Validated Synthesis</span></div>
-        <p><b>No — not a 1:1 swap.</b> Baking soda is much stronger and needs an acidic ingredient to work; use roughly <b>¼ the amount plus an acid</b> (like cream of tartar), or simply use baking powder as written. Polecat flagged the lone “just swap it” answer as wrong and kept the validated guidance — exactly the kind of confident mistake that ruins a bake.</p>
-      </div>
-    </article>
+          <!-- 1: Cooking -->
+          <div class=”carousel-card”>
+            <div class=”case-meta”><span class=”case-tag”>Cooking</span><span class=”case-pattern differing”>Views differ</span></div>
+            <div class=”case-q”>”What's the secret to extra-crispy roast potatoes?”</div>
+            <div class=”answers”>
+              <div class=”ans” style=”--c:#ffb000”><div class=”ans-h”><span class=”ans-dot”></span>HF &middot; Qwen3 235B</div><p>Parboil with baking soda &mdash; a &ldquo;game-changer&rdquo; for craggy edges</p></div>
+              <div class=”ans” style=”--c:#10a37f”><div class=”ans-h”><span class=”ans-dot”></span>GPT-5.5</div><p>Parboil + rough-up + hot fat; baking soda optional</p></div>
+              <div class=”ans” style=”--c:#f55036”><div class=”ans-h”><span class=”ans-dot”></span>Llama 3.3 70B</div><p>Starchy potato, parboil, shake to roughen, duck/goose fat, scorching pan</p></div>
+            </div>
+            <div class=”consensus-card”>
+              <div class=”cc-h”>&#10022; Consensus <span class=”cc-strategy”>Comprehensive</span></div>
+              <p>Starchy potato &rarr; parboil &rarr; rough up the edges &rarr; very hot fat. Baking soda is optional (raises pH for crispier edges).</p>
+            </div>
+          </div>
 
-    <!-- Case 3: free vs paid (everyday money) -->
-    <article class="case reveal">
-      <div class="case-tag">Free vs paid, head-to-head</div>
-      <div class="case-q">“Explain compound interest simply, with an example.”</div>
-      <div class="answers">
-        <div class="ans" style="--c:#8b5cf6"><div class="ans-h"><span class="ans-dot"></span>Llama 3.3 70B <span class="ans-badge free">free</span></div><p>Interest earns interest. $1,000 at 5%/yr → $1,050 after year 1; year 2 you earn 5% on $1,050 = $1,102.50. It snowballs.</p></div>
-        <div class="ans" style="--c:#d4773b"><div class="ans-h"><span class="ans-dot"></span>Claude · Opus <span class="ans-badge paid">paid</span></div><p>Same core, plus nuance: it grows faster the more often it compounds (monthly &gt; yearly), and starting early matters most.</p></div>
-      </div>
-      <div class="consensus-card">
-        <div class="cc-h">✦ Consensus <span class="cc-strategy">Comprehensive</span></div>
-        <p>Compound interest is <b>interest earning interest</b>. Example: $1,000 at 5%/yr is $1,050 after one year, then $1,102.50 after two (you earn 5% on the new balance). It snowballs — faster the more often it compounds, and the earlier you start. <b>The free model nailed the basics; the paid one added the nuance</b> — together you get a complete, trustworthy answer.</p>
-      </div>
-    </article>
+          <!-- 2: History -->
+          <div class=”carousel-card”>
+            <div class=”case-meta”><span class=”case-tag”>History</span><span class=”case-pattern differing”>Views differ</span></div>
+            <div class=”case-q”>”What is the most significant event in US history? You can choose only one.”</div>
+            <div class=”answers”>
+              <div class=”ans” style=”--c:#f55036”><div class=”ans-h”><span class=”ans-dot”></span>Groq &middot; Llama 3.3 70B</div><p>American Civil War (1861&ndash;65)</p></div>
+              <div class=”ans” style=”--c:#ffb000”><div class=”ans-h”><span class=”ans-dot”></span>HF &middot; DeepSeek V3.1</div><p>The American Revolution &amp; founding (1776)</p></div>
+              <div class=”ans” style=”--c:#8b5cf6”><div class=”ans-h”><span class=”ans-dot”></span>OpenRouter &middot; GPT-OSS</div><p>Adoption of the Constitution (1787)</p></div>
+            </div>
+            <div class=”consensus-card”>
+              <div class=”cc-h”>&#10022; Consensus <span class=”cc-strategy”>Validated Synthesis</span></div>
+              <p>The American Civil War (1861&ndash;65) &mdash; with the nation&rsquo;s founding a close, defensible alternative.</p>
+            </div>
+          </div>
+
+          <!-- 3: Music -->
+          <div class=”carousel-card”>
+            <div class=”case-meta”><span class=”case-tag”>Music</span><span class=”case-pattern differing”>Views differ</span></div>
+            <div class=”case-q”>”What's the all-time best Beatles song? You can choose only one.”</div>
+            <div class=”answers”>
+              <div class=”ans” style=”--c:#f55036”><div class=”ans-h”><span class=”ans-dot”></span>Llama 3.3 70B</div><p>Hey Jude</p></div>
+              <div class=”ans” style=”--c:#4285f4”><div class=”ans-h”><span class=”ans-dot”></span>Gemma 4 31B</div><p>A Day in the Life</p></div>
+              <div class=”ans” style=”--c:#10a37f”><div class=”ans-h”><span class=”ans-dot”></span>GPT-5.5</div><p>A Day in the Life</p></div>
+            </div>
+            <div class=”consensus-card”>
+              <div class=”cc-h”>&#10022; Consensus <span class=”cc-strategy”>Best Answer</span></div>
+              <p>&ldquo;A Day in the Life&rdquo; &mdash; the band&rsquo;s artistic peak; &ldquo;Hey Jude&rdquo; / &ldquo;Yesterday&rdquo; win on popularity.</p>
+            </div>
+          </div>
+
+          <!-- 4: Coding (convergence) -->
+          <div class=”carousel-card”>
+            <div class=”case-meta”><span class=”case-tag”>Learning to code</span><span class=”case-pattern converging”>All agreed</span></div>
+            <div class=”case-q”>”What's the best first programming language to learn in 2026?”</div>
+            <div class=”answers”>
+              <div class=”ans” style=”--c:#10a37f”><div class=”ans-h”><span class=”ans-dot”></span>GPT-5.5</div><p>Python</p></div>
+              <div class=”ans” style=”--c:#ffb000”><div class=”ans-h”><span class=”ans-dot”></span>HF &middot; Qwen3 235B</div><p>Python (then JavaScript for the web)</p></div>
+              <div class=”ans” style=”--c:#4285f4”><div class=”ans-h”><span class=”ans-dot”></span>Gemma 4 31B</div><p>Python all-rounder; TypeScript for web; Rust for performance</p></div>
+            </div>
+            <div class=”consensus-card”>
+              <div class=”cc-h”>&#10022; Consensus <span class=”cc-strategy”>Comprehensive</span></div>
+              <p>Python overall; JavaScript/TypeScript if you&rsquo;re web-focused, Swift/Kotlin for mobile. <b>Rare strong agreement &mdash; trust it.</b></p>
+            </div>
+          </div>
+
+          <!-- 5: Travel -->
+          <div class=”carousel-card”>
+            <div class=”case-meta”><span class=”case-tag”>Travel</span><span class=”case-pattern differing”>Views differ</span></div>
+            <div class=”case-q”>”Most underrated, inexpensive, best-value, most-fun travel spot? You can choose only one.”</div>
+            <div class=”answers”>
+              <div class=”ans” style=”--c:#f55036”><div class=”ans-h”><span class=”ans-dot”></span>Llama 3.3 70B</div><p>Hoi An, Vietnam</p></div>
+              <div class=”ans” style=”--c:#8b5cf6”><div class=”ans-h”><span class=”ans-dot”></span>OpenRouter &middot; GPT-OSS</div><p>Tbilisi, Georgia</p></div>
+              <div class=”ans” style=”--c:#ffb000”><div class=”ans-h”><span class=”ans-dot”></span>HF &middot; Qwen3 235B</div><p>Azores (S&atilde;o Miguel), Portugal</p></div>
+            </div>
+            <div class=”consensus-card”>
+              <div class=”cc-h”>&#10022; Consensus <span class=”cc-strategy”>Validated Synthesis</span></div>
+              <p>Da Nang, Vietnam &mdash; beach + city + food + nature at very low cost (Tbilisi &amp; the Azores are great wildcards).</p>
+            </div>
+          </div>
+
+          <!-- 6: Sports -->
+          <div class=”carousel-card”>
+            <div class=”case-meta”><span class=”case-tag”>Sports</span><span class=”case-pattern differing”>Views differ</span></div>
+            <div class=”case-q”>”Who is the single greatest athlete of all time?”</div>
+            <div class=”answers”>
+              <div class=”ans” style=”--c:#10a37f”><div class=”ans-h”><span class=”ans-dot”></span>GPT-5.5</div><p>Jim Thorpe (best all-around)</p></div>
+              <div class=”ans” style=”--c:#f55036”><div class=”ans-h”><span class=”ans-dot”></span>Llama 3.3 70B</div><p>No single answer &mdash; depends on the criteria</p></div>
+              <div class=”ans” style=”--c:#ffb000”><div class=”ans-h”><span class=”ans-dot”></span>HF &middot; Qwen3 235B</div><p>Jordan, Ali, Serena, Bolt, Pel&eacute;&hellip; (8 contenders)</p></div>
+            </div>
+            <div class=”consensus-card”>
+              <div class=”cc-h”>&#10022; Consensus <span class=”cc-strategy”>Validated Synthesis</span></div>
+              <p>No objective GOAT; if forced, Jim Thorpe for all-around ability &mdash; Jordan, Ali, Serena, Bolt, Phelps, Messi/Pel&eacute; &amp; more remain defensible by other measures.</p>
+            </div>
+          </div>
+
+        </div><!-- /carousel-track -->
+      </div><!-- /carousel-outer -->
+      <button class=”cn-btn cn-prev” id=”cnPrev” aria-label=”Previous example”>&#8249;</button>
+      <button class=”cn-btn cn-next” id=”cnNext” aria-label=”Next example”>&#8250;</button>
+    </div><!-- /carousel-container -->
+
+    <div class=”cn-dots” id=”cnDots” role=”tablist” aria-label=”Examples”></div>
+    <div class=”carousel-cta”>
+      <a class=”btn btn-free btn-lg” href=”https://app.polecat.live”>&#10024; Try it free &mdash; send your own prompt</a>
+    </div>
   </div>
 </section>
 
@@ -217,7 +278,7 @@
     <div class="amap-notes">
       <div class="amap-note ok"><span class="amap-ic">✓</span><div><b>Where they agreed</b><span>All three: parboil first, then roast in plenty of hot fat.</span></div></div>
       <div class="amap-note split"><span class="amap-ic">⚖︎</span><div><b>Where they split</b><span>Only Gemini suggested a pinch of baking soda in the water.</span></div></div>
-      <div class="amap-note live-cta"><span class="amap-ic live-ic">→</span><div><b>Interactive in the app</b><span>Tap "How this was formed" below any consensus to expand the full breakdown.</span><a class="amap-app-link" href="https://app.polecat.live">Try it free at app.polecat.live →</a></div></div>
+      <div class="amap-note live-cta"><span class="amap-ic live-ic">→</span><div><b>Interactive in the app</b><span>Tap "How this was formed" to expand the full breakdown. New: toggle source highlighting to color each paragraph by which model shaped it.</span><a class="amap-app-link" href="https://app.polecat.live">Try it free at app.polecat.live →</a></div></div>
     </div>
   </div>
 </section>
@@ -276,6 +337,69 @@
   // reveal on scroll
   const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Example carousel
+  (function () {
+    const track = document.getElementById('carouselTrack');
+    const outer = document.getElementById('carouselOuter');
+    const dotsEl = document.getElementById('cnDots');
+    const prev = document.getElementById('cnPrev');
+    const next = document.getElementById('cnNext');
+    if (!track || !outer || !dotsEl) return;
+    const cards = track.querySelectorAll('.carousel-card');
+    const N = cards.length;
+    let cur = 0, timer = null;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const dots = Array.from({ length: N }, function (_, i) {
+      const d = document.createElement('button');
+      d.className = 'cn-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('role', 'tab');
+      d.setAttribute('aria-label', 'Example ' + (i + 1));
+      d.setAttribute('aria-selected', String(i === 0));
+      d.onclick = function () { stop(); goTo(i); start(); };
+      dotsEl.appendChild(d);
+      return d;
+    });
+
+    function goTo(n) {
+      cur = (n + N) % N;
+      track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+      dots.forEach(function (d, i) {
+        d.classList.toggle('active', i === cur);
+        d.setAttribute('aria-selected', String(i === cur));
+      });
+      cards.forEach(function (c, i) { c.setAttribute('aria-hidden', String(i !== cur)); });
+    }
+    function start() {
+      if (reduced) return;
+      timer = setInterval(function () { goTo(cur + 1); }, 5000);
+    }
+    function stop() { clearInterval(timer); }
+
+    if (prev) prev.onclick = function () { stop(); goTo(cur - 1); start(); };
+    if (next) next.onclick = function () { stop(); goTo(cur + 1); start(); };
+    outer.addEventListener('mouseenter', stop);
+    outer.addEventListener('mouseleave', start);
+    outer.addEventListener('focusin', stop);
+    outer.addEventListener('focusout', start);
+
+    var startX = 0;
+    outer.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
+    outer.addEventListener('touchend', function (e) {
+      var dx = e.changedTouches[0].clientX - startX;
+      if (Math.abs(dx) > 40) { stop(); goTo(cur + (dx < 0 ? 1 : -1)); start(); }
+    }, { passive: true });
+
+    document.addEventListener('keydown', function (e) {
+      if (!outer.matches(':focus-within')) return;
+      if (e.key === 'ArrowLeft')  { stop(); goTo(cur - 1); start(); }
+      if (e.key === 'ArrowRight') { stop(); goTo(cur + 1); start(); }
+    });
+
+    goTo(0);
+    start();
+  })();
 </script>
 </body>
 </html>

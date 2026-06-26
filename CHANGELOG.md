@@ -2,6 +2,11 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-26 (3)
+- Replaced hand-crafted case studies with a **real example carousel** — 6 curated prompts (cooking, history, music, coding, travel, sports) sourced from actual Polecat runs, auto-rotating, swipeable on mobile, pauses on hover, respects reduced-motion.
+- Removed the old "baking soda" and "compound interest" standalone examples; cooking example is now the first carousel card.
+- Updated the Agreement map section to mention inline source-attribution highlighting (new in the app).
+
 ## 2026-06-26 (2)
 - Enhanced the **Agreement map** section to mirror the now-live "How this was formed" interactive panel in the app: added the collapsible header mockup, per-model stance badges (aligned / partial), a "Strong agreement" badge, and a direct CTA to try it live.
 - Added a "✨ now live" callout on the section kicker.
