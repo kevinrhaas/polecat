@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-26 (10)
+- **Office document support in the app** — updated the Privacy section pill to reflect that Word (.docx), Excel (.xlsx), and PowerPoint (.pptx) files are now extracted in-browser alongside PDFs, with zero upload.
+
 ## 2026-06-26 (9)
 - **PDF & file attachments** now mentioned in the Privacy section — text is extracted entirely in-browser (no upload), reinforcing Polecat's privacy story.
 
