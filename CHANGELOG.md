@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-27 (21)
+- **App: first-run Consensus callout + demo handoff polish** — after your first synthesized answer, a small tooltip appears below the Consensus tab explaining the model tabs; "Try it free" now animates the suggestion chips in with a staggered entrance.
+
 ## 2026-06-27 (20)
 - **App: centered composer on empty state** — greeting and prompt box now sit together in the center of the screen (Gemini/ChatGPT style); composer docks to the bottom on the first send. Added changelog link to the hero note.
 
