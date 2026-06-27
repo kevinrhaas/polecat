@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-27 17:15 CT (28)
+- **App: "Responses at a glance"** — after each consensus, a compact strip of per-model preview cards appears below the answer, showing each model's opening paragraph and response time. One tap jumps to the full reply. Makes cross-model comparison instant — no tab-switching required.
+
 ## 2026-06-27 16:30 CT (27)
 - **Site: Polecat Model Server added to providers section** — now listed as a first-party free provider alongside Claude, Gemini, ChatGPT, OpenRouter, Groq, and Hugging Face; provider count updated to 7.
 - **App: UI polish** — status icons in the consensus progress screen are now animated SVG spinners; the provenance toggle uses consistent stroke chevrons; emoji replaced throughout with SVG icons.
