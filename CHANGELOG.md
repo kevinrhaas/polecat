@@ -2,6 +2,10 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-27 15:42 CT (26)
+- **App: image context for text-only models** — non-vision models now receive a short note when the user attached an image they can't see, so they can ask for a text description rather than giving a confused non-answer.
+- **Timestamps in CT** — app changelog and website footer now show Central Time (CT) on all "updated" stamps.
+
 ## 2026-06-27 (25)
 - **App: custom system prompt** — set one system prompt in Settings → Models and it applies to all selected models at once (Claude, Gemini, ChatGPT — each via its native API field).
 
