@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-27 (20)
+- **App: centered composer on empty state** — greeting and prompt box now sit together in the center of the screen (Gemini/ChatGPT style); composer docks to the bottom on the first send. Added changelog link to the hero note.
+
 ## 2026-06-27 (19)
 - **App: copy thread as markdown** — a new document icon on every Consensus answer lets you copy the full exchange (question + each model's response + consensus) as clean markdown, ready to paste into Slack, Notion, docs, or email.
 
