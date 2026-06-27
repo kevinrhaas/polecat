@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-27 (22)
+- **App: per-model regenerate** — each model response now has a ↺ button so you can ask just that one model to try again, without re-running all the others. Streams in live; conversation history stays intact.
+
 ## 2026-06-27 (21)
 - **App: first-run Consensus callout + demo handoff polish** — after your first synthesized answer, a small tooltip appears below the Consensus tab explaining the model tabs; "Try it free" now animates the suggestion chips in with a staggered entrance.
 
