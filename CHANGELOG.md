@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-27 (18)
+- **App: shareable consensus links** — new Share button on every Consensus answer. Click it to copy a URL that encodes the full question, each model's response, and the consensus — no server, no storage, 100% in the URL. Updated the Agreement map section to mention sharing.
+
 ## 2026-06-27 (17)
 - **App: warm mascot greeting** — the empty state now shows the animated Polecat mascot logo instead of a plain ✦ glyph, plus a cleaner subtitle that explains the cross-model consensus story. Added README.md to the app repo.
 
