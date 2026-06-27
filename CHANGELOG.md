@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-27 18:00 CT (29)
+- **App polish** — the Send button now shows the model count ("Send to 3") instead of "Send to all", making the multi-model nature tangible at a glance. Toast notifications are now announced to screen readers (ARIA live region). Three new debate-friendly example questions added to the greeting chips (AI & future of work, remote vs. office productivity, most overrated tech).
+
 ## 2026-06-27 17:15 CT (28)
 - **App: "Responses at a glance"** — after each consensus, a compact strip of per-model preview cards appears below the answer, showing each model's opening paragraph and response time. One tap jumps to the full reply. Makes cross-model comparison instant — no tab-switching required.
 
