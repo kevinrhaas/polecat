@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-27 (25)
+- **App: custom system prompt** — set one system prompt in Settings → Models and it applies to all selected models at once (Claude, Gemini, ChatGPT — each via its native API field).
+
 ## 2026-06-27 (24)
 - **App: smart follow-up suggestions** — after every consensus answer, 2–3 clickable follow-up chips appear, derived from the agreement map (disagreement points, notable claims). Clicking a chip fills the prompt instantly. Updated the Agreement map section on the website to mention this.
 
