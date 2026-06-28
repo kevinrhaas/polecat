@@ -1,0 +1,23 @@
+name: CI — validate
+
+# Guards the live site (GitHub Pages deploys main → polecat.live). Runs the
+# smart-quote validator on pushes (non-main) and PRs so breakage surfaces a red
+# ✗ before it can ship. main itself is guarded + auto-healed by auto-revert.yml.
+
+on:
+  push:
+    branches-ignore: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate (no smart quotes in HTML attributes / style / script)
+        run: node scripts/validate.mjs
