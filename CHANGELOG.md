@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-28 23:00 CT (44)
+- **App: contribution % in snapshot cards** — each model card in "Responses at a glance" now shows ~N% (estimated share of the consensus it shaped), colored in the model's brand color. Agreement map section updated to mention this.
+
 ## 2026-06-28 22:00 CT (43)
 - **App: stance badges on model tabs** — after consensus, each model's tab now shows a small "aligned", "partial", or "outlier" badge under the model name, making the agreement picture visible at a glance in the tab bar without opening the details panel. Footer updated.
 
