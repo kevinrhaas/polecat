@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-28 20:00 CT (34)
+- **App: tab title notifications** — when you switch to another tab while models are responding, the browser tab counts up: "(2/3 answered) Polecat" → "(synthesizing…) Polecat" — then resets to normal when you come back. Unique to Polecat's multi-model nature.
+
 ## 2026-06-28 18:00 CT (33)
 - **App: live agreement signal** — a live "strong agreement / mixed views / divergent views" indicator now appears in the Consensus tab as each model finishes responding, updating in real time before synthesis even starts. Built from text-overlap analysis, zero extra model calls.
 - **App: smarter conversation titles** — history sidebar titles now strip common question preambles ("What is", "How do", "Tell me about") so the title gets straight to the topic.
