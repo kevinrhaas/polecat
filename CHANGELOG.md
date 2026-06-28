@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-28 16:48 CT (46)
+- **App: format quick-actions on consensus** — a "Format" strip below each consensus lets users reformat the answer instantly (Shorter, Bullet points, More detail, Simplify) without re-querying the models. Agreement map section updated to mention it.
+
 ## 2026-06-28 23:30 CT (45)
 - **App: debate chips + clickable model names** — when models disagreed with named positions, a "Debate:" follow-up chip pre-fills a targeted prompt quoting each model's stance so they engage with each other's reasoning. Model names in "Where they differed" now link to that model's full response tab. Agreement map section updated.
 
