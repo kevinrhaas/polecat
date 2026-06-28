@@ -2,6 +2,10 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-28 18:00 CT (33)
+- **App: live agreement signal** — a live "strong agreement / mixed views / divergent views" indicator now appears in the Consensus tab as each model finishes responding, updating in real time before synthesis even starts. Built from text-overlap analysis, zero extra model calls.
+- **App: smarter conversation titles** — history sidebar titles now strip common question preambles ("What is", "How do", "Tell me about") so the title gets straight to the topic.
+
 ## 2026-06-28 16:00 CT (32)
 - **App: Compare all responses** — new grid-icon Compare button appears on every consensus answer. Opens a full-screen side-by-side view of all model responses in a responsive column grid (each independently scrollable). Makes Polecat's multi-model advantage tangible at a glance without clicking through tabs.
 
