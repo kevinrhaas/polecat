@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-28 16:00 CT (32)
+- **App: Compare all responses** — new grid-icon Compare button appears on every consensus answer. Opens a full-screen side-by-side view of all model responses in a responsive column grid (each independently scrollable). Makes Polecat's multi-model advantage tangible at a glance without clicking through tabs.
+
 ## 2026-06-28 14:00 CT (31)
 - **App: stance badges + word counts on model cards** — each model's preview card in "Responses at a glance" now shows its stance (aligned/partial/outlier) vs. the consensus and an approximate word count, making cross-model comparison instant. Outlier-aware follow-up chips now name the specific model that disagreed.
 - **Site: Agreement map section updated** to describe stance badges and outlier-named follow-up chips.
