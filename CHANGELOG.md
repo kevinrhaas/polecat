@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-28 22:00 CT (43)
+- **App: stance badges on model tabs** — after consensus, each model's tab now shows a small "aligned", "partial", or "outlier" badge under the model name, making the agreement picture visible at a glance in the tab bar without opening the details panel. Footer updated.
+
 ## 2026-06-28 18:00 CT (42)
 - **App: mobile UX polish** — "Responses at a glance" now starts collapsed on mobile so follow-up actions are immediately visible without scrolling; follow-up chips scroll horizontally instead of wrapping. Agreement summary now appears right below the answer text for faster reading. Footer updated.
 
