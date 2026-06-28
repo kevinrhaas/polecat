@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-28 17:46 CT (47)
+- **App: live streaming previews** — while models stream, the Consensus tab progress box now shows a one-line preview of each model's opening response in real time, so you can read what each AI is saying before synthesis even begins. Footer updated.
+
 ## 2026-06-28 16:48 CT (46)
 - **App: format quick-actions on consensus** — a "Format" strip below each consensus lets users reformat the answer instantly (Shorter, Bullet points, More detail, Simplify) without re-querying the models. Agreement map section updated to mention it.
 
