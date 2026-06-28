@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-28 10:00 CT (40)
+- **App: accessibility & icon polish** — model response tabs now support ← / → keyboard navigation; proper ARIA tablist roles added throughout. All remaining unicode glyphs (◎, ✦, ✓, ⇄) replaced with SVG icons in the tab empty states, consensus sources label, provenance panel, and welcome slides. Footer updated.
+
 ## 2026-06-28 22:00 CT (39)
 - **App: consensus insight sentence** — after each consensus, a brief natural-language summary now appears before the detail panels ("All 3 models were in strong agreement" / "2 of 3 models agreed; GPT-4o had a contrasting perspective") — making the multi-model picture legible without expanding any panels. Zero extra API calls. Also replaced remaining unicode glyphs (✦, ◎) in empty states with proper SVG icons.
 - **Site: Agreement map section updated** to mention the new consensus insight sentence.
