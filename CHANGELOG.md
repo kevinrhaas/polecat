@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-28 18:00 CT (42)
+- **App: mobile UX polish** — "Responses at a glance" now starts collapsed on mobile so follow-up actions are immediately visible without scrolling; follow-up chips scroll horizontally instead of wrapping. Agreement summary now appears right below the answer text for faster reading. Footer updated.
+
 ## 2026-06-28 14:00 CT (41)
 - **App: snapshot card polish** — each model's "Responses at a glance" card now has a copy button to grab that model's full response without switching tabs. Follow-up chips and re-synthesis strip now appear before the "How this was formed" panel so the most actionable options are immediately visible. Collapsed toggle shows colored model dots. Updated Agreement map section to mention the copy button.
 
