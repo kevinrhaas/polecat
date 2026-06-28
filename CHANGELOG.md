@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-29 06:00 CT (38)
+- **App: snapshot cards show each model's distinct take** — the "Responses at a glance" cards now display a brief italic snippet of each model's specific disagreement point (from the arbiter's analysis), so you can see at a glance what made each model different without switching tabs. Cards are also now fully clickable. Footer updated.
+
 ## 2026-06-29 02:00 CT (37)
 - **App: restored conversations now as rich as live ones** — model snapshot cards, follow-up chips, and "Try another synthesis" strip now appear on the most recent consensus when you resume a conversation from history. Footer updated.
 
