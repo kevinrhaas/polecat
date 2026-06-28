@@ -2,6 +2,10 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-28 22:00 CT (39)
+- **App: consensus insight sentence** — after each consensus, a brief natural-language summary now appears before the detail panels ("All 3 models were in strong agreement" / "2 of 3 models agreed; GPT-4o had a contrasting perspective") — making the multi-model picture legible without expanding any panels. Zero extra API calls. Also replaced remaining unicode glyphs (✦, ◎) in empty states with proper SVG icons.
+- **Site: Agreement map section updated** to mention the new consensus insight sentence.
+
 ## 2026-06-29 06:00 CT (38)
 - **App: snapshot cards show each model's distinct take** — the "Responses at a glance" cards now display a brief italic snippet of each model's specific disagreement point (from the arbiter's analysis), so you can see at a glance what made each model different without switching tabs. Cards are also now fully clickable. Footer updated.
 
