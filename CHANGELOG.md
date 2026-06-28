@@ -2,6 +2,10 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-28 12:00 CT (30)
+- **App: agreement badge + smarter provenance** — the Consensus tab now shows a live "strong / mixed / diverse" badge after each synthesis so agreement is visible at a glance. When models diverged, the "How this was formed" panel opens automatically. Last remaining emoji in the sidebar replaced with SVG icons.
+- **Site: Agreement map section updated** to describe the new tab badge and auto-expand behaviour.
+
 ## 2026-06-27 18:00 CT (29)
 - **App polish** — the Send button now shows the model count ("Send to 3") instead of "Send to all", making the multi-model nature tangible at a glance. Toast notifications are now announced to screen readers (ARIA live region). Three new debate-friendly example questions added to the greeting chips (AI & future of work, remote vs. office productivity, most overrated tech).
 
