@@ -2,6 +2,10 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-28 14:00 CT (31)
+- **App: stance badges + word counts on model cards** — each model's preview card in "Responses at a glance" now shows its stance (aligned/partial/outlier) vs. the consensus and an approximate word count, making cross-model comparison instant. Outlier-aware follow-up chips now name the specific model that disagreed.
+- **Site: Agreement map section updated** to describe stance badges and outlier-named follow-up chips.
+
 ## 2026-06-28 12:00 CT (30)
 - **App: agreement badge + smarter provenance** — the Consensus tab now shows a live "strong / mixed / diverse" badge after each synthesis so agreement is visible at a glance. When models diverged, the "How this was formed" panel opens automatically. Last remaining emoji in the sidebar replaced with SVG icons.
 - **Site: Agreement map section updated** to describe the new tab badge and auto-expand behaviour.
