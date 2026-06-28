@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-29 02:00 CT (37)
+- **App: restored conversations now as rich as live ones** — model snapshot cards, follow-up chips, and "Try another synthesis" strip now appear on the most recent consensus when you resume a conversation from history. Footer updated.
+
 ## 2026-06-29 00:00 CT (36)
 - **App: re-synthesize with any strategy** — after a consensus answer, a new "Try another synthesis" strip lets you instantly re-synthesize the same model responses (Comprehensive, Best Answer, Validated, Debate) without re-asking the models. Each approach produces a new consensus entry so you can compare strategies side by side. Unique to Polecat's multi-response architecture. Footer updated.
 
