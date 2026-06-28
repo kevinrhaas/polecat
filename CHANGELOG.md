@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-28 14:00 CT (41)
+- **App: snapshot card polish** — each model's "Responses at a glance" card now has a copy button to grab that model's full response without switching tabs. Follow-up chips and re-synthesis strip now appear before the "How this was formed" panel so the most actionable options are immediately visible. Collapsed toggle shows colored model dots. Updated Agreement map section to mention the copy button.
+
 ## 2026-06-28 10:00 CT (40)
 - **App: accessibility & icon polish** — model response tabs now support ← / → keyboard navigation; proper ARIA tablist roles added throughout. All remaining unicode glyphs (◎, ✦, ✓, ⇄) replaced with SVG icons in the tab empty states, consensus sources label, provenance panel, and welcome slides. Footer updated.
 
