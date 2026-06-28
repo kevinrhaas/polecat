@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-28 18:49 CT (48)
+- **App: response speed bars** — each model card in "Responses at a glance" now shows a thin colored bar whose width represents that model's response time relative to the slowest model, making the multi-model race immediately visual. The consensus sources line also shows the response time range (e.g. 2.1s–8.9s), making the parallel-execution advantage tangible. Footer updated.
+
 ## 2026-06-28 17:46 CT (47)
 - **App: live streaming previews** — while models stream, the Consensus tab progress box now shows a one-line preview of each model's opening response in real time, so you can read what each AI is saying before synthesis even begins. Footer updated.
 
