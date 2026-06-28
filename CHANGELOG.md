@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-28 22:00 CT (35)
+- **App: history sidebar polish** — conversation history is now grouped by Today / Yesterday / This week / This month / Older (matching Claude/ChatGPT/Gemini). Each chat also shows tiny colored provider dots so you can see at a glance which models were used. Footer and CHANGELOG updated.
+
 ## 2026-06-28 20:00 CT (34)
 - **App: tab title notifications** — when you switch to another tab while models are responding, the browser tab counts up: "(2/3 answered) Polecat" → "(synthesizing…) Polecat" — then resets to normal when you come back. Unique to Polecat's multi-model nature.
 
