@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-29 08:54 CT (52)
+- **App: prompt history recall** — press the up arrow key in the empty composer to load your last prompt; press again to go further back through up to 50 stored prompts. Down arrow moves forward; typing exits history mode. Mentioned in the keyboard shortcuts cheatsheet (?). Footer updated.
+
 ## 2026-06-29 05:02 CT (51)
 - **App: model track record in Settings** — Polecat now quietly tracks each model's consensus contribution (stance + %) across sessions. After 3+ sessions, Settings → Models shows a subtle historical hint per model: "Usually aligns", "Often takes a distinct angle", or "Mixed" — with a tooltip giving the exact session count and avg contribution %. Zero extra API calls. Footer updated.
 
