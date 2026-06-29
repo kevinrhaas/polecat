@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-29 01:00 CT (50)
+- **App: expand model responses inline** — each card in "Responses at a glance" now has an expand button. Clicking it shows that model's full response in a panel right below the strip, so you can read any model's complete answer without switching tabs. Footer updated.
+
 ## 2026-06-28 20:34 CT (49)
 - **App: "Ask about this" on disagreement points** — each specific disagreement point in the "How this was formed" agreement map panel now has an "Ask about this →" button. Clicking it pre-fills a rich follow-up naming exactly what each model said, so users can dig into any divergence in one click. Agreement map section updated.
 
