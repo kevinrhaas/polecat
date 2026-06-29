@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-29 05:02 CT (51)
+- **App: model track record in Settings** — Polecat now quietly tracks each model's consensus contribution (stance + %) across sessions. After 3+ sessions, Settings → Models shows a subtle historical hint per model: "Usually aligns", "Often takes a distinct angle", or "Mixed" — with a tooltip giving the exact session count and avg contribution %. Zero extra API calls. Footer updated.
+
 ## 2026-06-29 01:00 CT (50)
 - **App: expand model responses inline** — each card in "Responses at a glance" now has an expand button. Clicking it shows that model's full response in a panel right below the strip, so you can read any model's complete answer without switching tabs. Footer updated.
 
