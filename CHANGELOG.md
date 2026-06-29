@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-29 16:00 CT (54)
+- **App: edit prompt button** — hover any message you sent and a pencil icon appears; click it to copy that prompt back to the composer so you can tweak and resend without retyping. Works in every tab including the consensus view. Footer updated.
+
 ## 2026-06-29 12:23 CT (53)
 - **App: stop generation button** — a red Stop button now appears while models are streaming, replacing Send. Click it (or press Esc) to abort all in-flight requests; any text that already arrived is kept with a subtle "(stopped)" label. Footer updated.
 
