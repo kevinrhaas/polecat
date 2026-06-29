@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-28 20:34 CT (49)
+- **App: "Ask about this" on disagreement points** — each specific disagreement point in the "How this was formed" agreement map panel now has an "Ask about this →" button. Clicking it pre-fills a rich follow-up naming exactly what each model said, so users can dig into any divergence in one click. Agreement map section updated.
+
 ## 2026-06-28 18:49 CT (48)
 - **App: response speed bars** — each model card in "Responses at a glance" now shows a thin colored bar whose width represents that model's response time relative to the slowest model, making the multi-model race immediately visual. The consensus sources line also shows the response time range (e.g. 2.1s–8.9s), making the parallel-execution advantage tangible. Footer updated.
 
