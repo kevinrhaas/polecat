@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-29 12:23 CT (53)
+- **App: stop generation button** — a red Stop button now appears while models are streaming, replacing Send. Click it (or press Esc) to abort all in-flight requests; any text that already arrived is kept with a subtle "(stopped)" label. Footer updated.
+
 ## 2026-06-29 08:54 CT (52)
 - **App: prompt history recall** — press the up arrow key in the empty composer to load your last prompt; press again to go further back through up to 50 stored prompts. Down arrow moves forward; typing exits history mode. Mentioned in the keyboard shortcuts cheatsheet (?). Footer updated.
 
