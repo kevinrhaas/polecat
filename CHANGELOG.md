@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-29 20:27 CT (55)
+- **App: draft auto-save** — the composer now quietly saves whatever you are typing to your browser's local storage. If you close or refresh the tab mid-thought, your prompt is waiting when you come back. Cleared on send so stale text never shows up. Footer updated.
+
 ## 2026-06-29 16:00 CT (54)
 - **App: edit prompt button** — hover any message you sent and a pencil icon appears; click it to copy that prompt back to the composer so you can tweak and resend without retyping. Works in every tab including the consensus view. Footer updated.
 
