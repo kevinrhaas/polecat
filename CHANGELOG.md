@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-30 15:58 CT (60)
+- **App: installable as a PWA** — Polecat now ships a web app manifest and Apple meta tags, so it can be added to your Home Screen / installed from Chrome or Edge. Added a "📲 Installable" pill and a line to the Privacy section explaining why it matters: installed apps are exempt from iOS Safari's habit of quietly clearing site storage after about a week away, which is the main way people lose saved keys and chats. Footer updated.
+
 ## 2026-06-30 12:09 CT (59)
 - **App: model roles** — Settings → Models now lets you reorder models with up/down arrows, set any model as the Arbiter directly from that screen, and optionally mark it "synthesis only" so it only combines the others' answers without answering itself. Great for pairing free-tier answerers with a premium synthesizer. Footer updated.
 
