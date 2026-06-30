@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-30 04:31 CT (57)
+- **App: number key tab shortcuts** — press 1-9 to jump to model tab 1-9, or 0 for the Consensus tab, from anywhere in the app. Also adds aria-controls/aria-labelledby/tabindex to complete the ARIA tablist pattern. Keyboard shortcuts panel (?) now has a Navigation section. Footer updated.
+
 ## 2026-06-30 00:43 CT (56)
 - **App: stacked contribution bar** — the "How this was formed" panel now shows a single horizontal bar split into colored segments, one per model, so you can see each model's share of the consensus at a glance. Hover a segment for model name and %; a legend below carries names and percentages so it's never color-only. Footer updated.
 
