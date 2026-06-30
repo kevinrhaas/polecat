@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-30 12:09 CT (59)
+- **App: model roles** — Settings → Models now lets you reorder models with up/down arrows, set any model as the Arbiter directly from that screen, and optionally mark it "synthesis only" so it only combines the others' answers without answering itself. Great for pairing free-tier answerers with a premium synthesizer. Footer updated.
+
 ## 2026-06-30 08:09 CT (58)
 - **App: model race bar** — the consensus footer now shows a compact horizontal bar with colored dots at relative positions revealing which model responded first and by how much, making the parallel-execution advantage instantly visible. Plus 'c' keyboard shortcut to open the side-by-side compare modal, and inline expand panels now auto-scroll into view. Footer updated.
 
