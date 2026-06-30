@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-30 00:43 CT (56)
+- **App: stacked contribution bar** — the "How this was formed" panel now shows a single horizontal bar split into colored segments, one per model, so you can see each model's share of the consensus at a glance. Hover a segment for model name and %; a legend below carries names and percentages so it's never color-only. Footer updated.
+
 ## 2026-06-29 20:27 CT (55)
 - **App: draft auto-save** — the composer now quietly saves whatever you are typing to your browser's local storage. If you close or refresh the tab mid-thought, your prompt is waiting when you come back. Cleared on send so stale text never shows up. Footer updated.
 
