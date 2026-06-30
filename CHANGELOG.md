@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-06-30 08:09 CT (58)
+- **App: model race bar** — the consensus footer now shows a compact horizontal bar with colored dots at relative positions revealing which model responded first and by how much, making the parallel-execution advantage instantly visible. Plus 'c' keyboard shortcut to open the side-by-side compare modal, and inline expand panels now auto-scroll into view. Footer updated.
+
 ## 2026-06-30 04:31 CT (57)
 - **App: number key tab shortcuts** — press 1-9 to jump to model tab 1-9, or 0 for the Consensus tab, from anywhere in the app. Also adds aria-controls/aria-labelledby/tabindex to complete the ARIA tablist pattern. Keyboard shortcuts panel (?) now has a Navigation section. Footer updated.
 
