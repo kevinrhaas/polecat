@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-01 11:13 CT (61)
+- **App: plain-language strategy names** — Polecat's consensus strategies got clearer names to match the app: "Comprehensive" is now "Merge Everything," "Validated Synthesis" is "Fact-Checked Merge," "Debate & Synthesize" is "Debate & Merge," and "Sequential Refinement" is "Refine Together." The "Customizable consensus" section here is updated to match. Footer updated.
+
 ## 2026-06-30 15:58 CT (60)
 - **App: installable as a PWA** — Polecat now ships a web app manifest and Apple meta tags, so it can be added to your Home Screen / installed from Chrome or Edge. Added a "📲 Installable" pill and a line to the Privacy section explaining why it matters: installed apps are exempt from iOS Safari's habit of quietly clearing site storage after about a week away, which is the main way people lose saved keys and chats. Footer updated.
 
