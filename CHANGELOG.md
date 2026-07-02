@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-02 06:12 CT (62)
+- **New: "Polecat vs. a single-model chat" comparison table** — a plain, scannable table on the homepage lays out the difference next to a single chatbot: models per prompt, cross-checking, agreement map, bring-your-own-keys, where prompts go, and cost to try. Placed right after the agreement-map section, before "Seven providers." Footer updated.
+
 ## 2026-07-01 11:13 CT (61)
 - **App: plain-language strategy names** — Polecat's consensus strategies got clearer names to match the app: "Comprehensive" is now "Merge Everything," "Validated Synthesis" is "Fact-Checked Merge," "Debate & Synthesize" is "Debate & Merge," and "Sequential Refinement" is "Refine Together." The "Customizable consensus" section here is updated to match. Footer updated.
 

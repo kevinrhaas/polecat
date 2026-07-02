@@ -164,6 +164,20 @@ section { position: relative; }
 .prov-badge.free { color: var(--ok); background: rgba(52,211,153,.12); }
 @media (max-width: 720px) { .providers { grid-template-columns: 1fr; } }
 
+/* comparison table */
+.compare-wrap { max-width: 780px; margin: 0 auto; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r); background: var(--surface); }
+.compare { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 560px; }
+.compare th, .compare td { padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--border); }
+.compare tbody tr:last-child th, .compare tbody tr:last-child td { border-bottom: none; }
+.compare thead th { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; color: var(--text-3); border-bottom: 1px solid var(--border); }
+.compare tbody th { font-weight: 600; color: var(--text-2); white-space: nowrap; }
+.compare td { color: var(--text-2); }
+.compare td.no { color: var(--text-3); }
+.compare td.yes { color: var(--text); }
+.compare .compare-pole { background: color-mix(in srgb, var(--consensus) 8%, transparent); color: var(--text); font-weight: 600; }
+.compare thead th.compare-pole { color: var(--consensus); background: color-mix(in srgb, var(--consensus) 14%, transparent); }
+@media (max-width: 640px) { .compare { font-size: 13px; } .compare th, .compare td { padding: 11px 14px; } }
+
 /* privacy */
 .lock { font-size: 40px; margin-bottom: 8px; }
 
