@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-02 08:02 CT (63)
+- **App: iOS Home Screen nudge** — on iPhone/iPad, Polecat's sidebar now shows a one-time, dismissible reminder to add it to the Home Screen once you have keys or chats worth keeping — the fix for Safari silently clearing site data after about a week away. Tap "How?" for quick instructions; dismiss it and it won't reappear. Privacy section updated to mention it.
+
 ## 2026-07-02 06:12 CT (62)
 - **New: "Polecat vs. a single-model chat" comparison table** — a plain, scannable table on the homepage lays out the difference next to a single chatbot: models per prompt, cross-checking, agreement map, bring-your-own-keys, where prompts go, and cost to try. Placed right after the agreement-map section, before "Seven providers." Footer updated.
 
