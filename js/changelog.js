@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 67,
+    title: "Accessibility + cleanup pass",
+    ts: "2026-07-02T19:57:00.000Z",
+    items: [
+      "Accessibility + cleanup pass — added a visible keyboard-focus ring to every link and button on the page (previously relied on inconsistent browser defaults), sharpened the nav's \"Open app\" CTA to \"Try it free\" so the strongest conversion hook is visible before any scrolling, and removed ~50 lines of dead CSS left over from a retired carousel implementation.",
+    ],
+  },
+  {
     v: 66,
     title: "Copy fix: stale \"Consensus tab\" reference",
     ts: "2026-07-02T17:02:00.000Z",

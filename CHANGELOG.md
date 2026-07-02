@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-02 14:57 CT (67)
+- **Accessibility + cleanup pass** — added a visible keyboard-focus ring to every link and button on the page (previously relied on inconsistent browser defaults), sharpened the nav's "Open app" CTA to "Try it free" so the strongest conversion hook is visible before any scrolling, and removed ~50 lines of dead CSS left over from a retired carousel implementation.
+
 ## 2026-07-02 12:02 CT (66)
 - **Copy fix: stale "Consensus tab" reference** — the agreement-map section described the live strong/mixed/diverse badge as living in a "Consensus tab," but the app merged Models and Consensus into one Settings tab a while back, and this badge actually appears right on the answer itself. Reworded to match reality.
 
