@@ -73,13 +73,25 @@ const out = entries.map(e => ({
   items: e.items.map(stripBold),
 }));
 
+// Serialize as a SINGLE-quoted JS string literal — the fleet convention the
+// Polecat manager's changelog sync parses. Double quotes are left literal; only
+// backslashes, apostrophes and newlines are escaped. (JSON.stringify's
+// double-quoted output looked valid but the manager only reads single-quoted.)
+function jsStr(s) {
+  return "'" + String(s)
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/\r/g, '')
+    .replace(/\n/g, '\\n') + "'";
+}
+
 const body = out.map(e =>
   '  {\n' +
   `    v: ${e.v},\n` +
-  `    title: ${JSON.stringify(e.title)},\n` +
-  `    ts: ${JSON.stringify(e.ts)},\n` +
+  `    title: ${jsStr(e.title)},\n` +
+  `    ts: ${jsStr(e.ts)},\n` +
   '    items: [\n' +
-  e.items.map(it => `      ${JSON.stringify(it)},\n`).join('') +
+  e.items.map(it => `      ${jsStr(it)},\n`).join('') +
   '    ],\n' +
   '  },'
 ).join('\n');
@@ -87,7 +99,7 @@ const body = out.map(e =>
 const header =
   '// AUTO-GENERATED — do not edit by hand. Source: CHANGELOG.md.\n' +
   '// Regenerate with:  node scripts/gen-changelog.mjs\n' +
-  '// Published relay-style changelog for consumers at /js/changelog.js.\n' +
+  '// Published changelog for the Polecat fleet manager at /js/changelog.js.\n' +
   '// Entries are newest-first; `ts` is an ISO-8601 UTC string.\n';
 
 mkdirSync(join(root, 'js'), { recursive: true });
