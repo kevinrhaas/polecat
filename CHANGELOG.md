@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-02 12:02 CT (66)
+- **Copy fix: stale "Consensus tab" reference** — the agreement-map section described the live strong/mixed/diverse badge as living in a "Consensus tab," but the app merged Models and Consensus into one Settings tab a while back, and this badge actually appears right on the answer itself. Reworded to match reality.
+
 ## 2026-07-02 11:01 CT (65)
 - **Better link previews on X/Slack/Discord** — added Twitter Card meta tags and a canonical link, so sharing a polecat.live link now shows a proper large-image preview with title and description everywhere, not just on Facebook/LinkedIn (which already read Open Graph tags).
 
