@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-02 11:01 CT (65)
+- **Better link previews on X/Slack/Discord** — added Twitter Card meta tags and a canonical link, so sharing a polecat.live link now shows a proper large-image preview with title and description everywhere, not just on Facebook/LinkedIn (which already read Open Graph tags).
+
 ## 2026-07-02 09:02 CT (64)
 - **Fix: anchor links no longer hide under the sticky nav** — clicking "How it works," "Examples," or "Consensus" in the header used to scroll the target section partly behind the sticky nav bar. Sections now reserve space for it, so the heading you clicked is fully visible after the jump.
 
