@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-02 15:43 CT (68)
+- **SEO: added robots.txt and sitemap.xml** — search engines previously had no explicit crawl guidance or a discoverable list of pages, which can slow how quickly a new or updated site gets indexed. Both are now published at the site root, pointing crawlers at polecat.live and the sitemap.
+
 ## 2026-07-02 14:57 CT (67)
 - **Accessibility + cleanup pass** — added a visible keyboard-focus ring to every link and button on the page (previously relied on inconsistent browser defaults), sharpened the nav's "Open app" CTA to "Try it free" so the strongest conversion hook is visible before any scrolling, and removed ~50 lines of dead CSS left over from a retired carousel implementation.
 

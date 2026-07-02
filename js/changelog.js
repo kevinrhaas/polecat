@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 68,
+    title: 'SEO: added robots.txt and sitemap.xml',
+    ts: '2026-07-02T20:43:00.000Z',
+    items: [
+      'SEO: added robots.txt and sitemap.xml — search engines previously had no explicit crawl guidance or a discoverable list of pages, which can slow how quickly a new or updated site gets indexed. Both are now published at the site root, pointing crawlers at polecat.live and the sitemap.',
+    ],
+  },
+  {
     v: 67,
     title: 'Accessibility + cleanup pass',
     ts: '2026-07-02T19:57:00.000Z',
