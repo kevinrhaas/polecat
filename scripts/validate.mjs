@@ -10,7 +10,9 @@
 //
 // Usage:  node scripts/validate.mjs        (exit 0 = clean, 1 = problems)
 
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, writeFileSync, mkdtempSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 const SMART = /[‘’“”]/;
@@ -50,6 +52,22 @@ function checkHtml(file) {
 }
 
 for (const f of htmlFiles()) checkHtml(f);
+
+// Also ES-module-parse any js/*.js (e.g. the generated js/changelog.js) exactly
+// as the browser would, so a malformed module can't ship. Syntax-only.
+function jsFiles(dir = 'js') {
+  try { return readdirSync(dir).filter(n => n.endsWith('.js')).map(n => join(dir, n)); }
+  catch { return []; }   // no js/ dir yet — nothing to check
+}
+for (const f of jsFiles()) {
+  const tmp = join(mkdtempSync(join(tmpdir(), 'pcval-')), 'm.mjs');
+  writeFileSync(tmp, readFileSync(f));
+  try { execFileSync(process.execPath, ['--check', tmp], { stdio: 'pipe' }); }
+  catch (e) {
+    const msg = (e.stderr?.toString() || e.message).split('\n').slice(0, 6).join('\n');
+    problems.push(`ES-module parse failed in ${f}:\n${msg}`);
+  }
+}
 
 if (problems.length) {
   console.error(`\n✗ validate.mjs found ${problems.length} problem(s):\n`);
