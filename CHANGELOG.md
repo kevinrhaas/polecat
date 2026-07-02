@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-02 09:02 CT (64)
+- **Fix: anchor links no longer hide under the sticky nav** — clicking "How it works," "Examples," or "Consensus" in the header used to scroll the target section partly behind the sticky nav bar. Sections now reserve space for it, so the heading you clicked is fully visible after the jump.
+
 ## 2026-07-02 08:02 CT (63)
 - **App: iOS Home Screen nudge** — on iPhone/iPad, Polecat's sidebar now shows a one-time, dismissible reminder to add it to the Home Screen once you have keys or chats worth keeping — the fix for Safari silently clearing site data after about a week away. Tap "How?" for quick instructions; dismiss it and it won't reappear. Privacy section updated to mention it.
 
