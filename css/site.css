@@ -112,7 +112,7 @@ section[id] { scroll-margin-top: 76px; } /* keep the sticky nav from covering an
 .amap-note:last-child { border-bottom: 0; padding-bottom: 0; }
 .amap-note:first-child { padding-top: 0; }
 .amap-note b { display: block; font-size: 13.5px; color: var(--text); margin-bottom: 2px; }
-.amap-note span { display: block; font-size: 13.5px; color: var(--text-2); }
+.amap-note > div span { display: block; font-size: 13.5px; color: var(--text-2); }
 .amap-ic { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; }
 .amap-note.ok .amap-ic { color: #34d399; background: rgba(52,211,153,.14); }
 .amap-note.split .amap-ic { color: var(--consensus); background: color-mix(in srgb, var(--consensus) 16%, transparent); }

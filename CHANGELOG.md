@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-03 10:19 CT (78)
+- **Fixed off-center icons in the "See where the models agree" section** — the checkmark, fork, and arrow badges in that section's three rows were all rendering pinned to the top-left of their circles instead of centered (confirmed with a zoomed headless-Chromium capture of each). Root cause: a generic `.amap-note span { display: block }` rule (added to style the plain description text) unintentionally also matched the icon `<span>`, and won over the icon's own `display: flex` centering rule because it's more specific — a CSS bug, not the font/glyph issue the previous pass (77) fixed for the same section. Scoped the description-text rule to only the text wrapper (`.amap-note > div span`) so it no longer touches the icon badges. All three icons are now properly centered on both desktop and mobile.
+
 ## 2026-07-03 09:10 CT (77)
 - **Fixed an invisible icon in the "See where the models agree" section** — the "Where they split" row used a balance-scale character (⚖︎) that renders as a blank circle in this environment's fonts (confirmed via a headless-Chromium screenshot: the checkmark and arrow icons on the same card render fine, but the scale glyph is empty), silently dropping the icon from Polecat's signature differentiator section for some visitors. Replaced it with a small inline SVG fork icon, matching the stroke style used elsewhere on the page, so it renders identically everywhere regardless of font/emoji support.
 

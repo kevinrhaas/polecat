@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 78,
+    title: 'Fixed off-center icons in the "See where the models agree" section',
+    ts: '2026-07-03T15:19:00.000Z',
+    items: [
+      'Fixed off-center icons in the "See where the models agree" section — the checkmark, fork, and arrow badges in that section\'s three rows were all rendering pinned to the top-left of their circles instead of centered (confirmed with a zoomed headless-Chromium capture of each). Root cause: a generic `.amap-note span { display: block }` rule (added to style the plain description text) unintentionally also matched the icon `<span>`, and won over the icon\'s own `display: flex` centering rule because it\'s more specific — a CSS bug, not the font/glyph issue the previous pass (77) fixed for the same section. Scoped the description-text rule to only the text wrapper (`.amap-note > div span`) so it no longer touches the icon badges. All three icons are now properly centered on both desktop and mobile.',
+    ],
+  },
+  {
     v: 77,
     title: 'Fixed an invisible icon in the "See where the models agree" section',
     ts: '2026-07-03T14:10:00.000Z',
