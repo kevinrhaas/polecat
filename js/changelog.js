@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 69,
+    title: 'Accessibility: decorative emoji hidden from screen readers',
+    ts: '2026-07-03T03:32:00.000Z',
+    items: [
+      'Accessibility: decorative emoji hidden from screen readers — the lock icon in "Private & yours," the five feature pills below it (clock, sunglasses, download, paperclip, mobile), and the footer\'s coffee cup were previously read aloud by screen readers (e.g. "locked with key, Private and yours"), duplicating the adjacent text. All are now marked `aria-hidden="true"` so only the real label is announced.',
+    ],
+  },
+  {
     v: 68,
     title: 'SEO: added robots.txt and sitemap.xml',
     ts: '2026-07-02T20:43:00.000Z',

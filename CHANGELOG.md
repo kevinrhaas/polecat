@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-02 22:32 CT (69)
+- **Accessibility: decorative emoji hidden from screen readers** — the lock icon in "Private & yours," the five feature pills below it (clock, sunglasses, download, paperclip, mobile), and the footer's coffee cup were previously read aloud by screen readers (e.g. "locked with key, Private and yours"), duplicating the adjacent text. All are now marked `aria-hidden="true"` so only the real label is announced.
+
 ## 2026-07-02 15:43 CT (68)
 - **SEO: added robots.txt and sitemap.xml** — search engines previously had no explicit crawl guidance or a discoverable list of pages, which can slow how quickly a new or updated site gets indexed. Both are now published at the site root, pointing crawlers at polecat.live and the sitemap.
 
