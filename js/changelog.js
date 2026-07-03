@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 71,
+    title: 'Fixed uneven product screenshot cards',
+    ts: '2026-07-03T07:43:00.000Z',
+    items: [
+      'Fixed uneven product screenshot cards — the three "how it works" screenshots sit in a row that stretches to match the tallest one, but the shorter two were left top-anchored with a dead gap below their caption instead of being centered. They\'re now vertically centered in the frame, so the row reads as one balanced, intentional group instead of two looking cut off.',
+    ],
+  },
+  {
     v: 70,
     title: 'Fixed two stale product screenshots',
     ts: '2026-07-03T05:59:00.000Z',

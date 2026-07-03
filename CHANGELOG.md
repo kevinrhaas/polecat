@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-03 02:43 CT (71)
+- **Fixed uneven product screenshot cards** — the three "how it works" screenshots sit in a row that stretches to match the tallest one, but the shorter two were left top-anchored with a dead gap below their caption instead of being centered. They're now vertically centered in the frame, so the row reads as one balanced, intentional group instead of two looking cut off.
+
 ## 2026-07-03 00:59 CT (70)
 - **Fixed two stale product screenshots** — the "Combining into one answer" and "Browse & search every available model" screenshots still showed a "Arbitration" settings tab that was merged away weeks ago. Both are now fresh captures of the current app (Models & Consensus tab, live OpenRouter model list), so the site matches what you actually see when you open Polecat.
 
