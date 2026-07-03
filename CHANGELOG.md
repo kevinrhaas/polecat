@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-03 07:11 CT (75)
+- **Fixed the page being horizontally scrollable on mobile** — `overflow-x: hidden` was set on `<body>` but not `<html>`, and `<html>` is actually the element that scrolls in standards mode, so the rule did nothing to stop it. A stray horizontal swipe (common on touch devices) could drag the whole page — including the sticky nav bar — sideways, revealing dead space until you swiped back. Verified with a real headless-Chromium session: before the fix, `window.scrollTo(200, 0)` shifted the page 145px right; after adding the same rule to `<html>`, it's pinned at 0. No visual change for anyone scrolling normally.
+
 ## 2026-07-03 06:27 CT (74)
 - **Fixed a copy inconsistency in the Model Server section** — the "Seven providers" section promised "sign in to get yours" for a free Polecat Model Server key, but Polecat has no accounts (the Privacy section right below it says so explicitly: "No server, no accounts") and model-server keys are currently admin-minted, not self-serve. Reworded to "Self-serve keys are coming soon; the other six providers cover you in the meantime" so the page no longer promises a sign-in flow that doesn't exist.
 
