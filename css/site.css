@@ -161,7 +161,8 @@ section[id] { scroll-margin-top: 76px; } /* keep the sticky nav from covering an
 @media (max-width: 640px) { .compare-hint { display: block; } }
 
 /* privacy */
-.lock { font-size: 40px; margin-bottom: 8px; }
+.lock { color: var(--brand-b); margin-bottom: 12px; }
+.lock svg { display: block; margin: 0 auto; }
 
 /* final cta */
 .cta-final { text-align: center; padding: 90px 22px; position: relative; }

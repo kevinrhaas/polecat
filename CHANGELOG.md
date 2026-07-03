@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-03 12:08 CT (79)
+- **Replaced color emoji with monochrome icons in the "Private & yours" section** — the big lock badge and all five feature pills (search, private mode, export, files, installable) used platform emoji (some font-color, clashing with the site's otherwise consistent stroke-icon language used everywhere else, e.g. the agreement-map badges). Swapped in small inline SVGs matching the app's own icon set — reusing the exact search/shield/export paths from the app's onboarding carousel and the paperclip from its attach button — so the section now matches Polecat's "no emoji in the UI" design language and renders identically everywhere regardless of font/emoji support.
+
 ## 2026-07-03 10:19 CT (78)
 - **Fixed off-center icons in the "See where the models agree" section** — the checkmark, fork, and arrow badges in that section's three rows were all rendering pinned to the top-left of their circles instead of centered (confirmed with a zoomed headless-Chromium capture of each). Root cause: a generic `.amap-note span { display: block }` rule (added to style the plain description text) unintentionally also matched the icon `<span>`, and won over the icon's own `display: flex` centering rule because it's more specific — a CSS bug, not the font/glyph issue the previous pass (77) fixed for the same section. Scoped the description-text rule to only the text wrapper (`.amap-note > div span`) so it no longer touches the icon badges. All three icons are now properly centered on both desktop and mobile.
 

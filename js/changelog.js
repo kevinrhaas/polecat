@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 79,
+    title: 'Replaced color emoji with monochrome icons in the "Private & yours" section',
+    ts: '2026-07-03T17:08:00.000Z',
+    items: [
+      'Replaced color emoji with monochrome icons in the "Private & yours" section — the big lock badge and all five feature pills (search, private mode, export, files, installable) used platform emoji (some font-color, clashing with the site\'s otherwise consistent stroke-icon language used everywhere else, e.g. the agreement-map badges). Swapped in small inline SVGs matching the app\'s own icon set — reusing the exact search/shield/export paths from the app\'s onboarding carousel and the paperclip from its attach button — so the section now matches Polecat\'s "no emoji in the UI" design language and renders identically everywhere regardless of font/emoji support.',
+    ],
+  },
+  {
     v: 78,
     title: 'Fixed off-center icons in the "See where the models agree" section',
     ts: '2026-07-03T15:19:00.000Z',
