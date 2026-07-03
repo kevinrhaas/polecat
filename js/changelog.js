@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 72,
+    title: 'Fixed a hidden comparison table on mobile',
+    ts: '2026-07-03T09:45:00.000Z',
+    items: [
+      'Fixed a hidden comparison table on mobile — "Polecat vs. a single-model chat" scrolls horizontally on narrow screens (by design, so the labels stay readable), but nothing told visitors that, so the whole point of the table -- the highlighted Polecat column -- was invisible off-screen with no hint to swipe. Added a small "Swipe to see the Polecat column ->" hint below the table, shown only on mobile widths where the table actually overflows.',
+    ],
+  },
+  {
     v: 71,
     title: 'Fixed uneven product screenshot cards',
     ts: '2026-07-03T07:43:00.000Z',

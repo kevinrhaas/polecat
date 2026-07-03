@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-03 04:45 CT (72)
+- **Fixed a hidden comparison table on mobile** — "Polecat vs. a single-model chat" scrolls horizontally on narrow screens (by design, so the labels stay readable), but nothing told visitors that, so the whole point of the table -- the highlighted Polecat column -- was invisible off-screen with no hint to swipe. Added a small "Swipe to see the Polecat column ->" hint below the table, shown only on mobile widths where the table actually overflows.
+
 ## 2026-07-03 02:43 CT (71)
 - **Fixed uneven product screenshot cards** — the three "how it works" screenshots sit in a row that stretches to match the tallest one, but the shorter two were left top-anchored with a dead gap below their caption instead of being centered. They're now vertically centered in the frame, so the row reads as one balanced, intentional group instead of two looking cut off.
 
