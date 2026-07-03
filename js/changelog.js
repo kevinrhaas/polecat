@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 83,
+    title: 'Replaced the social-share preview image with a real designed card',
+    ts: '2026-07-03T21:02:00.000Z',
+    items: [
+      'Replaced the social-share preview image with a real designed card — `og:image`/`twitter:image` pointed at `favicon-512.png`, a square app icon with no headline or context, so links shared to Slack/Twitter/iMessage etc. showed just a small logo with no sense of what Polecat does (the roadmap\'s own "landing-page craft" notes call out the OG image as "seen more than the page" and worth designing like a thumbnail). Built a proper 1200x630 card matching the hero\'s exact visual language — dark background with the same brand glow, the Polecat mascot mark, the "Ask once. Hear from everyone." headline, and the provider-chips-to-Consensus flow — so a shared link now sells the product before anyone clicks. Added the standard `og:image:width`/`height` tags alongside it.',
+    ],
+  },
+  {
     v: 82,
     title: 'Fixed the "One synthesized answer" product screenshot with ~45% dead black space below the content',
     ts: '2026-07-03T20:07:00.000Z',

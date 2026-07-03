@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-03 16:02 CT (83)
+- **Replaced the social-share preview image with a real designed card** — `og:image`/`twitter:image` pointed at `favicon-512.png`, a square app icon with no headline or context, so links shared to Slack/Twitter/iMessage etc. showed just a small logo with no sense of what Polecat does (the roadmap's own "landing-page craft" notes call out the OG image as "seen more than the page" and worth designing like a thumbnail). Built a proper 1200x630 card matching the hero's exact visual language — dark background with the same brand glow, the Polecat mascot mark, the "Ask once. Hear from everyone." headline, and the provider-chips-to-Consensus flow — so a shared link now sells the product before anyone clicks. Added the standard `og:image:width`/`height` tags alongside it.
+
 ## 2026-07-03 15:07 CT (82)
 - **Fixed the "One synthesized answer" product screenshot with ~45% dead black space below the content** — while auditing the homepage in a real headless-Chromium session (roadmap fully checked off), the "Watch it consolidate, live" section's three screenshot cards render in one row, and the first card's image (`assets/shots/consensus.png`) was noticeably taller than the app content it captured, leaving a big empty gap between the consensus answer and the caption. Same shape of bug as a previous pass's fix for the "Live progress" screenshot, just never applied to this one. Cropped the image to end right at the card's border instead of ~800px further down; the row now reads as three balanced, intentional screenshots instead of two tight ones next to a stretched one.
 
