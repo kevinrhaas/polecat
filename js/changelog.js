@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 82,
+    title: 'Fixed the "One synthesized answer" product screenshot with ~45% dead black space below the content',
+    ts: '2026-07-03T20:07:00.000Z',
+    items: [
+      'Fixed the "One synthesized answer" product screenshot with ~45% dead black space below the content — while auditing the homepage in a real headless-Chromium session (roadmap fully checked off), the "Watch it consolidate, live" section\'s three screenshot cards render in one row, and the first card\'s image (`assets/shots/consensus.png`) was noticeably taller than the app content it captured, leaving a big empty gap between the consensus answer and the caption. Same shape of bug as a previous pass\'s fix for the "Live progress" screenshot, just never applied to this one. Cropped the image to end right at the card\'s border instead of ~800px further down; the row now reads as three balanced, intentional screenshots instead of two tight ones next to a stretched one.',
+    ],
+  },
+  {
     v: 81,
     title: 'Fixed the "Seven providers" section leaving its 7th card stranded off to one side, and a squeezed-away provider dot',
     ts: '2026-07-03T19:02:00.000Z',
