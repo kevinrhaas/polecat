@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 74,
+    title: 'Fixed a copy inconsistency in the Model Server section',
+    ts: '2026-07-03T11:27:00.000Z',
+    items: [
+      'Fixed a copy inconsistency in the Model Server section — the "Seven providers" section promised "sign in to get yours" for a free Polecat Model Server key, but Polecat has no accounts (the Privacy section right below it says so explicitly: "No server, no accounts") and model-server keys are currently admin-minted, not self-serve. Reworded to "Self-serve keys are coming soon; the other six providers cover you in the meantime" so the page no longer promises a sign-in flow that doesn\'t exist.',
+    ],
+  },
+  {
     v: 73,
     title: 'Updated the agreement-map mockup to match the real app, and trimmed a wall of text',
     ts: '2026-07-03T10:51:00.000Z',

@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-03 06:27 CT (74)
+- **Fixed a copy inconsistency in the Model Server section** — the "Seven providers" section promised "sign in to get yours" for a free Polecat Model Server key, but Polecat has no accounts (the Privacy section right below it says so explicitly: "No server, no accounts") and model-server keys are currently admin-minted, not self-serve. Reworded to "Self-serve keys are coming soon; the other six providers cover you in the meantime" so the page no longer promises a sign-in flow that doesn't exist.
+
 ## 2026-07-03 05:51 CT (73)
 - **Updated the agreement-map mockup to match the real app, and trimmed a wall of text** — the homepage's "See where the models agree" section still showed the app's old three-separate-bars contribution chart, which the app itself replaced weeks ago with a single stacked 100% bar; the mockup now matches exactly what app.polecat.live actually shows. Also condensed the "Interactive in the app" note from a dense multi-sentence paragraph down to two tight sentences, in line with the site's "one idea per screen" principle.
 
