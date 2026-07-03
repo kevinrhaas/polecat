@@ -18,7 +18,7 @@ a:focus-visible, button:focus-visible, .btn:focus-visible { outline: 2px solid v
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
 .narrow { max-width: 720px; }
 .center { text-align: center; }
-.muted { color: var(--text-3); }
+.muted { color: var(--text-2); }
 .small { font-size: 13px; }
 h1 { font-size: clamp(34px, 6vw, 60px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.05; }
 h2 { font-size: clamp(24px, 4vw, 36px); font-weight: 800; letter-spacing: -.8px; line-height: 1.15; }
@@ -62,7 +62,7 @@ section[id] { scroll-margin-top: 76px; } /* keep the sticky nav from covering an
 .pill-consensus { --c: var(--consensus); }
 .flow-arrow { color: var(--text-3); font-size: 16px; }
 .hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 30px; }
-.hero-note { font-size: 13px; color: var(--text-3); margin-top: 18px; }
+.hero-note { font-size: 13px; color: var(--text-2); margin-top: 18px; }
 .hero-note a { color: var(--brand-b); }
 
 /* flow diagram */
@@ -72,7 +72,7 @@ section[id] { scroll-margin-top: 76px; } /* keep the sticky nav from covering an
 .fm-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex-shrink: 0; }
 .fm-tag { margin-left: auto; font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 100px; }
 .fm-tag.free { color: var(--ok); background: rgba(52,211,153,.13); }
-.fm-tag.paid { color: var(--text-3); background: var(--surface); }
+.fm-tag.paid { color: var(--text-2); background: var(--surface); }
 .flow-mid { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .flow-line { width: 2px; flex: 1; min-height: 20px; background: linear-gradient(var(--brand-b), var(--consensus)); }
 .flow-arbiter { font-size: 12px; font-weight: 800; color: var(--text); background: var(--surface-2); border: 1px solid var(--border); border-radius: 100px; padding: 6px 12px; white-space: nowrap; }
@@ -106,7 +106,7 @@ section[id] { scroll-margin-top: 76px; } /* keep the sticky nav from covering an
 .amap-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex-shrink: 0; }
 .amap-stance { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 100px; white-space: nowrap; }
 .amap-aligned { color: #34d399; background: rgba(52,211,153,.12); }
-.amap-partial  { color: var(--text-3); background: var(--surface-2); }
+.amap-partial  { color: var(--text-2); background: var(--surface-2); }
 .amap-foot { font-size: 12px; color: var(--text-2); margin-top: 4px; }
 .amap-note { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); }
 .amap-note:last-child { border-bottom: 0; padding-bottom: 0; }
@@ -140,7 +140,7 @@ section[id] { scroll-margin-top: 76px; } /* keep the sticky nav from covering an
 .providers { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 .prov { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 16px 18px; font-weight: 700; flex: 0 1 calc(33.333% - 8px); min-width: 220px; }
 .prov-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--c); flex-shrink: 0; }
-.prov-badge { margin-left: auto; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 100px; color: var(--text-3); background: var(--surface-2); white-space: nowrap; }
+.prov-badge { margin-left: auto; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 100px; color: var(--text-2); background: var(--surface-2); white-space: nowrap; }
 .prov-badge.free { color: var(--ok); background: rgba(52,211,153,.12); }
 @media (max-width: 720px) { .prov { flex-basis: 100%; } }
 
@@ -149,15 +149,14 @@ section[id] { scroll-margin-top: 76px; } /* keep the sticky nav from covering an
 .compare { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 560px; }
 .compare th, .compare td { padding: 14px 18px; text-align: left; border-bottom: 1px solid var(--border); }
 .compare tbody tr:last-child th, .compare tbody tr:last-child td { border-bottom: none; }
-.compare thead th { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; color: var(--text-3); border-bottom: 1px solid var(--border); }
+.compare thead th { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; color: var(--text-2); border-bottom: 1px solid var(--border); }
 .compare tbody th { font-weight: 600; color: var(--text-2); white-space: nowrap; }
 .compare td { color: var(--text-2); }
-.compare td.no { color: var(--text-3); }
 .compare td.yes { color: var(--text); }
 .compare .compare-pole { background: color-mix(in srgb, var(--consensus) 8%, transparent); color: var(--text); font-weight: 600; }
 .compare thead th.compare-pole { color: var(--consensus); background: color-mix(in srgb, var(--consensus) 14%, transparent); }
 @media (max-width: 640px) { .compare { font-size: 13px; } .compare th, .compare td { padding: 11px 14px; } }
-.compare-hint { display: none; text-align: center; font-size: 12px; color: var(--text-3); margin-top: 10px; }
+.compare-hint { display: none; text-align: center; font-size: 12px; color: var(--text-2); margin-top: 10px; }
 @media (max-width: 640px) { .compare-hint { display: block; } }
 
 /* privacy */

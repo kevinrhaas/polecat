@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 86,
+    title: 'Fixed low-contrast informational text across the homepage',
+    ts: '2026-07-03T23:48:00.000Z',
+    items: [
+      'Fixed low-contrast informational text across the homepage — computed the actual contrast ratio of `--text-3` (the site\'s dimmest text color, `#6b6480`) against every background it\'s used on and found it lands at roughly 3.0-3.5:1, well under WCAG AA\'s 4.5:1 floor for normal-size text (the app side of Polecat found and fixed this exact issue twice already). Swept every `--text-3` use in `css/site.css` and bumped the genuinely informational ones to `--text-2` (already ~6.7-7.8:1, comfortably passing): the hero\'s trust-building note ("Run a real model instantly, no signup..."), the "muted" utility class (used for the strategy-editing hint, the free-demo privacy exception, and the installable/iOS explainer paragraph), the comparison table\'s column headers and its persuasive "single chatbot" column content, the provider section\'s "paid" badges (and the matching tag in the how-it-works flow diagram, for visual consistency), the agreement-map mockup\'s "partial" stance badge, and the "Swipe to see..." mobile hint. Left purely decorative uses alone (a hover border color, the flow-diagram arrow glyph, a small mockup icon) and the conventional muted footer timestamp, matching the same restraint the app-side fixes used. Verified computed contrast ratios before/after and re-read the page - no layout or behavior changes, text-only color bump.',
+    ],
+  },
+  {
     v: 85,
     title: 'Added structured data (JSON-LD) so search engines understand what Polecat is',
     ts: '2026-07-03T22:53:00.000Z',
