@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 76,
+    title: 'Replaced a stale product screenshot with a live, current one',
+    ts: '2026-07-03T13:18:00.000Z',
+    items: [
+      'Replaced a stale product screenshot with a live, current one — the "Watch it consolidate, live" section\'s "Live progress" screenshot still showed the app\'s old technical copy ("Sequential Refinement · arbiter: auto (strategy default)"), which the app itself replaced weeks ago with a plain-language sentence as part of a jargon-reduction pass, and was dated `2026-06-12` in its own header. Recaptured it directly from the live current app (a real in-progress consensus run, not a mockup) so it now shows the actual current copy ("3 models answering in parallel, then the strategy auto-picks one to merge them into one answer.") and today\'s date. Also cropped it much tighter — the old capture was roughly 45% empty black canvas below the content; the new one keeps the composer visible right under the progress card with a balanced, non-empty layout that reads as a real screenshot rather than a stitched-together mockup.',
+    ],
+  },
+  {
     v: 75,
     title: 'Fixed the page being horizontally scrollable on mobile',
     ts: '2026-07-03T12:11:00.000Z',

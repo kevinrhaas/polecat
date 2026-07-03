@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-03 08:18 CT (76)
+- **Replaced a stale product screenshot with a live, current one** — the "Watch it consolidate, live" section's "Live progress" screenshot still showed the app's old technical copy ("Sequential Refinement · arbiter: auto (strategy default)"), which the app itself replaced weeks ago with a plain-language sentence as part of a jargon-reduction pass, and was dated `2026-06-12` in its own header. Recaptured it directly from the live current app (a real in-progress consensus run, not a mockup) so it now shows the actual current copy ("3 models answering in parallel, then the strategy auto-picks one to merge them into one answer.") and today's date. Also cropped it much tighter — the old capture was roughly 45% empty black canvas below the content; the new one keeps the composer visible right under the progress card with a balanced, non-empty layout that reads as a real screenshot rather than a stitched-together mockup.
+
 ## 2026-07-03 07:11 CT (75)
 - **Fixed the page being horizontally scrollable on mobile** — `overflow-x: hidden` was set on `<body>` but not `<html>`, and `<html>` is actually the element that scrolls in standards mode, so the rule did nothing to stop it. A stray horizontal swipe (common on touch devices) could drag the whole page — including the sticky nav bar — sideways, revealing dead space until you swiped back. Verified with a real headless-Chromium session: before the fix, `window.scrollTo(200, 0)` shifted the page 145px right; after adding the same rule to `<html>`, it's pinned at 0. No visual change for anyone scrolling normally.
 
