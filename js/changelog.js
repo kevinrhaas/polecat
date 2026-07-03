@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 80,
+    title: 'Fixed an over-broad privacy claim, in three spots',
+    ts: '2026-07-03T18:01:00.000Z',
+    items: [
+      'Fixed an over-broad privacy claim, in three spots — the hero note said "runs in your browser, no server," the "Private & yours" section said prompts "go straight to each provider, never to us. No server, no accounts," and the comparison table said "no Polecat server" — all true for bring-your-own-key use, but not for the free demo (which the same hero\'s own primary CTA, the "Free demo, no signup" comparison row, and the "Polecat Model Server" listing all promote), which does route one request through a lightweight Cloudflare Worker proxy so first-timers can try Polecat without a key. Reworded the hero note to "your keys stay in your browser" (true either way), scoped the other two claims to "with your own key" / "bring your own key," and added a one-line callout on the privacy section noting the free demo as the sole exception — so the privacy pitch stays accurate for every path through the page, not just the BYOK one.',
+    ],
+  },
+  {
     v: 79,
     title: 'Replaced color emoji with monochrome icons in the "Private & yours" section',
     ts: '2026-07-03T17:08:00.000Z',

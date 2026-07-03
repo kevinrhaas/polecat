@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-03 13:01 CT (80)
+- **Fixed an over-broad privacy claim, in three spots** — the hero note said "runs in your browser, no server," the "Private & yours" section said prompts "go straight to each provider, never to us. No server, no accounts," and the comparison table said "no Polecat server" — all true for bring-your-own-key use, but not for the free demo (which the same hero's own primary CTA, the "Free demo, no signup" comparison row, and the "Polecat Model Server" listing all promote), which does route one request through a lightweight Cloudflare Worker proxy so first-timers can try Polecat without a key. Reworded the hero note to "your keys stay in your browser" (true either way), scoped the other two claims to "with your own key" / "bring your own key," and added a one-line callout on the privacy section noting the free demo as the sole exception — so the privacy pitch stays accurate for every path through the page, not just the BYOK one.
+
 ## 2026-07-03 12:08 CT (79)
 - **Replaced color emoji with monochrome icons in the "Private & yours" section** — the big lock badge and all five feature pills (search, private mode, export, files, installable) used platform emoji (some font-color, clashing with the site's otherwise consistent stroke-icon language used everywhere else, e.g. the agreement-map badges). Swapped in small inline SVGs matching the app's own icon set — reusing the exact search/shield/export paths from the app's onboarding carousel and the paperclip from its attach button — so the section now matches Polecat's "no emoji in the UI" design language and renders identically everywhere regardless of font/emoji support.
 
