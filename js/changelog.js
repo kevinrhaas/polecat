@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 84,
+    title: 'Fixed the four product screenshots lacking reserved space, which could shift the whole page as they lazy-loaded',
+    ts: '2026-07-03T22:03:00.000Z',
+    items: [
+      'Fixed the four product screenshots lacking reserved space, which could shift the whole page as they lazy-loaded — the "Watch it consolidate, live" and "Customizable consensus" screenshots had no `width`/`height` attributes, so the browser couldn\'t reserve their height ahead of time; while auditing the page in a real headless-Chromium session, this showed up as several hundred pixels of layout shift while scrolling, since each `<img>` collapsed to near-zero height until its data arrived. Added the real intrinsic dimensions to all four `<img>` tags. That alone caused a regression caught by the same verification pass — with only `width` set to `100%` in CSS, the HTML `height` attribute was being applied literally instead of scaling with the image, stretching/distorting all four screenshots — fixed by adding `height: auto` alongside `width: 100%` in `.shot img` and `.split-shot img`, which lets the browser use the attributes purely to reserve the correct aspect ratio while auto-scaling to the container. Verified with the resulting layout pixel-matching the pre-change screenshots exactly, at desktop and mobile, with the space now reserved before the images finish loading.',
+    ],
+  },
+  {
     v: 83,
     title: 'Replaced the social-share preview image with a real designed card',
     ts: '2026-07-03T21:02:00.000Z',
