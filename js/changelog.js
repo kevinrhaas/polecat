@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 85,
+    title: 'Added structured data (JSON-LD) so search engines understand what Polecat is',
+    ts: '2026-07-03T22:53:00.000Z',
+    items: [
+      'Added structured data (JSON-LD) so search engines understand what Polecat is — the page had no `schema.org` markup at all, just Open Graph/Twitter tags for social previews. With the roadmap\'s website section fully checked off and a fresh visual audit (real headless-Chromium session, scrolled through desktop and mobile) turning up no visible bugs, added a `WebApplication` JSON-LD block describing Polecat, its free pricing, and browser requirements — a safe, purely additive change (no visible markup touched) that helps search engines show richer results. Verified the block parses as valid JSON and the page renders identically with zero console errors.',
+    ],
+  },
+  {
     v: 84,
     title: 'Fixed the four product screenshots lacking reserved space, which could shift the whole page as they lazy-loaded',
     ts: '2026-07-03T22:03:00.000Z',

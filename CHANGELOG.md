@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-03 17:53 CT (85)
+- **Added structured data (JSON-LD) so search engines understand what Polecat is** — the page had no `schema.org` markup at all, just Open Graph/Twitter tags for social previews. With the roadmap's website section fully checked off and a fresh visual audit (real headless-Chromium session, scrolled through desktop and mobile) turning up no visible bugs, added a `WebApplication` JSON-LD block describing Polecat, its free pricing, and browser requirements — a safe, purely additive change (no visible markup touched) that helps search engines show richer results. Verified the block parses as valid JSON and the page renders identically with zero console errors.
+
 ## 2026-07-03 17:03 CT (84)
 - **Fixed the four product screenshots lacking reserved space, which could shift the whole page as they lazy-loaded** — the "Watch it consolidate, live" and "Customizable consensus" screenshots had no `width`/`height` attributes, so the browser couldn't reserve their height ahead of time; while auditing the page in a real headless-Chromium session, this showed up as several hundred pixels of layout shift while scrolling, since each `<img>` collapsed to near-zero height until its data arrived. Added the real intrinsic dimensions to all four `<img>` tags. That alone caused a regression caught by the same verification pass — with only `width` set to `100%` in CSS, the HTML `height` attribute was being applied literally instead of scaling with the image, stretching/distorting all four screenshots — fixed by adding `height: auto` alongside `width: 100%` in `.shot img` and `.split-shot img`, which lets the browser use the attributes purely to reserve the correct aspect ratio while auto-scaling to the container. Verified with the resulting layout pixel-matching the pre-change screenshots exactly, at desktop and mobile, with the space now reserved before the images finish loading.
 
