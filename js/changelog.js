@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 77,
+    title: 'Fixed an invisible icon in the "See where the models agree" section',
+    ts: '2026-07-03T14:10:00.000Z',
+    items: [
+      'Fixed an invisible icon in the "See where the models agree" section — the "Where they split" row used a balance-scale character (⚖︎) that renders as a blank circle in this environment\'s fonts (confirmed via a headless-Chromium screenshot: the checkmark and arrow icons on the same card render fine, but the scale glyph is empty), silently dropping the icon from Polecat\'s signature differentiator section for some visitors. Replaced it with a small inline SVG fork icon, matching the stroke style used elsewhere on the page, so it renders identically everywhere regardless of font/emoji support.',
+    ],
+  },
+  {
     v: 76,
     title: 'Replaced a stale product screenshot with a live, current one',
     ts: '2026-07-03T13:18:00.000Z',

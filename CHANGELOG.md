@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-03 09:10 CT (77)
+- **Fixed an invisible icon in the "See where the models agree" section** — the "Where they split" row used a balance-scale character (⚖︎) that renders as a blank circle in this environment's fonts (confirmed via a headless-Chromium screenshot: the checkmark and arrow icons on the same card render fine, but the scale glyph is empty), silently dropping the icon from Polecat's signature differentiator section for some visitors. Replaced it with a small inline SVG fork icon, matching the stroke style used elsewhere on the page, so it renders identically everywhere regardless of font/emoji support.
+
 ## 2026-07-03 08:18 CT (76)
 - **Replaced a stale product screenshot with a live, current one** — the "Watch it consolidate, live" section's "Live progress" screenshot still showed the app's old technical copy ("Sequential Refinement · arbiter: auto (strategy default)"), which the app itself replaced weeks ago with a plain-language sentence as part of a jargon-reduction pass, and was dated `2026-06-12` in its own header. Recaptured it directly from the live current app (a real in-progress consensus run, not a mockup) so it now shows the actual current copy ("3 models answering in parallel, then the strategy auto-picks one to merge them into one answer.") and today's date. Also cropped it much tighter — the old capture was roughly 45% empty black canvas below the content; the new one keeps the composer visible right under the progress card with a balanced, non-empty layout that reads as a real screenshot rather than a stitched-together mockup.
 
