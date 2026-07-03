@@ -97,12 +97,13 @@ section[id] { scroll-margin-top: 76px; } /* keep the sticky nav from covering an
 .amap-panel-icon { font-size: 9px; color: var(--text-3); }
 .amap-panel-label { flex: 1; }
 .amap-panel-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 100px; color: #34d399; background: rgba(52,211,153,.13); }
-.amap-row { display: grid; grid-template-columns: 130px 1fr 40px auto; align-items: center; gap: 12px; margin-bottom: 14px; }
+.amap-stack { display: flex; width: 100%; height: 22px; border-radius: 100px; overflow: hidden; margin-bottom: 16px; }
+.amap-seg { display: flex; align-items: center; justify-content: center; height: 100%; background: var(--c); opacity: .88; color: #fff; font-size: 11px; font-weight: 800; text-shadow: 0 1px 2px rgba(0,0,0,.35); box-shadow: inset -1.5px 0 0 rgba(255,255,255,.18); }
+.amap-seg:last-child { box-shadow: none; }
+.amap-legend { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+.amap-legend-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .amap-name { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 13.5px; color: var(--text); }
 .amap-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex-shrink: 0; }
-.amap-track { height: 9px; border-radius: 100px; background: var(--surface-2); overflow: hidden; }
-.amap-fill { display: block; height: 100%; border-radius: 100px; background: var(--c); opacity: .8; }
-.amap-pct { font-size: 13px; font-weight: 800; color: var(--text-2); text-align: right; }
 .amap-stance { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 100px; white-space: nowrap; }
 .amap-aligned { color: #34d399; background: rgba(52,211,153,.12); }
 .amap-partial  { color: var(--text-3); background: var(--surface-2); }
@@ -118,7 +119,7 @@ section[id] { scroll-margin-top: 76px; } /* keep the sticky nav from covering an
 .amap-note.live-cta .live-ic { color: var(--brand-b); background: color-mix(in srgb, var(--brand-b) 16%, transparent); }
 .amap-app-link { display: inline-block; margin-top: 6px; font-size: 12.5px; font-weight: 700; color: var(--brand-b); text-decoration: none; }
 .amap-app-link:hover { color: var(--blush); }
-@media (max-width: 720px) { .amap { grid-template-columns: 1fr; } .amap-row { grid-template-columns: 100px 1fr 36px; } .amap-stance { display: none; } }
+@media (max-width: 720px) { .amap { grid-template-columns: 1fr; } }
 
 /* shots */
 .shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }

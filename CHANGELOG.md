@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-03 05:51 CT (73)
+- **Updated the agreement-map mockup to match the real app, and trimmed a wall of text** — the homepage's "See where the models agree" section still showed the app's old three-separate-bars contribution chart, which the app itself replaced weeks ago with a single stacked 100% bar; the mockup now matches exactly what app.polecat.live actually shows. Also condensed the "Interactive in the app" note from a dense multi-sentence paragraph down to two tight sentences, in line with the site's "one idea per screen" principle.
+
 ## 2026-07-03 04:45 CT (72)
 - **Fixed a hidden comparison table on mobile** — "Polecat vs. a single-model chat" scrolls horizontally on narrow screens (by design, so the labels stay readable), but nothing told visitors that, so the whole point of the table -- the highlighted Polecat column -- was invisible off-screen with no hint to swipe. Added a small "Swipe to see the Polecat column ->" hint below the table, shown only on mobile widths where the table actually overflows.
 

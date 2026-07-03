@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 73,
+    title: 'Updated the agreement-map mockup to match the real app, and trimmed a wall of text',
+    ts: '2026-07-03T10:51:00.000Z',
+    items: [
+      'Updated the agreement-map mockup to match the real app, and trimmed a wall of text — the homepage\'s "See where the models agree" section still showed the app\'s old three-separate-bars contribution chart, which the app itself replaced weeks ago with a single stacked 100% bar; the mockup now matches exactly what app.polecat.live actually shows. Also condensed the "Interactive in the app" note from a dense multi-sentence paragraph down to two tight sentences, in line with the site\'s "one idea per screen" principle.',
+    ],
+  },
+  {
     v: 72,
     title: 'Fixed a hidden comparison table on mobile',
     ts: '2026-07-03T09:45:00.000Z',
