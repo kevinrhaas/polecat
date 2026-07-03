@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 70,
+    title: 'Fixed two stale product screenshots',
+    ts: '2026-07-03T05:59:00.000Z',
+    items: [
+      'Fixed two stale product screenshots — the "Combining into one answer" and "Browse & search every available model" screenshots still showed a "Arbitration" settings tab that was merged away weeks ago. Both are now fresh captures of the current app (Models & Consensus tab, live OpenRouter model list), so the site matches what you actually see when you open Polecat.',
+    ],
+  },
+  {
     v: 69,
     title: 'Accessibility: decorative emoji hidden from screen readers',
     ts: '2026-07-03T03:32:00.000Z',

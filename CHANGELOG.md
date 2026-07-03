@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-03 00:59 CT (70)
+- **Fixed two stale product screenshots** — the "Combining into one answer" and "Browse & search every available model" screenshots still showed a "Arbitration" settings tab that was merged away weeks ago. Both are now fresh captures of the current app (Models & Consensus tab, live OpenRouter model list), so the site matches what you actually see when you open Polecat.
+
 ## 2026-07-02 22:32 CT (69)
 - **Accessibility: decorative emoji hidden from screen readers** — the lock icon in "Private & yours," the five feature pills below it (clock, sunglasses, download, paperclip, mobile), and the footer's coffee cup were previously read aloud by screen readers (e.g. "locked with key, Private and yours"), duplicating the adjacent text. All are now marked `aria-hidden="true"` so only the real label is announced.
 
