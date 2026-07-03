@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 81,
+    title: 'Fixed the "Seven providers" section leaving its 7th card stranded off to one side, and a squeezed-away provider dot',
+    ts: '2026-07-03T19:02:00.000Z',
+    items: [
+      'Fixed the "Seven providers" section leaving its 7th card stranded off to one side, and a squeezed-away provider dot — with 7 provider pills in a rigid 3-column grid, the last row held just one card ("Polecat Model Server"), left-aligned under an otherwise-empty row instead of sitting where the eye expects it. Switched the grid to a wrapping flexbox that centers a leftover row\'s card instead of stranding it. While verifying the fix at in-between widths (tablet, narrow desktop), also found that OpenRouter\'s colored identity dot could shrink away to nothing (and Groq\'s/the model server\'s shrank partway) whenever its pill got tight on horizontal room, because the dot had no protection against flexbox\'s default shrink behavior — a same-shape bug to several "identity dot disappears under layout pressure" issues fixed on the app side before. Gave the dot `flex-shrink: 0` so it always renders at full size, and stopped the "first-party"/"300+ models" badges from wrapping into two lines. Verified at 1400px, 1024px, 800px, and the 720px mobile breakpoint in headless Chromium — every provider now keeps its dot, its badge stays on one line, and a lone last-row card centers instead of hugging the left edge; zero console errors.',
+    ],
+  },
+  {
     v: 80,
     title: 'Fixed an over-broad privacy claim, in three spots',
     ts: '2026-07-03T18:01:00.000Z',
