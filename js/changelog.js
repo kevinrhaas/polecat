@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 91,
+    title: 'Replaced the two remaining raw glyphs on the homepage with proper SVG icons',
+    ts: '2026-07-04T09:17:00.000Z',
+    items: [
+      'Replaced the two remaining raw glyphs on the homepage with proper SVG icons — a real headless-Chromium audit (scrolled the full page, checked images/links/mobile overflow, zero bugs found) turned up two spots that had slipped past the last two emoji/glyph sweeps: the "Where they agreed" note in the agreement-map mockup still used a plain `✓` character while its sibling "Where they split" note right below it already used a proper stroke SVG in the exact same icon slot, and the closing "leave a tip ☕" link used a real emoji — inconsistent with the app\'s own tip-jar UI (Settings → Support), which uses plain text tier buttons with no emoji at all. Replaced both with small stroke SVGs matching the page\'s existing icon convention (13px, `currentColor`, `aria-hidden`) — a checkmark for "agreed" and a coffee cup for the tip link. Verified in a real headless-Chromium session: both render crisply at their exact positions with no layout shift, `node scripts/validate.mjs` passes.',
+    ],
+  },
+  {
     v: 90,
     title: 'Replaced the last color emoji and unicode star glyphs with proper monochrome SVG icons',
     ts: '2026-07-04T07:27:00.000Z',
