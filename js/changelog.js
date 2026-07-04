@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 88,
+    title: 'Fixed an inaccurate privacy claim in the comparison table',
+    ts: '2026-07-04T03:37:00.000Z',
+    items: [
+      'Fixed an inaccurate privacy claim in the comparison table — the "Polecat vs. a single-model chat" table claimed prompts &amp; files go "Straight from your browser to each provider with your own key — no Polecat server in between," a blanket claim. But the page\'s own "Seven providers" section documents a first-party "Polecat Model Server" ("served by us"), and the Privacy section already correctly caveats the free demo as a proxied exception — so the comparison-table row was flatly wrong for two real, currently-live paths, and the Privacy section\'s own caveat ("the free demo is the one exception") undercounted by one. Fixed both: the table row now notes "(except the keyless free demo &amp; Polecat Model Server, which proxy through ours)," and the Privacy section now says "Two exceptions" and names both. Verified in a real headless-Chromium session (desktop + mobile): both sections render cleanly with no layout regressions, `node scripts/validate.mjs` passes.',
+    ],
+  },
+  {
     v: 87,
     title: 'Fixed the examples carousel being completely unreachable by keyboard',
     ts: '2026-07-04T01:14:00.000Z',
