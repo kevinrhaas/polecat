@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 90,
+    title: 'Replaced the last color emoji and unicode star glyphs with proper monochrome SVG icons',
+    ts: '2026-07-04T07:27:00.000Z',
+    items: [
+      'Replaced the last color emoji and unicode star glyphs with proper monochrome SVG icons — the app side of Polecat has twice swept its own UI for this exact issue ("no emoji, one consistent SVG icon set"), and the site itself already converted the "Private & yours" section\'s emoji to SVGs in a prior pass, but four spots on the homepage still used a sparkle emoji or a plain `✦` character: the primary hero CTA ("✨ Try it free"), the "✦ Consensus" pill in the hero\'s provider flow, both `✦ Consensus` labels in the "How consolidation works" flow diagram, and the "✨ now live" kicker badge above the agreement-map section. Removed the emoji from the CTA and kicker outright (matching the site\'s other CTAs, which already read as plain text with no icon) and replaced the two `✦` glyphs with a small inline SVG star matching the icon convention already used elsewhere on the page (13px, `fill="currentColor"`, `aria-hidden`). Verified in a real headless-Chromium session (scrolled through the full page to trigger the reveal-on-scroll animations): the hero, provider-flow pill, and consolidation-flow diagram all render the new icon crisply with no layout shift, zero console errors, `node scripts/validate.mjs` passes.',
+    ],
+  },
+  {
     v: 89,
     title: 'Refreshed the sitemap\'s stale `lastmod` date',
     ts: '2026-07-04T05:43:00.000Z',
