@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 97,
+    title: 'Added a `<main>` landmark around the page content',
+    ts: '2026-07-04T15:11:00.000Z',
+    items: [
+      'Added a `<main>` landmark around the page content — an accessibility audit found every section (hero, examples, how-it-works, agreement map, providers, comparison table, privacy, closing CTA) sat as a direct child of `<body>` between the header and footer, with no `<main>` element anywhere. Screen-reader users navigating by landmark (a standard NVDA/JAWS/VoiceOver technique) only ever saw two stops — "banner" and "contentinfo" — with no way to jump straight to the actual content. Wrapped the existing sections in a single `<main>`, no markup or CSS otherwise changed. Verified in a real headless-Chromium session: the page now exposes header/main/footer landmarks in order, all 11 top-level sections render inside `<main>` exactly as before with no visual or layout change, zero console errors, `node scripts/validate.mjs` passes.',
+    ],
+  },
+  {
     v: 96,
     title: 'Put a real number in the page\'s SEO/social copy instead of "many"',
     ts: '2026-07-04T13:59:00.000Z',

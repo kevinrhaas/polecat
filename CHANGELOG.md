@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-04 10:11 CT (97)
+- **Added a `<main>` landmark around the page content** — an accessibility audit found every section (hero, examples, how-it-works, agreement map, providers, comparison table, privacy, closing CTA) sat as a direct child of `<body>` between the header and footer, with no `<main>` element anywhere. Screen-reader users navigating by landmark (a standard NVDA/JAWS/VoiceOver technique) only ever saw two stops — "banner" and "contentinfo" — with no way to jump straight to the actual content. Wrapped the existing sections in a single `<main>`, no markup or CSS otherwise changed. Verified in a real headless-Chromium session: the page now exposes header/main/footer landmarks in order, all 11 top-level sections render inside `<main>` exactly as before with no visual or layout change, zero console errors, `node scripts/validate.mjs` passes.
+
 ## 2026-07-04 08:59 CT (96)
 - **Put a real number in the page's SEO/social copy instead of "many"** — with the roadmap's website section fully checked off and a fresh visual audit turning up no new visible bugs, applied the site's own "Numbers, not adjectives" landing-page-craft guidance to a spot that had been missed: the `<meta name="description">`, Open Graph/Twitter descriptions, and JSON-LD description (the copy search engines and link previews on X/Slack/Discord actually show, seen far more often than the page itself) all said "many AI models" while the homepage body copy already commits to a concrete "Seven providers, free and paid." Updated all four to say "up to 7 AI providers," and tightened the meta description, which had drifted well past the ~155-160 character length search engines actually display. No visible on-page copy changed. Verified the JSON-LD block still parses as valid JSON and `node scripts/validate.mjs` passes.
 
