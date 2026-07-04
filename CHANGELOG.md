@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-04 10:56 CT (98)
+- **Refreshed the stale "Customizable consensus" product screenshot** — it was captured before the app moved "Clear all keys" out of the shared Settings footer into the Keys tab, so the marketing site was showing a footer layout ( "Clear all keys" next to "Tour"/"Done" on the Models tab) that no longer exists in the live product. Recaptured it from the current app: same section, same "Combining into one answer" content, now with the corrected footer and the merged "Models & Consensus" tab heading. No copy or layout changes, just an accurate, up-to-date screenshot.
+
 ## 2026-07-04 10:11 CT (97)
 - **Added a `<main>` landmark around the page content** — an accessibility audit found every section (hero, examples, how-it-works, agreement map, providers, comparison table, privacy, closing CTA) sat as a direct child of `<body>` between the header and footer, with no `<main>` element anywhere. Screen-reader users navigating by landmark (a standard NVDA/JAWS/VoiceOver technique) only ever saw two stops — "banner" and "contentinfo" — with no way to jump straight to the actual content. Wrapped the existing sections in a single `<main>`, no markup or CSS otherwise changed. Verified in a real headless-Chromium session: the page now exposes header/main/footer landmarks in order, all 11 top-level sections render inside `<main>` exactly as before with no visual or layout change, zero console errors, `node scripts/validate.mjs` passes.
 

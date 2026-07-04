@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 98,
+    title: 'Refreshed the stale "Customizable consensus" product screenshot',
+    ts: '2026-07-04T15:56:00.000Z',
+    items: [
+      'Refreshed the stale "Customizable consensus" product screenshot — it was captured before the app moved "Clear all keys" out of the shared Settings footer into the Keys tab, so the marketing site was showing a footer layout ( "Clear all keys" next to "Tour"/"Done" on the Models tab) that no longer exists in the live product. Recaptured it from the current app: same section, same "Combining into one answer" content, now with the corrected footer and the merged "Models & Consensus" tab heading. No copy or layout changes, just an accurate, up-to-date screenshot.',
+    ],
+  },
+  {
     v: 97,
     title: 'Added a `<main>` landmark around the page content',
     ts: '2026-07-04T15:11:00.000Z',
