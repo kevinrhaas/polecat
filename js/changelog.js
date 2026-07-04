@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 101,
+    title: 'Fixed the examples carousel\'s "Consensus" label contrast — the one accessibility finding two prior passes had explicitly left alone',
+    ts: '2026-07-04T18:54:00.000Z',
+    items: [
+      'Fixed the examples carousel\'s "Consensus" label contrast — the one accessibility finding two prior passes had explicitly left alone — an axe-core audit (same tool that\'s caught several real bugs recently) re-flagged `.pcx-clabel`\'s 3.27:1 contrast, which passes 90/94/99 had each noted and deliberately skipped fixing out of caution: the `.pcx-*` examples-carousel block is the verified, do-not-rewrite component pasted in from the app repo\'s `website/examples-carousel.html`, and neither prior pass wanted to risk restructuring it. But the actual fix needed isn\'t a rewrite — it\'s a single CSS custom-property value. Changed `--pcx-purple` from `#9333ea` to `#b070f0`, which happens to be almost exactly the site\'s own existing `--consensus` brand color (`#b070f0`) already used for this identical "consensus" concept in the hero flow and elsewhere on the page — so the fix is also a brand-consistency improvement, not just a contrast tweak. New contrast against the label\'s actual background is 5.38:1, comfortably clearing the 4.5:1 AA threshold. Applied identically to the canonical source (`website/examples-carousel.html` in the app repo) so the two never drift. Verified with axe-core: the `.pcx-clabel` violation is gone; a real headless-Chromium screenshot (desktop + mobile) shows the "Consensus" label reading clearly with no layout or structural change. `node scripts/validate.mjs` passes.',
+    ],
+  },
+  {
     v: 100,
     title: 'Added subtle live motion to the "How consolidation works" flow diagram',
     ts: '2026-07-04T17:54:00.000Z',
