@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 95,
+    title: 'Replaced the last raw glyph on the homepage with a proper icon, matching the real app',
+    ts: '2026-07-04T12:54:00.000Z',
+    items: [
+      'Replaced the last raw glyph on the homepage with a proper icon, matching the real app — the last three icon-consistency passes (90, 91, 92) swept the page for star/checkmark/emoji glyphs, but missed a plain Unicode triangle (a geometric-shapes character, not a star or emoji, so it didn\'t match those searches) used as the "How this was formed" panel\'s disclosure marker in the agreement-map mockup - the section of the page mocking up Polecat\'s real provenance panel. It also had no `aria-hidden`, unlike every other decorative icon on the page. Replaced it with the exact same chevron SVG the real app itself uses for this exact panel\'s disclosure toggle (`CHEV_R` in `js/app.js`), so the marketing mockup now matches the live product pixel-for-pixel on this detail, and added `aria-hidden="true"`. Verified in a real headless-Chromium session (scrolled to trigger reveal-on-scroll, screenshotted the section): renders crisply with no layout shift, zero console errors, `node scripts/validate.mjs` passes.',
+    ],
+  },
+  {
     v: 94,
     title: 'Accessibility pass: fixed a real muted-text typo and two low-contrast/undistinguishable links',
     ts: '2026-07-04T12:02:00.000Z',

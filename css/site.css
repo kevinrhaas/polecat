@@ -94,7 +94,7 @@ section[id] { scroll-margin-top: 76px; } /* keep the sticky nav from covering an
 .amap-bars, .amap-notes { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 20px 22px; }
 /* provenance panel header mockup */
 .amap-panel-header { display: flex; align-items: center; gap: 8px; padding-bottom: 14px; border-bottom: 1px dashed var(--border); margin-bottom: 14px; font-size: 12px; font-weight: 700; color: var(--text-2); }
-.amap-panel-icon { font-size: 9px; color: var(--text-3); }
+.amap-panel-icon { display: flex; align-items: center; color: var(--text-3); }
 .amap-panel-label { flex: 1; }
 .amap-panel-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 100px; color: #34d399; background: rgba(52,211,153,.13); }
 .amap-stack { display: flex; width: 100%; height: 22px; border-radius: 100px; overflow: hidden; margin-bottom: 16px; }
