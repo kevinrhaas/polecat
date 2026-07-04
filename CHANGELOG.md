@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-04 06:15 CT (93)
+- **Mentioned inline highlighting in the agreement-map section** — with the roadmap and backlog fully checked off, audited the homepage in a real headless-Chromium session (desktop + mobile, full scroll, images/links/console all checked clean) and found no defects, so instead described a real app capability the homepage never mentioned: the agreement map's "Interactive in the app" note covered the plain-language verdict, contribution badges, cross-model debate, and reformat-without-re-querying, but not inline highlighting (color-coding the consensus answer sentence-by-sentence by which model said what) — a genuinely distinctive feature with no equivalent copy anywhere on the site. Added one sentence describing it, in the same voice as its neighbors. Verified in a real browser session: renders cleanly with no layout shift, zero console errors, `node scripts/validate.mjs` passes.
+
 ## 2026-07-04 05:11 CT (92)
 - **Replaced the last raw glyph on the homepage with a proper SVG icon** — the last two passes (90, 91) swept the page for the `star` character used as a "Consensus" marker and fixed every instance in the hero, the flow diagrams, and the agreement-map mockup, but missed the exact same glyph used 6 times in the "Ask once. Watch them split — then reconcile." examples carousel — the homepage's own signature showcase — where every one of the 6 example cards marks its consensus verdict with the raw character instead of the SVG icon used everywhere else on the page. Replaced all 6 with the same small stroke-style SVG star already used for "Consensus" elsewhere, and added `aria-hidden` (the old glyph had none, so it was read aloud 6 times by screen readers). Verified in a real headless-Chromium session (desktop + mobile): all 6 icons render at a consistent size with no layout shift, zero console errors, `node scripts/validate.mjs` passes.
 

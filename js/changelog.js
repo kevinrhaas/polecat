@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 93,
+    title: 'Mentioned inline highlighting in the agreement-map section',
+    ts: '2026-07-04T11:15:00.000Z',
+    items: [
+      'Mentioned inline highlighting in the agreement-map section — with the roadmap and backlog fully checked off, audited the homepage in a real headless-Chromium session (desktop + mobile, full scroll, images/links/console all checked clean) and found no defects, so instead described a real app capability the homepage never mentioned: the agreement map\'s "Interactive in the app" note covered the plain-language verdict, contribution badges, cross-model debate, and reformat-without-re-querying, but not inline highlighting (color-coding the consensus answer sentence-by-sentence by which model said what) — a genuinely distinctive feature with no equivalent copy anywhere on the site. Added one sentence describing it, in the same voice as its neighbors. Verified in a real browser session: renders cleanly with no layout shift, zero console errors, `node scripts/validate.mjs` passes.',
+    ],
+  },
+  {
     v: 92,
     title: 'Replaced the last raw glyph on the homepage with a proper SVG icon',
     ts: '2026-07-04T10:11:00.000Z',
