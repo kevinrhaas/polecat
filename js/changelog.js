@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 94,
+    title: 'Accessibility pass: fixed a real muted-text typo and two low-contrast/undistinguishable links',
+    ts: '2026-07-04T12:02:00.000Z',
+    items: [
+      'Accessibility pass: fixed a real muted-text typo and two low-contrast/undistinguishable links — after a long streak of manual glyph/copy sweeps, ran an automated axe-core accessibility audit across the homepage (desktop + mobile, full scroll) instead of another eyeball pass. Found a genuine CSS bug: the community-model-server paragraph was styled `color:var(--text3)` (missing the hyphen in the actual token name `--text-3`), so the typo silently fell back to full-bright body text instead of the intended muted tone — corrected to the real token, then bumped to `--text-2` since `--text-3` itself doesn\'t clear 4.5:1 against the page background (same class of fix already applied several times on the app side). Also fixed the hero\'s "what\'s new" link, which fell just under the AA contrast threshold from a stray `opacity:.7`, and the "try it free" link in that same paragraph, which relied on color alone to read as a link — added an underline so it\'s distinguishable without relying on color, per WCAG 1.4.1. Left the examples carousel\'s "Consensus" label contrast as-is since that component is the verified, do-not-rewrite `pcx-*` block. Verified in a real headless-Chromium session: axe-core\'s serious color-contrast/link-distinguishability violations drop from 3 types to the one pre-existing carousel-component note, zero console errors, no layout shift, `node scripts/validate.mjs` passes.',
+    ],
+  },
+  {
     v: 93,
     title: 'Mentioned inline highlighting in the agreement-map section',
     ts: '2026-07-04T11:15:00.000Z',
