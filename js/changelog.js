@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 96,
+    title: 'Put a real number in the page\'s SEO/social copy instead of "many"',
+    ts: '2026-07-04T13:59:00.000Z',
+    items: [
+      'Put a real number in the page\'s SEO/social copy instead of "many" — with the roadmap\'s website section fully checked off and a fresh visual audit turning up no new visible bugs, applied the site\'s own "Numbers, not adjectives" landing-page-craft guidance to a spot that had been missed: the `<meta name="description">`, Open Graph/Twitter descriptions, and JSON-LD description (the copy search engines and link previews on X/Slack/Discord actually show, seen far more often than the page itself) all said "many AI models" while the homepage body copy already commits to a concrete "Seven providers, free and paid." Updated all four to say "up to 7 AI providers," and tightened the meta description, which had drifted well past the ~155-160 character length search engines actually display. No visible on-page copy changed. Verified the JSON-LD block still parses as valid JSON and `node scripts/validate.mjs` passes.',
+    ],
+  },
+  {
     v: 95,
     title: 'Replaced the last raw glyph on the homepage with a proper icon, matching the real app',
     ts: '2026-07-04T12:54:00.000Z',
