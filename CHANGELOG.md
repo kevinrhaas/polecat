@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-04 11:47 CT (99)
+- **Fixed two real accessibility bugs found by an automated axe-core audit** — ran axe-core against the live homepage (desktop + mobile) instead of another manual glyph sweep, and it caught two genuine issues the prior manual passes missed: (1) the "Polecat vs. a single-model chat" comparison table's horizontally-scrolling wrapper had no way to scroll it from a keyboard or screen reader (the same class of bug an earlier pass fixed on the examples carousel's scroll row) — added `tabindex="0"`, `role="region"`, an `aria-label`, and a focus ring, verified arrow keys now move `scrollLeft`; (2) the table's blank corner header cell (`<th scope="col"></th>`) had no discernible text for screen readers — added a visually-hidden "Feature" label via a new `.sr-only` utility class. Left the examples carousel's "Consensus" label contrast finding as-is per the prior pass's explicit decision, since that `.pcx-*` block is the verified, do-not-rewrite component. Verified `node scripts/validate.mjs` passes and a re-run of axe-core drops from 2 fixable violations to the one pre-existing carousel note, with zero visual/layout change and zero console errors.
+
 ## 2026-07-04 10:56 CT (98)
 - **Refreshed the stale "Customizable consensus" product screenshot** — it was captured before the app moved "Clear all keys" out of the shared Settings footer into the Keys tab, so the marketing site was showing a footer layout ( "Clear all keys" next to "Tour"/"Done" on the Models tab) that no longer exists in the live product. Recaptured it from the current app: same section, same "Combining into one answer" content, now with the corrected footer and the merged "Models & Consensus" tab heading. No copy or layout changes, just an accurate, up-to-date screenshot.
 

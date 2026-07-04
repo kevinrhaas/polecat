@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 99,
+    title: 'Fixed two real accessibility bugs found by an automated axe-core audit',
+    ts: '2026-07-04T16:47:00.000Z',
+    items: [
+      'Fixed two real accessibility bugs found by an automated axe-core audit — ran axe-core against the live homepage (desktop + mobile) instead of another manual glyph sweep, and it caught two genuine issues the prior manual passes missed: (1) the "Polecat vs. a single-model chat" comparison table\'s horizontally-scrolling wrapper had no way to scroll it from a keyboard or screen reader (the same class of bug an earlier pass fixed on the examples carousel\'s scroll row) — added `tabindex="0"`, `role="region"`, an `aria-label`, and a focus ring, verified arrow keys now move `scrollLeft`; (2) the table\'s blank corner header cell (`<th scope="col"></th>`) had no discernible text for screen readers — added a visually-hidden "Feature" label via a new `.sr-only` utility class. Left the examples carousel\'s "Consensus" label contrast finding as-is per the prior pass\'s explicit decision, since that `.pcx-*` block is the verified, do-not-rewrite component. Verified `node scripts/validate.mjs` passes and a re-run of axe-core drops from 2 fixable violations to the one pre-existing carousel note, with zero visual/layout change and zero console errors.',
+    ],
+  },
+  {
     v: 98,
     title: 'Refreshed the stale "Customizable consensus" product screenshot',
     ts: '2026-07-04T15:56:00.000Z',
