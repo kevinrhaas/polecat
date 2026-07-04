@@ -144,6 +144,7 @@
     .pcx-sub{ font-size:15px; color:var(--pcx-text2); line-height:1.6; margin:0 0 20px; max-width:640px; }
     .pcx-row{ display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory;
       -webkit-overflow-scrolling:touch; padding:4px 4px 14px; scrollbar-width:thin; scrollbar-color:var(--pcx-border) transparent; }
+    .pcx-row:focus-visible{ outline:2px solid var(--pcx-purple); outline-offset:2px; border-radius:8px; }
     .pcx-row::-webkit-scrollbar{ height:8px; }
     .pcx-row::-webkit-scrollbar-thumb{ background:var(--pcx-border); border-radius:4px; }
     .pcx-card{ flex:0 0 min(560px,86%); scroll-snap-align:center; padding:22px 22px 24px;
@@ -172,7 +173,7 @@
   <h2 class="pcx-head">Ask once. Watch them split &mdash; then reconcile.</h2>
   <p class="pcx-sub">Where models diverge, consensus reconciles; where they agree, you can trust it.</p>
 
-  <div class="pcx-row">
+  <div class="pcx-row" tabindex="0" role="region" aria-label="Example prompts carousel — scroll or use arrow keys to see all 6">
 
     <article class="pcx-card">
       <div class="pcx-card-top"><span class="pcx-topic">Cooking</span><span class="pcx-tag diverge">They disagreed</span></div>
@@ -388,7 +389,7 @@
     <a href="https://github.com/kevinrhaas/polecat/blob/main/CHANGELOG.md">Changelog</a>
     <a href="https://ko-fi.com/polecatlive" target="_blank" rel="noopener">Ko-fi</a>
   </div>
-  <div class="foot-meta">Last updated 2026-07-03 18:48 CT · <a href="https://github.com/kevinrhaas/polecat/blob/main/CHANGELOG.md" style="color:inherit">changelog</a></div>
+  <div class="foot-meta">Last updated 2026-07-03 20:14 CT · <a href="https://github.com/kevinrhaas/polecat/blob/main/CHANGELOG.md" style="color:inherit">changelog</a></div>
 
 </footer>
 

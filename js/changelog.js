@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 87,
+    title: 'Fixed the examples carousel being completely unreachable by keyboard',
+    ts: '2026-07-04T01:14:00.000Z',
+    items: [
+      'Fixed the examples carousel being completely unreachable by keyboard — the "Ask once. Watch them split — then reconcile." section (the homepage\'s signature differentiator showcase, 6 real prompts with disagreeing model takes + consensus) is a horizontally-scrolling row with no prev/next buttons or links inside its cards, just a native scrollbar and a "Swipe or scroll to see more" hint. Checked whether it was reachable by Tab and confirmed it wasn\'t: the scroll container had no `tabindex` and no focusable children, so a keyboard-only visitor could Tab straight past the entire section and only ever see the first card — 5 of 6 examples, including most of the "they disagreed, consensus reconciled" story this section exists to tell, were invisible to keyboard/screen-reader users. Added `tabindex="0"` and a `role="region"` label to the scroll row plus a visible focus ring matching the site\'s existing focus-visible convention — the browser\'s native "arrow keys scroll a focused scrollable element" behavior now lets keyboard users page through all 6 cards. Verified in a real headless-Chromium session: focusing the row and pressing the arrow keys moves it (0px to 356px scrollLeft), with a visible purple outline.',
+    ],
+  },
+  {
     v: 86,
     title: 'Fixed low-contrast informational text across the homepage',
     ts: '2026-07-03T23:48:00.000Z',
