@@ -718,7 +718,7 @@ export const CHANGELOG = [
     title: 'Fixed the examples carousel for real.',
     ts: '2026-06-26T17:00:00.000Z',
     items: [
-      'Fixed the examples carousel for real. The root cause behind the last several "fixes" was that the entire `#cases` section used curly/smart quotes (`”`, `’`) as HTML attribute delimiters — `class=”pcx”` instead of `class="pcx"` — so browsers never applied any `.pcx` styles and the section rendered as a wall of raw text. Replaced all 246 smart quotes with straight ASCII quotes (typographic entities in the copy left intact) and verified the styled cards render via a headless browser.',
+      'Fixed the examples carousel for real. The root cause behind the last several "fixes" was that the entire `#cases` section used curly/smart quotes (`"`, `\'`) as HTML attribute delimiters — `class="pcx"` instead of `class="pcx"` — so browsers never applied any `.pcx` styles and the section rendered as a wall of raw text. Replaced all 246 smart quotes with straight ASCII quotes (typographic entities in the copy left intact) and verified the styled cards render via a headless browser.',
     ],
   },
   {

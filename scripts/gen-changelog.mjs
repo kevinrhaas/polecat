@@ -79,6 +79,11 @@ const out = entries.map(e => ({
 // double-quoted output looked valid but the manager only reads single-quoted.)
 function jsStr(s) {
   return "'" + String(s)
+    // Normalize curly quotes to ASCII FIRST. The manager sanitizes smart quotes
+    // before parsing, so a raw curly apostrophe (U+2019) would become a straight
+    // ' that closes the string early. Convert here so it gets escaped as \' below.
+    .replace(/[‘’]/g, "'")
+    .replace(/[“”]/g, '"')
     .replace(/\\/g, '\\\\')
     .replace(/'/g, "\\'")
     .replace(/\r/g, '')
