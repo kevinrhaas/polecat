@@ -66,12 +66,35 @@ function titleOf(items) {
   return stripBold(t).replace(/[\s:—-]+$/, '').trim() || 'Update';
 }
 
-const out = entries.map(e => ({
-  v: e.v,
-  title: titleOf(e.items),
-  ts: ctToUtcISO(e.date, e.time),
-  items: e.items.map(stripBold),
-}));
+// Keep item/title text plain prose, matching the rest of the fleet (games, relay)
+// so the manager's changelog parser stays happy. Strips markdown code-span
+// backticks (noise) and neutralizes curly braces: an item like
+// `.foo { display: block }` looks like an object literal to the manager's
+// bare-key quoter and breaks its JSON parse.
+function cleanText(s) {
+  return stripBold(String(s))
+    .replace(/`/g, '')
+    .replace(/\{/g, '(')
+    .replace(/\}/g, ')')
+    .replace(/[ \t]{2,}/g, ' ')
+    .trim();
+}
+// Classify each entry for the fleet's `kind` field (games/manager convention).
+function kindOf(title) {
+  return /\b(fix|fixed|fixes|bug|crash|regress|hardened?|typo|stale|leak|revert|patch|correct|repair|broke|broken)\b/i
+    .test(title) ? 'fix' : 'feature';
+}
+
+const out = entries.map(e => {
+  const title = titleOf(e.items);
+  return {
+    v: e.v,
+    title: cleanText(title),
+    kind: kindOf(title),
+    ts: ctToUtcISO(e.date, e.time),
+    items: e.items.map(cleanText),
+  };
+});
 
 // Serialize as a SINGLE-quoted JS string literal — the fleet convention the
 // Polecat manager's changelog sync parses. Double quotes are left literal; only
@@ -94,6 +117,7 @@ const body = out.map(e =>
   '  {\n' +
   `    v: ${e.v},\n` +
   `    title: ${jsStr(e.title)},\n` +
+  `    kind: ${jsStr(e.kind)},\n` +
   `    ts: ${jsStr(e.ts)},\n` +
   '    items: [\n' +
   e.items.map(it => `      ${jsStr(it)},\n`).join('') +
