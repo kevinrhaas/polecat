@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 100,
+    title: 'Added subtle live motion to the "How consolidation works" flow diagram',
+    ts: '2026-07-04T17:54:00.000Z',
+    items: [
+      'Added subtle live motion to the "How consolidation works" flow diagram — after a long streak of accessibility/copy/contrast fixes, went back to the roadmap\'s standing "show, don\'t tell, product in motion" direction, which the page hadn\'t acted on since its build-out. The diagram (model list -> a line -> the merged Consensus card) was completely static, so the page\'s own explanation of how consensus works didn\'t visually convey anything actually happening. Added three small, tasteful, 100%-CSS touches, no new assets, no JS: each model\'s colored dot now softly pulses on a staggered cycle (reads as "actively answering"); a small glowing dot travels down the connecting line toward Consensus (up to sideways on mobile, where the line is horizontal); and the Consensus card itself gently breathes with its existing glow. All three respect `prefers-reduced-motion` (verified computed `animationName` resolves to `none` when set) and are scoped to this one diagram, so nothing else on the page changed. Verified in a real headless-Chromium session at desktop and 390px mobile widths: zero console errors, no layout shift, `node scripts/validate.mjs` passes.',
+    ],
+  },
+  {
     v: 99,
     title: 'Fixed two real accessibility bugs found by an automated axe-core audit',
     ts: '2026-07-04T16:47:00.000Z',
