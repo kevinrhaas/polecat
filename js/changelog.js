@@ -4,6 +4,14 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 89,
+    title: 'Refreshed the sitemap\'s stale `lastmod` date',
+    ts: '2026-07-04T05:43:00.000Z',
+    items: [
+      'Refreshed the sitemap\'s stale `lastmod` date — did a full visual audit of the homepage (real headless-Chromium session, scrolled through desktop and mobile with reveal-on-scroll animations actually triggered, so nothing was mistaken for a layout bug) and found no visible regressions or defects; every roadmap and backlog item for the site is already checked off. While auditing SEO metadata, found `sitemap.xml`\'s `<lastmod>` was still `2026-07-02` despite several content fixes shipping since (the privacy-claim correction, the keyboard-accessibility fix, contrast fixes). Bumped it to today so search engines see an accurate last-modified signal. No visible or behavioral change.',
+    ],
+  },
+  {
     v: 88,
     title: 'Fixed an inaccurate privacy claim in the comparison table',
     ts: '2026-07-04T03:37:00.000Z',

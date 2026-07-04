@@ -2,6 +2,9 @@
 
 What's new on the Polecat landing site.
 
+## 2026-07-04 00:43 CT (89)
+- **Refreshed the sitemap's stale `lastmod` date** — did a full visual audit of the homepage (real headless-Chromium session, scrolled through desktop and mobile with reveal-on-scroll animations actually triggered, so nothing was mistaken for a layout bug) and found no visible regressions or defects; every roadmap and backlog item for the site is already checked off. While auditing SEO metadata, found `sitemap.xml`'s `<lastmod>` was still `2026-07-02` despite several content fixes shipping since (the privacy-claim correction, the keyboard-accessibility fix, contrast fixes). Bumped it to today so search engines see an accurate last-modified signal. No visible or behavioral change.
+
 ## 2026-07-03 22:37 CT (88)
 - **Fixed an inaccurate privacy claim in the comparison table** — the "Polecat vs. a single-model chat" table claimed prompts &amp; files go "Straight from your browser to each provider with your own key — no Polecat server in between," a blanket claim. But the page's own "Seven providers" section documents a first-party "Polecat Model Server" ("served by us"), and the Privacy section already correctly caveats the free demo as a proxied exception — so the comparison-table row was flatly wrong for two real, currently-live paths, and the Privacy section's own caveat ("the free demo is the one exception") undercounted by one. Fixed both: the table row now notes "(except the keyless free demo &amp; Polecat Model Server, which proxy through ours)," and the Privacy section now says "Two exceptions" and names both. Verified in a real headless-Chromium session (desktop + mobile): both sections render cleanly with no layout regressions, `node scripts/validate.mjs` passes.
 
