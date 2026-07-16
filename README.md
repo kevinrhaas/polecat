@@ -1,3 +1,11 @@
+> [!IMPORTANT]
+> **This repo's marketing page has moved.** polecat.live now serves the Polecat
+> *suite* launcher (from [polecat-platform](https://github.com/kevinrhaas/polecat-platform)),
+> and the chat product's marketing page lives in
+> [polecat-app](https://github.com/kevinrhaas/polecat-app) at
+> [app.polecat.live/welcome](https://app.polecat.live/welcome/). This repo now
+> serves only a redirect stub and is kept for history — a candidate for archiving.
+
 <div align="center">
   <img src="assets/polecat.svg" width="96" alt="Polecat">
   <h1>Polecat</h1>
