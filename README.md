@@ -1,10 +1,13 @@
 > [!IMPORTANT]
-> **This repo's marketing page has moved.** polecat.live now serves the Polecat
-> *suite* launcher (from [polecat-platform](https://github.com/kevinrhaas/polecat-platform)),
-> and the chat product's marketing page lives in
-> [polecat-app](https://github.com/kevinrhaas/polecat-app) at
-> [app.polecat.live/welcome](https://app.polecat.live/welcome/). This repo now
-> serves only a redirect stub and is kept for history — a candidate for archiving.
+> **This repo now serves the app.polecat.live "we moved" stub.** The chat app
+> lives at [chat.polecat.live](https://chat.polecat.live) (repo:
+> [polecat-app](https://github.com/kevinrhaas/polecat-app), marketing at
+> [chat.polecat.live/welcome](https://chat.polecat.live/welcome/)); polecat.live
+> serves the suite launcher (from
+> [polecat-platform](https://github.com/kevinrhaas/polecat-platform)). The stub
+> here carries visitors' local data to the new origin via a one-time
+> `#handoff=` link (canonical source: polecat-app `handoff-stub/index.html`).
+> Keep it published for months — installed PWAs still point at the old origin.
 
 <div align="center">
   <img src="assets/polecat.svg" width="96" alt="Polecat">
