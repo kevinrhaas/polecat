@@ -925,3 +925,5 @@ export const CHANGELOG = [
     ],
   },
 ];
+
+export const LATEST_VERSION = CHANGELOG[0].v;

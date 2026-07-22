@@ -132,5 +132,5 @@ const header =
   '// Entries are newest-first; `ts` is an ISO-8601 UTC string.\n';
 
 mkdirSync(join(root, 'js'), { recursive: true });
-writeFileSync(join(root, 'js', 'changelog.js'), `${header}export const CHANGELOG = [\n${body}\n];\n`);
+writeFileSync(join(root, 'js', 'changelog.js'), `${header}export const CHANGELOG = [\n${body}\n];\n\nexport const LATEST_VERSION = CHANGELOG[0].v;\n`);
 console.log(`gen-changelog: wrote js/changelog.js (${out.length} entries).`);
