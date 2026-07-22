@@ -72,9 +72,13 @@ device. Settings carry over across new versions; clearing site data or switching
 
 ## Tech
 
-Two static sites — no build step, no framework, no bundler — deployed to GitHub Pages as-is:
-- **Landing** → `polecat.live` (this repo): `index.html` + `css/site.css`.
-- **App** → `app.polecat.live` (the `polecat-app` repo): `index.html` + `css/` + ES-module `js/` (`config`, `providers`, `arbitration`, `ui`, `app`).
+Static sites — no build step, no framework, no bundler — deployed to GitHub Pages as-is:
+- **This repo** → `app.polecat.live`: a single handoff-stub `index.html` that carries a
+  visitor's local data (chats, settings, keys) to `chat.polecat.live` via a one-time
+  `#handoff=` fragment, then redirects. No landing page or app code lives here anymore.
+- **Landing** → `polecat.live` (the `polecat-platform` repo): the suite launcher.
+- **App** → `chat.polecat.live` (the `polecat-app` repo): `index.html` + `css/` + ES-module
+  `js/` (`config`, `providers`, `arbitration`, `ui`, `app`).
 
 The provider layer is data-driven with overridable base URLs, so a thin serverless proxy (e.g. a Cloudflare
 Worker) can be added later without touching the rest of the app.
