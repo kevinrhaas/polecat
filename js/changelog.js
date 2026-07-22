@@ -4,6 +4,24 @@
 // Entries are newest-first; `ts` is an ISO-8601 UTC string.
 export const CHANGELOG = [
   {
+    v: 103,
+    title: 'Claimed app.polecat.live with a data-carrying "we moved" stub',
+    kind: 'feature',
+    ts: '2026-07-18T04:50:00.000Z',
+    items: [
+      'Claimed app.polecat.live with a data-carrying "we moved" stub — the chat app finished its move to chat.polecat.live (rename step 4), freeing up the old app.polecat.live origin this repo now claims via its CNAME file. Replaced the plain redirect stub with one that actually carries a visitor\'s local data across: on load it packs their chats, API keys and settings into a one-time #handoff= URL fragment (compressed where the browser supports it) and forwards to chat.polecat.live, which imports the payload after an explicit confirm. Includes a reminder to reinstall any Home Screen / desktop PWA from the new address, since the old icon keeps pointing here. Kept published indefinitely — installed PWAs stay pinned to this origin for months.',
+    ],
+  },
+  {
+    v: 102,
+    title: 'Replaced the marketing page with a redirect stub to app.polecat.live/welcome/',
+    kind: 'feature',
+    ts: '2026-07-16T02:45:00.000Z',
+    items: [
+      'Replaced the marketing page with a redirect stub to app.polecat.live/welcome/ — with polecat.live\'s apex handed off to the new suite launcher (polecat-platform) and this repo\'s own CNAME already removed, the chat marketing page here no longer had a domain to serve from. Its content moved into the polecat-app repo at /welcome/ (same origin as the app itself, so calls-to-action survive the later domain rename). What\'s left here is a noindex meta-refresh + JS redirect for anyone still landing on the old GitHub Pages URL.',
+    ],
+  },
+  {
     v: 101,
     title: 'Fixed the examples carousel\'s "Consensus" label contrast — the one accessibility finding two prior passes had explicitly left alone',
     kind: 'fix',
